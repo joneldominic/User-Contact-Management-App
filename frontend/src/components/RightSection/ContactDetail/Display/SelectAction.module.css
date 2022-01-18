@@ -1,0 +1,22 @@
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+
+.leftActionItem {
+  width: 50%;
+  margin-right: 20px;
+}
+
+.rightActionItem {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.button {
+  width: 100%;
+  margin: 0px 10px;
+}

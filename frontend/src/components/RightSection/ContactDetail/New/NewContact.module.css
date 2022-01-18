@@ -1,0 +1,93 @@
+.mainContainer {
+  background: #f2f2f2;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 0 20px 8px #d0d0d0;
+  padding: 25px 60px 10px 60px;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.editLabelContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.editLabelContainer > h3 {
+  text-align: center;
+  width: 100%;
+}
+
+.editLabelContainer > hr {
+  width: 100%;
+  border: 0;
+  height: 1px;
+  margin: 15px 0px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.40),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.controlContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.controlLabelContainer {
+  padding: 13px 30px 10px 15px;
+  color: #4b5c6b;
+  font-weight: 500;
+  display: flex;
+  width: 30%;
+  align-items: center;
+}
+
+.controlInputContainer {
+  padding: 12px 0px 10px 0px;
+  width: 70%;
+  display: flex;
+  flex: 2;
+  flex-direction: row;
+}
+
+.controlInputContainer > p {
+  margin: 0px;
+  color: #4b5c6b;
+}
+
+.controlInputContainer .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.controlInputContainer input,
+.controlInputContainer textarea {
+  display: block;
+  width: 100%;
+}
+
+.controlInputContainer input[type="file"] {
+  padding: 10px;
+}
+
+.controlAction {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.errorModal {
+  background: #bd3d26;
+}
+
+.divider {
+  margin: 12px 0px;
+  border: 0;
+  height: 0px;
+}
