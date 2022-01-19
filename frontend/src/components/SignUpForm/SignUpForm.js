@@ -1,30 +1,34 @@
-import React from "react";
-
-import { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
+import { useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import classNames from "classnames";
 
 import AuthContext from "../../context/auth-context";
-import { userLogin } from "../../service/auth-service";
-import FormInput from "../common/FormInput/FormInput";
+import { addNewUser } from "../../service/auth-service";
 import Toast from "../common/Toast/Toast";
+import FormInput from "../common/FormInput/FormInput";
 
-import styles from "./SignInForm.module.css";
+import styles from "./SignUpForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 
-const SignInForm = (props) => {
+const SignUpForm = () => {
   const authCtx = useContext(AuthContext);
   const history = useHistory();
+
+  const [enteredName, setEnteredName] = useState("");
+  const [enteredNameIsValid, setEnteredNameIsValid] = useState(true);
   const [enteredUsername, setEnteredUsername] = useState("");
   const [usernameIsValid, setUsernameIsValid] = useState(true);
   const [enteredPassword, setEnteredPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState(true);
+  const [enteredPassConfirmation, setEnteredPassConfirmation] = useState("");
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoginFailed, setIsLoginFailed] = useState(false);
+  const [errorList, setErrorList] = useState([]);
 
   useEffect(() => {
-    console.log("Sign In (AuthContext IsLoggedIn): " + authCtx.isLoggedIn);
+    console.log("Sign Up (AuthContext IsLoggedIn): " + authCtx.isLoggedIn);
     if (authCtx.isLoggedIn) {
       history.replace("/contacts");
     }
@@ -35,19 +39,34 @@ const SignInForm = (props) => {
       setUsernameIsValid(
         enteredUsername.trim().length === 0 || enteredUsername.trim().length > 5
       );
+      setEnteredNameIsValid(
+        enteredName.trim().length === 0 || enteredName.trim().length >= 2
+      );
       setPasswordIsValid(
         enteredPassword.trim().length === 0 || enteredPassword.trim().length > 7
       );
+
+      setIsPasswordMatch(
+        enteredPassConfirmation.trim().length === 0 ||
+          enteredPassword === enteredPassConfirmation
+      );
+
       setFormIsValid(
-        enteredUsername.trim().length > 5 && enteredPassword.trim().length > 7
+        enteredUsername.trim().length > 5 &&
+          enteredName.trim().length > 2 &&
+          enteredPassword.trim().length > 7 &&
+          enteredPassword === enteredPassConfirmation
       );
     }, 200);
 
     return () => {
       clearTimeout(identifier);
     };
-  }, [enteredUsername, enteredPassword]);
+  }, [enteredUsername, enteredName, enteredPassword, enteredPassConfirmation]);
 
+  const nameChangeHandler = (event) => {
+    setEnteredName(event.target.value);
+  };
   const usernameChangeHandler = (event) => {
     setEnteredUsername(event.target.value);
   };
@@ -56,8 +75,8 @@ const SignInForm = (props) => {
     setEnteredPassword(event.target.value);
   };
 
-  const toastCloseHandler = () => {
-    setIsLoginFailed(false);
+  const passConfirmationChangeHandler = (event) => {
+    setEnteredPassConfirmation(event.target.value);
   };
 
   const submitFormHandler = (event) => {
@@ -67,14 +86,18 @@ const SignInForm = (props) => {
       setIsLoading(true);
 
       const userInfo = {
+        name: enteredName,
         username: enteredUsername,
         password: enteredPassword,
       };
 
-      userLogin(userInfo)
+      console.log(userInfo);
+
+      addNewUser(userInfo)
         .then((response) => {
-          if (response.status === 200) {
-            authCtx.onLogin(response.data);
+          if (response.status === 201) {
+            console.log("Signup Successful");
+            history.replace("/sign-in");
           } else {
             alert("Something Wrong! Please Try Again");
             setIsLoading(false);
@@ -84,9 +107,14 @@ const SignInForm = (props) => {
           setIsLoading(false);
           if (err && err.response) {
             switch (err.response.status) {
-              case 401:
-                console.log("Authentication Failed. Bad Credentials");
-                setIsLoginFailed(true);
+              case 400:
+                console.log("Invalid User Details");
+                console.log(err.response);
+                setErrorList(
+                  err.response.data.apierror.subErrors.map(
+                    (_error) => `${_error.field} ${_error.message}`
+                  )
+                );
                 break;
               default:
                 alert("Something Wrong! Please Try Again");
@@ -96,6 +124,10 @@ const SignInForm = (props) => {
           }
         });
     }
+  };
+
+  const toastCloseHandler = () => {
+    setErrorList([]);
   };
 
   return (
@@ -126,16 +158,19 @@ const SignInForm = (props) => {
                   globalStyles["mb-4"]
                 )}
               >
-                My Contacts
+                Create Account
               </h4>
 
-              {isLoginFailed && (
-                <Toast
-                  onClose={toastCloseHandler}
-                  className={globalStyles["text-danger"]}
-                  message="Authentication Failed. Bad Credentials"
-                />
-              )}
+              {errorList.length !== 0 &&
+                errorList.map((_err) => {
+                  return (
+                    <Toast
+                      onClose={toastCloseHandler}
+                      className={globalStyles["text-danger"]}
+                      message={_err}
+                    />
+                  );
+                })}
 
               <form onSubmit={submitFormHandler}>
                 <FormInput
@@ -148,6 +183,15 @@ const SignInForm = (props) => {
                   onChange={usernameChangeHandler}
                 />
                 <FormInput
+                  id="name"
+                  type="text"
+                  label="Full Name"
+                  isInvalid={!enteredNameIsValid}
+                  invalidFeedback="Full Name should have atleast 2 characters"
+                  defaultValue={enteredName}
+                  onChange={nameChangeHandler}
+                />
+                <FormInput
                   id="password"
                   type="password"
                   label="Password"
@@ -155,6 +199,16 @@ const SignInForm = (props) => {
                   invalidFeedback="Password must be [8-20] characters long"
                   defaultValue={enteredPassword}
                   onChange={passwordChangeHandler}
+                />
+
+                <FormInput
+                  id="passwordConfirmation"
+                  type="password"
+                  label="Confirm Password"
+                  isInvalid={!isPasswordMatch}
+                  invalidFeedback="Password does not match"
+                  defaultValue={enteredPassConfirmation}
+                  onChange={passConfirmationChangeHandler}
                 />
                 <button
                   type="submit"
@@ -167,7 +221,7 @@ const SignInForm = (props) => {
                   )}
                   disabled={!formIsValid || isLoading}
                 >
-                  {!isLoading ? <span>Sign In</span> : <span>Loading...</span>}
+                  {!isLoading ? <span>Sign Up</span> : <span>Loading...</span>}
                 </button>
                 <div
                   className={classNames(
@@ -178,7 +232,7 @@ const SignInForm = (props) => {
                   )}
                 >
                   <p>
-                    Don't have an account? <Link to="sign-up">Sign Up</Link>
+                    Already have an Account? <Link to="sign-in">Sign In</Link>
                   </p>
                 </div>
               </form>
@@ -190,4 +244,4 @@ const SignInForm = (props) => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;
