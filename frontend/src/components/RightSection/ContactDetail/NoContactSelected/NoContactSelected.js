@@ -21,7 +21,6 @@ const NoContactSelected = (props) => {
       <div className={styles.actionsContainer}>
         <button
           className={classNames(
-            styles.button,
             globalStyles["btn"],
             globalStyles["btn-primary"],
             globalStyles["w-100"]
