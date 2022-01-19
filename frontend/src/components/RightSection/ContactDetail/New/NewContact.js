@@ -71,127 +71,113 @@ const NewContact = () => {
         className={styles.errorModal}
       /> */}
       <NewActions onSaveButtonClick={onSaveButtonClickHandler} />
-      <hr className={styles.divider} />
       <Card className={styles.mainContainer}>
-        <div className={styles.editLabelContainer}>
-          <h3>Edit Contact</h3>
-          <hr />
+        <div className={styles.content}>
+          <div className={styles.editLabelContainer}>
+            <h3>New Contact</h3>
+            <hr />
+          </div>
+          <form>
+            <div className={styles.controlContainer}>
+              <div className={styles.controlLabelContainer}>
+                <label htmlFor="firstname">FIRST NAME</label>
+              </div>
+              <div className={styles.controlInputContainer}>
+                <input
+                  id="firstname"
+                  defaultValue={firstname}
+                  onChange={firstnameChangeHandler}
+                />
+              </div>
+            </div>
+            <div className={styles.controlContainer}>
+              <div className={styles.controlLabelContainer}>
+                <label htmlFor="middlename">MIDDLE NAME</label>
+              </div>
+              <div className={styles.controlInputContainer}>
+                <input
+                  id="middlename"
+                  defaultValue={middlename}
+                  onChange={middlenameChangeHandler}
+                />
+              </div>
+            </div>
+            <div className={styles.controlContainer}>
+              <div className={styles.controlLabelContainer}>
+                <label htmlFor="lastname">LAST NAME</label>
+              </div>
+              <div className={styles.controlInputContainer}>
+                <input
+                  id="lastname"
+                  defaultValue={lastname}
+                  onChange={lastnameChangeHandler}
+                />
+              </div>
+            </div>
+            <div className={styles.controlContainer}>
+              <div className={styles.controlLabelContainer}>
+                <label htmlFor="title">TITLE</label>
+              </div>
+              <div className={styles.controlInputContainer}>
+                <input
+                  id="title"
+                  defaultValue={title}
+                  onChange={titleChangeHandler}
+                />
+              </div>
+            </div>
+            <div className={styles.controlContainer}>
+              <div className={styles.controlLabelContainer}>
+                <label htmlFor="email">EMAIL</label>
+              </div>
+              <div className={styles.controlInputContainer}>
+                <input
+                  id="email"
+                  type="email"
+                  defaultValue={email}
+                  onChange={emailChangeHandler}
+                />
+              </div>
+            </div>
+            <div className={styles.controlContainer}>
+              <div className={styles.controlLabelContainer}>
+                <label htmlFor="phone">PHONE</label>
+              </div>
+              <div className={styles.controlInputContainer}>
+                <input
+                  id="phone"
+                  defaultValue={phoneNumber}
+                  onChange={phoneNumberChangeHandler}
+                />
+              </div>
+            </div>
+            <div className={styles.controlContainer}>
+              <div className={styles.controlLabelContainer}>
+                <label htmlFor="address">ADDRESS</label>
+              </div>
+              <div className={styles.controlInputContainer}>
+                <input
+                  id="address"
+                  defaultValue={address}
+                  onChange={addressChangeHandler}
+                />
+              </div>
+            </div>
+            <div className={styles.controlContainer}>
+              <div className={styles.controlLabelContainer}>
+                <label htmlFor="notes">NOTES</label>
+              </div>
+              <div className={styles.controlInputContainer}>
+                <textarea
+                  id="notes"
+                  rows="5"
+                  defaultValue={notes}
+                  onChange={notesChangeHandler}
+                />
+              </div>
+            </div>
+          </form>
         </div>
-        <form>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="photo">PHOTO</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <img
-                src={
-                  require("../../../../assets/images/img_avatar.png").default
-                }
-                alt="Avatar"
-                className={styles.avatar}
-              />
-              <input id="photo" type="file" />
-            </div>
-          </div>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="firstname">FIRST NAME</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <input
-                id="firstname"
-                defaultValue={firstname}
-                onChange={firstnameChangeHandler}
-              />
-            </div>
-          </div>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="middlename">MIDDLE NAME</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <input
-                id="middlename"
-                defaultValue={middlename}
-                onChange={middlenameChangeHandler}
-              />
-            </div>
-          </div>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="lastname">LAST NAME</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <input
-                id="lastname"
-                defaultValue={lastname}
-                onChange={lastnameChangeHandler}
-              />
-            </div>
-          </div>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="title">TITLE</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <input
-                id="title"
-                defaultValue={title}
-                onChange={titleChangeHandler}
-              />
-            </div>
-          </div>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="email">EMAIL</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <input
-                id="email"
-                type="email"
-                defaultValue={email}
-                onChange={emailChangeHandler}
-              />
-            </div>
-          </div>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="phone">PHONE</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <input
-                id="phone"
-                defaultValue={phoneNumber}
-                onChange={phoneNumberChangeHandler}
-              />
-            </div>
-          </div>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="address">ADDRESS</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <input
-                id="address"
-                defaultValue={address}
-                onChange={addressChangeHandler}
-              />
-            </div>
-          </div>
-          <div className={styles.controlContainer}>
-            <div className={styles.controlLabelContainer}>
-              <label htmlFor="notes">NOTES</label>
-            </div>
-            <div className={styles.controlInputContainer}>
-              <textarea
-                id="notes"
-                rows="5"
-                defaultValue={notes}
-                onChange={notesChangeHandler}
-              />
-            </div>
-          </div>
-        </form>
       </Card>
     </React.Fragment>
   );
