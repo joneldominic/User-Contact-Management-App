@@ -116,6 +116,11 @@ const SignUpForm = () => {
                   )
                 );
                 break;
+              case 409:
+                console.log("Username Conflict");
+                console.log(err.response);
+                setErrorList(["Username Already Exists!"]);
+                break;
               default:
                 alert("Something Wrong! Please Try Again");
             }
@@ -162,9 +167,10 @@ const SignUpForm = () => {
               </h4>
 
               {errorList.length !== 0 &&
-                errorList.map((_err) => {
+                errorList.map((_err, idx) => {
                   return (
                     <Toast
+                      key={idx}
                       onClose={toastCloseHandler}
                       className={globalStyles["text-danger"]}
                       message={_err}
