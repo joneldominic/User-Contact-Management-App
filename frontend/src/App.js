@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import SignIn from "./pages/SignIn/SignIn";
+import SignInPage from "./pages/SignInPage";
 import SignUp from "./pages/SignUp/SignUp";
 import Main from "./pages/Main/Main";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
@@ -18,7 +18,7 @@ function App() {
             <SignUp />
           </Route>
           <Route path="/sign-in" exact>
-            <SignIn />
+            <SignInPage />
           </Route>
           <Route path="/contacts">
             <Main />

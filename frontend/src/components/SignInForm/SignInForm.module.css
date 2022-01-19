@@ -1,4 +1,4 @@
-.signin {
+/* .signin {
   width: 50%;
   max-width: 40rem;
   margin: 5rem auto;
@@ -40,4 +40,11 @@
   margin: 12px 0px;
   border: 0;
   height: 0px;
+} */
+
+
+
+
+.card {
+  width: 600px;
 }
