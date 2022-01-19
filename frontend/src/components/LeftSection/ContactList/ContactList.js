@@ -17,9 +17,11 @@ const ContactList = (props) => {
   return (
     <Card className={styles.container}>
       {props.contactList.length > 0 ? (
-        props.contactList.map((_contact) => (
-          <ContactItem key={_contact.id} contact={_contact} />
-        ))
+        <div className={styles.content}>
+          {props.contactList.map((_contact) => (
+            <ContactItem key={_contact.id} contact={_contact} />
+          ))}
+        </div>
       ) : (
         <NoContactFound />
       )}
