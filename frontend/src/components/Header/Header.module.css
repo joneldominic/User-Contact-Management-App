@@ -1,38 +1,33 @@
-.topnav {
-  overflow: hidden;
-  background-color: #2c88d9;
-}
-
-.topnav h3 {
-  color: #f2f2f2;
-  text-align: center;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.floatLeft {
-  padding-left: 15%;
-  float: left;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  vertical-align: middle;
-  margin-right: 10px;
-}
-
 .user {
-  padding-right: 15%;
   float: right;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.avatar {
+  background-color: #8233ff;
+  border-radius: 50%;
+  color: white;
+  float: left;
+  height: 35px;
+  width: 35px;
+  line-height: 35px;
+  margin: 3px 9px 3px 0;
+  position: relative;
+  text-align: center;
+}
+
+.name {
+  padding-top: 5px;
+  color: #f2f2f2;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 400;
+}
+
 .signout {
-  padding-top: 4px;
   padding-left: 7px;
   font-size: 20px;
   color: #ffffff;
