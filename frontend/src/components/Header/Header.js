@@ -30,7 +30,7 @@ const Header = () => {
       className={classNames(
         globalStyles["navbar"],
         globalStyles["navbar-dark"],
-        globalStyles["bg-dark"]
+        globalStyles["bg-primary"]
       )}
     >
       <div className={globalStyles.container}>
