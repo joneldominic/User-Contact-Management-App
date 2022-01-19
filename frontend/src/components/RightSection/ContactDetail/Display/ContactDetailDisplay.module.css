@@ -3,8 +3,13 @@
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
+}
+
+.content {
   padding: 10px 60px 10px 60px;
-  min-height: 600px;
+  min-height: 70vh;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .mainContainer hr {
@@ -67,8 +72,14 @@
   color: #4b5c6b;
 }
 
-.divider {
-  margin: 12px 0px;
-  border: 0;
-  height: 0px;
+.avatar {
+  background-color: #8233ff;
+  border-radius: 50%;
+  color: white;
+  height: 50px;
+  width: 50px;
+  line-height: 45px;
+  margin: 15px 30px 15px 35px;
+  position: relative;
+  text-align: center;
 }

@@ -6,19 +6,20 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaStickyNote } from "react-icons/fa";
 
-import styles from "./ContactDetailDisplay.module.css";
 import NoContactSelected from "../NoContactSelected/NoContactSelected";
 import SelectAction from "./SelectAction";
 import ContactContext from "../../../../context/contact-context";
 
+import styles from "./ContactDetailDisplay.module.css";
+import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
+import classNames from "classnames";
+
 const Header = (props) => {
   return (
     <div className={styles.contactHeaderContainer}>
-      <img
-        src={require("../../../../assets/images/img_avatar.png").default}
-        alt="Avatar"
-        className={styles.contactHeaderAvatar}
-      />
+      <h3 className={classNames(globalStyles["text-white"], styles.avatar)}>
+        {props.name && props.name[0].toUpperCase()}
+      </h3>
       <div>
         <h3 className={styles.contactHeaderContactName}>{props.name}</h3>
         <h3 className={styles.contactHeaderContactTitle}>{props.title}</h3>
@@ -82,7 +83,7 @@ const Note = (props) => {
 const ContactDetailDisplay = () => {
   const params = useParams();
   const contactCtx = useContext(ContactContext);
-  const contact = contactCtx.getContact(params.contactId)
+  const contact = contactCtx.getContact(params.contactId);
 
   if (typeof contact == "undefined") {
     return <NoContactSelected message="Contact Not Found!" />;
@@ -91,56 +92,21 @@ const ContactDetailDisplay = () => {
   return (
     <React.Fragment>
       <SelectAction />
-      <hr className={styles.divider} />
       <Card className={styles.mainContainer}>
-        <Header
-          name={`${contact.firstname} ${contact.middlename} ${contact.lastname}`}
-          title={contact.title}
-        />
-        <hr />
-        <Email value={contact.email} />
-        <Number value={contact.number} />
-        <Address value={contact.address} />
-        <Note value={contact.notes} />
+        <div className={styles.content}>
+          <Header
+            name={`${contact.firstname} ${contact.middlename} ${contact.lastname}`}
+            title={contact.title}
+          />
+          <hr />
+          <Email value={contact.email} />
+          <Number value={contact.number} />
+          <Address value={contact.address} />
+          <Note value={contact.notes} />
+        </div>
       </Card>
     </React.Fragment>
   );
 };
 
 export default ContactDetailDisplay;
-
-// const DUMMY_CONTACTS = [
-//   {
-//     id: 6,
-//     firstname: "contact 1-0",
-//     middlename: "middle 1-0",
-//     lastname: "last 1-0",
-//     number: "09000000000",
-//     email: "contact0@test.com",
-//     title: "Contact for 0",
-//     address: "Street 0",
-//     notes: "Notes0",
-//   },
-//   {
-//     id: 7,
-//     firstname: "contact 1-1",
-//     middlename: "middle 1-1",
-//     lastname: "last 1-1",
-//     number: "09000000001",
-//     email: "contact1@test.com",
-//     title: "Contact for 1",
-//     address: "Street 1",
-//     notes: "Notes1",
-//   },
-//   {
-//     id: 8,
-//     firstname: "contact 1-2",
-//     middlename: "middle 1-2",
-//     lastname: "last 1-2",
-//     number: "09000000002",
-//     email: "contact2@test.com",
-//     title: "Contact for 2",
-//     address: "Street 2",
-//     notes: "Notes2",
-//   },
-// ];
