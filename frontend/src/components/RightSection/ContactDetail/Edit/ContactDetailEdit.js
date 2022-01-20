@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import { updateContact } from "../../../../service/contact-service";
 import Toast from "../../../common/Toast/Toast";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
+import Modal from "../../../common/Modal/Modal";
 
 const ContactDetailEdit = () => {
   const contactCtx = useContext(ContactContext);
@@ -40,6 +41,7 @@ const ContactDetailEdit = () => {
   const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasUpdate, setHasUpdate] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [errorList, setErrorList] = useState([]);
 
   const contact = contactCtx.contactList.find(
@@ -207,10 +209,38 @@ const ContactDetailEdit = () => {
     setErrorList([]);
   };
 
+  const onCancelButtonClickHandler = () => {
+    if (hasUpdate) {
+      setShowModal(true);
+    } else {
+      history.replace(`/contacts/${params.contactId}`);
+    }
+  };
+
+  const onModalCancelHandler = () => {
+    setShowModal(false);
+  };
+
+  const onModalDiscardHandler = () => {
+    history.replace(`/contacts/${params.contactId}`);
+  };
+
   return (
     <React.Fragment>
+      {showModal && (
+        <Modal
+          title="Warning!"
+          message="Are you sure you want to Discard Changes?"
+          buttonALabel="Cancel"
+          onButtonAClick={onModalCancelHandler}
+          buttonBLabel="Discard"
+          buttonBStyle={globalStyles["btn-danger"]}
+          onButtonBClick={onModalDiscardHandler}
+        />
+      )}
       <EditActions
         onSaveButtonClick={onSaveButtonClickHandler}
+        onCancelButtonClick={onCancelButtonClickHandler}
         formIsValid={formIsValid && hasUpdate}
         isLoading={isLoading}
       />

@@ -1,15 +1,10 @@
 import React from "react";
 
-import { useHistory, useParams } from "react-router-dom";
-
 import styles from "./EditActions.module.css";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
 import classNames from "classnames";
 
 const EditActions = (props) => {
-  const params = useParams();
-  const history = useHistory();
-
   return (
     <div className={classNames(globalStyles.row, styles.actionsContainer)}>
       <div className={globalStyles["col-6"]}>
@@ -37,7 +32,7 @@ const EditActions = (props) => {
             globalStyles["w-100"]
           )}
           disabled={props.isLoading}
-          onClick={() => history.replace(`/contacts/${params.contactId}`)}
+          onClick={props.onCancelButtonClick}
         >
           Cancel
         </button>
