@@ -1,21 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { useHistory, useParams } from "react-router-dom";
-import ContactContext from "../../../../context/contact-context";
 
 import styles from "./SelectAction.module.css";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
 import classNames from "classnames";
 
 const SelectAction = (props) => {
-  const contactCtx = useContext(ContactContext);
   const params = useParams();
   const history = useHistory();
-
-  const onDeleteHandler = () => {
-    contactCtx.deleteContact(params.contactId);
-    history.replace("/contacts");
-  };
 
   return (
     <div className={classNames(globalStyles.row, styles.actionsContainer)}>
@@ -50,7 +43,7 @@ const SelectAction = (props) => {
             globalStyles["btn-danger"],
             globalStyles["w-100"]
           )}
-          onClick={onDeleteHandler}
+          onClick={props.onDeleteButtonClick}
         >
           Delete
         </button>

@@ -13,6 +13,9 @@ import ContactContext from "../../../../context/contact-context";
 import styles from "./ContactDetailDisplay.module.css";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
 import classNames from "classnames";
+import Modal from "../../../common/Modal/Modal";
+import { useState } from "react/cjs/react.development";
+import { useHistory } from "react-router-dom";
 
 const Header = (props) => {
   return (
@@ -114,16 +117,42 @@ const Note = (props) => {
 
 const ContactDetailDisplay = () => {
   const params = useParams();
+  const history = useHistory();
   const contactCtx = useContext(ContactContext);
   const contact = contactCtx.getContact(params.contactId);
+  const [showModal, setShowModal] = useState(false);
 
   if (typeof contact == "undefined") {
     return <NoContactSelected message="Contact Not Found!" />;
   }
 
+  const onModalCancelHandler = () => {
+    setShowModal(false);
+  };
+
+  const onModalDiscardHandler = () => {
+    contactCtx.deleteContact(params.contactId);
+    history.replace("/contacts");
+  };
+
+  const onDeleteHandler = () => {
+    setShowModal(true);
+  };
+
   return (
     <React.Fragment>
-      <SelectAction />
+      {showModal && (
+        <Modal
+          title="Warning!"
+          message="Are you sure you want to Delete this Contact?"
+          buttonALabel="Cancel"
+          onButtonAClick={onModalCancelHandler}
+          buttonBLabel="Delete"
+          buttonBStyle={globalStyles["btn-danger"]}
+          onButtonBClick={onModalDiscardHandler}
+        />
+      )}
+      <SelectAction onDeleteButtonClick={onDeleteHandler} />
       <Card className={styles.mainContainer}>
         <div className={styles.content}>
           <Header
