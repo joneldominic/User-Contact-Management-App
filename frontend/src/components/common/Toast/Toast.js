@@ -10,7 +10,8 @@ const Toast = (props) => {
         globalStyles["border"],
         globalStyles["rounded"],
         globalStyles["border-danger"],
-        globalStyles["my-3"]
+        globalStyles["my-3"],
+        globalStyles["w-100"]
       )}
     >
       <div className={globalStyles["d-flex"]}>
