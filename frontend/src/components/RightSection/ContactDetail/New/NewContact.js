@@ -168,7 +168,6 @@ const NewContact = () => {
           <div className={styles.editLabelContainer}>
             <h3>New Contact</h3>
             <hr />
-
             {errorList.length !== 0 &&
               errorList.map((_err, idx) => {
                 return (
@@ -182,7 +181,7 @@ const NewContact = () => {
               })}
           </div>
 
-          <form onSubmit={() => {}}>
+          <form>
             <FormInputLine
               id="firstname"
               type="text"
