@@ -30,11 +30,19 @@ const Header = (props) => {
 
 const Email = (props) => {
   return (
-    <div className={styles.itemContainer}>
-      <div className={styles.itemIconContainer}>
-        <FaEnvelope />
+    <div className={classNames(styles.itemContainer, globalStyles.row)}>
+      <div
+        className={classNames(styles.itemIconContainer, globalStyles["col-4"])}
+      >
+        <FaEnvelope className={styles.itemIcon} />
+        <span>Email</span>
       </div>
-      <div className={styles.itemDetailsContainer}>
+      <div
+        className={classNames(
+          styles.itemDetailsContainer,
+          globalStyles["col-8"]
+        )}
+      >
         <p>{props.value}</p>
       </div>
     </div>
@@ -43,11 +51,19 @@ const Email = (props) => {
 
 const Number = (props) => {
   return (
-    <div className={styles.itemContainer}>
-      <div className={styles.itemIconContainer}>
-        <FaPhoneAlt />
+    <div className={classNames(styles.itemContainer, globalStyles.row)}>
+      <div
+        className={classNames(styles.itemIconContainer, globalStyles["col-4"])}
+      >
+        <FaPhoneAlt className={styles.itemIcon} />
+        <span>Phone</span>
       </div>
-      <div className={styles.itemDetailsContainer}>
+      <div
+        className={classNames(
+          styles.itemDetailsContainer,
+          globalStyles["col-8"]
+        )}
+      >
         <p>{props.value}</p>
       </div>
     </div>
@@ -56,11 +72,19 @@ const Number = (props) => {
 
 const Address = (props) => {
   return (
-    <div className={styles.itemContainer}>
-      <div className={styles.itemIconContainer}>
-        <FaMapMarkedAlt />
+    <div className={classNames(styles.itemContainer, globalStyles.row)}>
+      <div
+        className={classNames(styles.itemIconContainer, globalStyles["col-4"])}
+      >
+        <FaMapMarkedAlt className={styles.itemIcon} />
+        <span>{props.label}</span>
       </div>
-      <div className={styles.itemDetailsContainer}>
+      <div
+        className={classNames(
+          styles.itemDetailsContainer,
+          globalStyles["col-8"]
+        )}
+      >
         <p>{props.value}</p>
       </div>
     </div>
@@ -69,11 +93,19 @@ const Address = (props) => {
 
 const Note = (props) => {
   return (
-    <div className={styles.itemContainer}>
-      <div className={styles.itemIconContainer}>
-        <FaStickyNote />
+    <div className={classNames(styles.itemContainer, globalStyles.row)}>
+      <div
+        className={classNames(styles.itemIconContainer, globalStyles["col-4"])}
+      >
+        <FaStickyNote className={styles.itemIcon} />
+        <span>Notes</span>
       </div>
-      <div className={styles.itemDetailsContainer}>
+      <div
+        className={classNames(
+          styles.itemDetailsContainer,
+          globalStyles["col-8"]
+        )}
+      >
         <p>{props.value}</p>
       </div>
     </div>
@@ -99,11 +131,13 @@ const ContactDetailDisplay = () => {
             title={contact.title}
           />
           <hr />
-          <Email value={contact.email} />
-          <Number value={contact.number} />
-          <Address value={contact.address1} />
-          <Address value={contact.address2} />
-          <Note value={contact.notes} />
+          <div className={globalStyles.col}>
+            <Email value={contact.email} />
+            <Number value={contact.number} />
+            <Address value={contact.address1} label="Delivery Address" />
+            <Address value={contact.address2} label="Billing Address" />
+            <Note value={contact.notes} />
+          </div>
         </div>
       </Card>
     </React.Fragment>

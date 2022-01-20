@@ -59,17 +59,31 @@
 .itemIconContainer {
   padding: 13px 15px 10px 20px;
   color: #4b5c6b;
+  font-size: 16px;
+}
+
+.itemIcon {
+  margin-bottom: 2px;
+  margin-right: 5px;
 }
 
 .itemDetailsContainer {
   display: flex;
   flex-direction: column;
   padding: 10px 10px 10px 15px;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 4px;
+  margin-bottom: 10px;
 }
 
 .itemDetailsContainer > p {
   margin: 0px;
+  margin-right: 50px;
   color: #4b5c6b;
+  display: block;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .avatar {
