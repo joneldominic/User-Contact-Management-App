@@ -12,6 +12,7 @@ import { addNewContact } from "../../../../service/contact-service";
 import AuthContext from "../../../../context/auth-context";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Toast from "../../../common/Toast/Toast";
+import Modal from "../../../common/Modal/Modal";
 
 const NewContact = () => {
   const authCtx = useContext(AuthContext);
@@ -36,6 +37,8 @@ const NewContact = () => {
   const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorList, setErrorList] = useState([]);
+  const [hasInput, setHasInput] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -55,6 +58,17 @@ const NewContact = () => {
           deliveryAddress.trim().length >= 2
       );
 
+      setHasInput(
+        firstname.trim().length !== 0 ||
+          lastname.trim().length !== 0 ||
+          title.trim().length !== 0 ||
+          email.trim().length !== 0 ||
+          phoneNumber.trim().length !== 0 ||
+          deliveryAddress.trim().length !== 0 ||
+          billingAddress.trim().length !== 0 ||
+          notes.trim().length !== 0
+      );
+
       setFormIsValid(
         firstname.trim().length >= 2 &&
           lastname.trim().length >= 2 &&
@@ -68,7 +82,16 @@ const NewContact = () => {
     return () => {
       clearTimeout(identifier);
     };
-  }, [firstname, lastname, title, email, phoneNumber, deliveryAddress]);
+  }, [
+    firstname,
+    lastname,
+    title,
+    email,
+    phoneNumber,
+    deliveryAddress,
+    billingAddress,
+    notes,
+  ]);
 
   const firstnameChangeHandler = (event) => {
     setFirstname(event.target.value);
@@ -156,10 +179,38 @@ const NewContact = () => {
     setErrorList([]);
   };
 
+  const onCancelButtonClickHandler = () => {
+    if (hasInput) {
+      setShowModal(true);
+    } else {
+      history.replace(`/contacts`);
+    }
+  };
+
+  const onModalCancelHandler = () => {
+    setShowModal(false);
+  };
+
+  const onModalDiscardHandler = () => {
+    history.replace(`/contacts`);
+  };
+
   return (
     <React.Fragment>
+      {showModal && (
+        <Modal
+          title="Warning!"
+          message="Are you sure you want to Discard Data?"
+          buttonALabel="Cancel"
+          onButtonAClick={onModalCancelHandler}
+          buttonBLabel="Discard"
+          buttonBStyle={globalStyles["btn-danger"]}
+          onButtonBClick={onModalDiscardHandler}
+        />
+      )}
       <NewActions
         onSaveButtonClick={onSaveButtonClickHandler}
+        onCancelButtonClick={onCancelButtonClickHandler}
         formIsValid={formIsValid}
         isLoading={isLoading}
       />
