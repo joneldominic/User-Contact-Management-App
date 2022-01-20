@@ -3,16 +3,20 @@ import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import ContactContext from "../../../../context/contact-context";
 import Card from "../../../common/Card/Card";
-// import Modal from "../../../common/Modal/Modal";
 import NewActions from "./NewActions";
 
 import styles from "./NewContact.module.css";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
-import classNames from "classnames";
 import { FormInputLine, TextArea } from "../../../common/FormInput/FormInput";
+import { addNewContact } from "../../../../service/contact-service";
+import AuthContext from "../../../../context/auth-context";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Toast from "../../../common/Toast/Toast";
 
 const NewContact = () => {
+  const authCtx = useContext(AuthContext);
   const contactCtx = useContext(ContactContext);
+  const history = useHistory();
 
   const [firstname, setFirstname] = useState("");
   const [firstnameIsValid, setFirstnameIsValid] = useState(true);
@@ -95,37 +99,87 @@ const NewContact = () => {
   };
 
   const onSaveButtonClickHandler = () => {
-    const newContact = {
-      firstname: firstname,
-      middlename: middlename,
-      lastname: lastname,
-      number: phoneNumber,
-      email: email,
-      title: title,
-      address1: deliveryAddress,
-      address2: billingAddress.length === 0 ? deliveryAddress : billingAddress,
-      notes: notes,
-    };
+    if (formIsValid) {
+      setIsLoading(true);
 
-    console.log(newContact);
-    contactCtx.createContact(newContact);
-    console.log("Save Data From NewContact Component");
+      const newContact = {
+        firstname: firstname,
+        middlename: middlename,
+        lastname: lastname,
+        number: phoneNumber,
+        email: email,
+        title: title,
+        address1: deliveryAddress,
+        address2:
+          billingAddress.length === 0 ? deliveryAddress : billingAddress,
+        notes: notes,
+      };
+
+      console.log(newContact);
+
+      addNewContact(authCtx.authUser.id, newContact)
+        .then((response) => {
+          if (response.status === 201) {
+            contactCtx.createContact();
+            console.log("From Contact Context On Create");
+            history.replace("/contacts");
+          } else {
+            alert("Something Wrong! Please Try Again");
+            setIsLoading(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err.response);
+          setIsLoading(false);
+          if (err && err.response) {
+            switch (err.response.status) {
+              case 400:
+                console.log("Invalid Contact Details");
+                console.log(err.response);
+                setErrorList(
+                  err.response.data.apierror.subErrors.map(
+                    (_error) => `${_error.field} ${_error.message}`
+                  )
+                );
+                break;
+              default:
+                alert("Something Wrong! Please Try Again");
+            }
+          } else {
+            alert("Something Wrong! Please Try Again");
+          }
+        });
+    }
+  };
+
+  const toastCloseHandler = () => {
+    setErrorList([]);
   };
 
   return (
     <React.Fragment>
-      {/* <Modal
-        title="Test"
-        message="Error Message"
-        onConfirm={() => {}}
-        className={styles.errorModal}
-      /> */}
-      <NewActions onSaveButtonClick={onSaveButtonClickHandler} />
+      <NewActions
+        onSaveButtonClick={onSaveButtonClickHandler}
+        formIsValid={formIsValid}
+        isLoading={isLoading}
+      />
       <Card className={styles.mainContainer}>
         <div className={styles.content}>
           <div className={styles.editLabelContainer}>
             <h3>New Contact</h3>
             <hr />
+
+            {errorList.length !== 0 &&
+              errorList.map((_err, idx) => {
+                return (
+                  <Toast
+                    key={idx}
+                    onClose={toastCloseHandler}
+                    className={globalStyles["text-danger"]}
+                    message={_err}
+                  />
+                );
+              })}
           </div>
 
           <form onSubmit={() => {}}>

@@ -77,7 +77,8 @@ const ContactDetailEdit = () => {
       number: phoneNumber,
       email: email,
       title: title,
-      address: address,
+      address1: address,
+      address2: address,
       notes: notes,
     };
 

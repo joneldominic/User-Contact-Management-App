@@ -18,9 +18,10 @@ const NewActions = (props) => {
             globalStyles["btn-success"],
             globalStyles["w-100"]
           )}
+          disabled={!props.formIsValid || props.isLoading}
           onClick={props.onSaveButtonClick}
         >
-          Save
+          {!props.isLoading ? <span>Save</span> : <span>Loading...</span>}
         </button>
       </div>
       <div className={globalStyles["col-6"]}>
@@ -30,6 +31,7 @@ const NewActions = (props) => {
             globalStyles["btn-danger"],
             globalStyles["w-100"]
           )}
+          disabled={props.isLoading}
           onClick={() => history.replace(`/contacts`)}
         >
           Cancel

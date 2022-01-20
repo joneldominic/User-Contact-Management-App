@@ -64,24 +64,8 @@ export const ContactContextProvider = (props) => {
     }
   }, [authCtx, listOutdated]);
 
-  const onCreateContactHandler = (contactInfo) => {
-    addNewContact(authCtx.authUser.id, contactInfo)
-      .then((response) => {
-        console.log("From Contact Context On Create");
-        console.log(contactInfo);
-        console.log(response);
-        history.replace("/contacts");
-        setListOutdated(true);
-      })
-      .catch((err) => {
-        console.log(err.response);
-        alert(
-          err.response.data.apierror.subErrors.map(
-            (_error) =>
-              `field: ${_error.field}  |  message: ${_error.message}\n\n`
-          )
-        );
-      });
+  const onCreateContactHandler = () => {
+    setListOutdated(true);
   };
 
   const onUpdateContactHandler = (contactInfo) => {
