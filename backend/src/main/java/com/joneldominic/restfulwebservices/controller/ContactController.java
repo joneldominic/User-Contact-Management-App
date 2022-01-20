@@ -100,7 +100,8 @@ public class ContactController {
 		_contact.setNumber(updatedContact.getNumber());
 		_contact.setEmail(updatedContact.getEmail());
 		_contact.setTitle(updatedContact.getTitle());
-		_contact.setAddress(updatedContact.getAddress());
+		_contact.setAddress1(updatedContact.getAddress1());
+		_contact.setAddress2(updatedContact.getAddress2());
 		_contact.setNotes(updatedContact.getNotes());
 
 		Contact savedContact = contactRepository.save(_contact);
