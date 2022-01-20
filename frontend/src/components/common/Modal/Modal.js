@@ -1,49 +1,74 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import Button from '../Button/Button';
-// import Card from '../Card/Card';
+import React from "react";
+import ReactDOM from "react-dom";
 
-// import styles from './Modal.module.css';
+import styles from "./Modal.module.css";
+import globalStyles from "../../../assets/global-styles/bootstrap.min.module.css";
+import classNames from "classnames";
 
-// const Backdrop = (props) => {
-//   return <div className={styles.backdrop} onClick={props.onConfirm} />;
-// };
+const Backdrop = (props) => {
+  return <div className={styles.backdrop} onClick={props.onConfirm} />;
+};
 
-// const ModalOverlay = (props) => {
-//   return (
-//     <Card className={styles.modal}>
-//       <header className={`${styles.header} ${props.className}`}>
-//         <h2>{props.title}</h2>
-//       </header>
-//       <div className={styles.content}>
-//         <p>{props.message}</p>
-//       </div>
-//       <footer className={styles.actionsContainer}>
-//         <Button className={styles.actions} onClick={props.onCancel} buttonStyle="primary">Cancel</Button>
-//         <Button className={styles.actions} onClick={props.onConfirm} buttonStyle="success">Confirm</Button>
-//       </footer>
-//     </Card>
-//   );
-// };
+const ModalOverlay = (props) => {
+  return (
+    <div className={classNames(styles.modal, globalStyles.card)}>
+      <div className={classNames(globalStyles["card-header"])}>
+        <h4>{props.title}</h4>
+      </div>
+      <div className={globalStyles["card-body"]}>
+        <h5 className={globalStyles["card-title"]}>{props.message}</h5>
+      </div>
+      <div
+        className={classNames(
+          globalStyles["card-footer"],
+          globalStyles["modal-footer"]
+        )}
+      >
+        <button
+          className={classNames(
+            globalStyles.btn,
+            props.buttonAStyle || globalStyles["btn-secondary"]
+          )}
+          onClick={props.onButtonAClick}
+        >
+          {props.buttonALabel || "Button A"}
+        </button>
+        <button
+          className={classNames(
+            globalStyles.btn,
+            props.buttonBStyle || globalStyles["btn-primary"]
+          )}
+          onClick={props.onButtonBClick}
+        >
+          {props.buttonBLabel || "Button B"}
+        </button>
+      </div>
+    </div>
+  );
+};
 
-// const Modal = (props) => {
-//   return (
-//     <React.Fragment>
-//       {ReactDOM.createPortal(
-//         <Backdrop onConfirm={props.onConfirm} />,
-//         document.getElementById('backdrop-root')
-//       )}
-//       {ReactDOM.createPortal(
-//         <ModalOverlay
-//           title={props.title}
-//           message={props.message}
-//           onConfirm={props.onConfirm}
-//           className={props.className}
-//         />,
-//         document.getElementById('overlay-root')
-//       )}
-//     </React.Fragment>
-//   );
-// };
+const Modal = (props) => {
+  return (
+    <React.Fragment>
+      {ReactDOM.createPortal(
+        <Backdrop onConfirm={props.onConfirm} />,
+        document.getElementById("backdrop-root")
+      )}
+      {ReactDOM.createPortal(
+        <ModalOverlay
+          title={props.title}
+          message={props.message}
+          buttonALabel={props.buttonALabel}
+          buttonAStyle={props.buttonAStyle}
+          onButtonAClick={props.onButtonAClick}
+          buttonBLabel={props.buttonBLabel}
+          buttonBStyle={props.buttonBStyle}
+          onButtonBClick={props.onButtonBClick}
+        />,
+        document.getElementById("overlay-root")
+      )}
+    </React.Fragment>
+  );
+};
 
-// export default Modal;
+export default Modal;
