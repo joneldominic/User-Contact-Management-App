@@ -9,25 +9,29 @@
   cursor: pointer;
 }
 
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  vertical-align: middle;
-  margin: 15px 30px 15px 35px;
-}
-
 .contactName {
   margin: 5px 0px 0px 0px;
-  font-size: 17px;
-} 
+  font-size: 19px;
+}
 
 .contactTitle {
-  margin: 2px 0px 5px 0px;
+  margin: 3px 0px 5px 0px;
   font-size: 75%;
-  opacity: 0.70;
+  opacity: 0.7;
 }
 
 .isActive {
   background-color: rgba(0, 0, 0, 0.158);
+}
+
+.avatar {
+  background-color: #8233ff;
+  border-radius: 50%;
+  color: white;
+  height: 50px;
+  width: 50px;
+  line-height: 45px;
+  margin: 15px 30px 15px 35px;
+  position: relative;
+  text-align: center;
 }

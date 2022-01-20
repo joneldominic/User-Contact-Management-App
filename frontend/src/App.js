@@ -1,9 +1,11 @@
 import React from "react";
+
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import SignIn from "./pages/SignIn/SignIn";
-import SignUp from "./pages/SignUp/SignUp";
-import Main from "./pages/Main/Main";
+
+import SignInPage from "./pages/SignInPage";
+import Main from "./pages/Main";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import SignUpPage from "./pages/SignUpPage";
 import { AuthContextProvider } from "./context/auth-context";
 
 function App() {
@@ -15,10 +17,10 @@ function App() {
             <Redirect to="/contacts" />
           </Route>
           <Route path="/sign-up" exact>
-            <SignUp />
+            <SignUpPage />
           </Route>
           <Route path="/sign-in" exact>
-            <SignIn />
+            <SignInPage />
           </Route>
           <Route path="/contacts">
             <Main />

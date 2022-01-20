@@ -1,33 +1,37 @@
 import React from "react";
 
-import { useHistory } from "react-router-dom";
-
-import Button from "../../../common/Button/Button";
-
 import styles from "./NewActions.module.css";
+import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
+import classNames from "classnames";
 
 const NewActions = (props) => {
-  const history = useHistory();
-
   return (
-    <div className={styles.actionsContainer}>
-      <div className={styles.rightActionItem}>
-        <React.Fragment>
-          <Button
-            className={styles.button}
-            buttonStyle="success"
-            onClick={props.onSaveButtonClick}
-          >
-            Save
-          </Button>
-          <Button
-            className={styles.button}
-            buttonStyle="primary"
-            onClick={() => history.replace(`/contacts`)}
-          >
-            Cancel
-          </Button>
-        </React.Fragment>
+    <div className={classNames(globalStyles.row, styles.actionsContainer)}>
+      <div className={globalStyles["col-6"]}>
+        <button
+          className={classNames(
+            globalStyles["btn"],
+            globalStyles["btn-success"],
+            globalStyles["w-100"]
+          )}
+          disabled={!props.formIsValid || props.isLoading}
+          onClick={props.onSaveButtonClick}
+        >
+          {!props.isLoading ? <span>Save</span> : <span>Loading...</span>}
+        </button>
+      </div>
+      <div className={globalStyles["col-6"]}>
+        <button
+          className={classNames(
+            globalStyles["btn"],
+            globalStyles["btn-danger"],
+            globalStyles["w-100"]
+          )}
+          disabled={props.isLoading}
+          onClick={props.onCancelButtonClick}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );

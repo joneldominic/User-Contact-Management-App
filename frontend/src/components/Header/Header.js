@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import styles from "./Header.module.css";
 import { FaSignOutAlt } from "react-icons/fa";
 import AuthContext from "../../context/auth-context";
+
+import styles from "./Header.module.css";
+import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
+import classNames from "classnames";
 
 const Header = () => {
   const authCtx = useContext(AuthContext);
@@ -14,19 +17,38 @@ const Header = () => {
     history.replace("/sign-in");
   };
 
+  const InitialsAvatar = (props) => {
+    return (
+      <h3 className={classNames(globalStyles["text-white"], styles.avatar)}>
+        {props.name && props.name[0].toUpperCase()}
+      </h3>
+    );
+  };
+
   return (
-    <div className={styles.topnav}>
-      <h3 className={styles.floatLeft}>My Contacts</h3>
-      <div className={styles.user}>
-        <img
-          src={require("../../assets/images/img_avatar.png").default}
-          alt="Avatar"
-          className={styles.avatar}
-        />
-        <h3>{authCtx.authUser.name}</h3>
-        <FaSignOutAlt className={styles.signout} onClick={onLogoutHandler} />
+    <nav
+      className={classNames(
+        globalStyles["navbar"],
+        globalStyles["navbar-dark"],
+        globalStyles["bg-primary"]
+      )}
+    >
+      <div className={globalStyles.container}>
+        <span className={globalStyles["navbar-brand"]}>My Contacts</span>
+        <ul className={globalStyles["navbar-nav"]}>
+          <li className={classNames(globalStyles["nav-item"], styles.user)}>
+            <InitialsAvatar name={authCtx.authUser.name} />
+            <h3 className={classNames(globalStyles["text-white"], styles.name)}>
+              {authCtx.authUser.name}
+            </h3>
+            <FaSignOutAlt
+              className={styles.signout}
+              onClick={onLogoutHandler}
+            />
+          </li>
+        </ul>
       </div>
-    </div>
+    </nav>
   );
 };
 

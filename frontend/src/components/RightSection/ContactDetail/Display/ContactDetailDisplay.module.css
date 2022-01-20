@@ -3,8 +3,13 @@
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
+}
+
+.content {
   padding: 10px 60px 10px 60px;
-  min-height: 600px;
+  min-height: 70vh;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .mainContainer hr {
@@ -54,21 +59,41 @@
 .itemIconContainer {
   padding: 13px 15px 10px 20px;
   color: #4b5c6b;
+  font-size: 16px;
+}
+
+.itemIcon {
+  margin-bottom: 2px;
+  margin-right: 5px;
 }
 
 .itemDetailsContainer {
   display: flex;
   flex-direction: column;
   padding: 10px 10px 10px 15px;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 4px;
+  margin-bottom: 10px;
 }
 
 .itemDetailsContainer > p {
   margin: 0px;
+  margin-right: 50px;
   color: #4b5c6b;
+  display: block;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
-.divider {
-  margin: 12px 0px;
-  border: 0;
-  height: 0px;
+.avatar {
+  background-color: #8233ff;
+  border-radius: 50%;
+  color: white;
+  height: 50px;
+  width: 50px;
+  line-height: 45px;
+  margin: 15px 30px 15px 35px;
+  position: relative;
+  text-align: center;
 }

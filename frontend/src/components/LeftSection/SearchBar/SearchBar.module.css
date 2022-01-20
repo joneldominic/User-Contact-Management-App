@@ -3,7 +3,7 @@
 }
 
 .searchIcon {
-  margin: 10px 10px 10px 15px;
+  margin: 15px 10px 10px 15px;
   position: absolute;
 }
 
@@ -16,8 +16,9 @@
 }
 
 .clearIcon {
-  margin: 10px 10px 10px -30px;
+  margin: 13px 10px 10px -35px;
   position: absolute;
+  font-size: 20px;
 }
 
 .clearIcon:hover {
