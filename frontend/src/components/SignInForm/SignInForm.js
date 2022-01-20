@@ -85,7 +85,7 @@ const SignInForm = (props) => {
           if (err && err.response) {
             switch (err.response.status) {
               case 401:
-                console.log("Authentication Failed. Bad Credentials");
+                console.log("Authentication Failed. Incorrect Credentials");
                 setIsLoginFailed(true);
                 break;
               default:
@@ -133,7 +133,7 @@ const SignInForm = (props) => {
                 <Toast
                   onClose={toastCloseHandler}
                   className={globalStyles["text-danger"]}
-                  message="Authentication Failed. Bad Credentials"
+                  message="Authentication Failed. Incorrect Credentials"
                 />
               )}
 

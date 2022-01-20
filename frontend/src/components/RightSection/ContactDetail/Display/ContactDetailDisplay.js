@@ -101,7 +101,8 @@ const ContactDetailDisplay = () => {
           <hr />
           <Email value={contact.email} />
           <Number value={contact.number} />
-          <Address value={contact.address} />
+          <Address value={contact.address1} />
+          <Address value={contact.address2} />
           <Note value={contact.notes} />
         </div>
       </Card>
