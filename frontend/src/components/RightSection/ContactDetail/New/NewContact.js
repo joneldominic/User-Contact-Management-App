@@ -102,7 +102,8 @@ const NewContact = () => {
       number: phoneNumber,
       email: email,
       title: title,
-      address: deliveryAddress,
+      address1: deliveryAddress,
+      address2: billingAddress.length === 0 ? deliveryAddress : billingAddress,
       notes: notes,
     };
 
