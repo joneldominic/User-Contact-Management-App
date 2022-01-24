@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
 import classNames from "classnames";
 
@@ -12,16 +12,53 @@ import Toast from "../common/Toast/Toast";
 import styles from "./SignInForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 
+const formControlReducer = (prevState, action) => {
+  console.log(prevState);
+  console.log(action);
+  switch (action.type) {
+    case "USERNAME_CHANGE":
+      return {
+        username: {
+          value: action.value,
+          isValid: action.value.trim().length > 5,
+        },
+        password: {
+          value: prevState.password.value,
+          isValid: prevState.password.isValid,
+        },
+      };
+    case "PASSWORD_CHANGE":
+      return {
+        username: {
+          value: prevState.username.value,
+          isValid: prevState.username.isValid,
+        },
+        password: {
+          value: action.value,
+          isValid: action.value.trim().length > 7,
+        },
+      };
+    default:
+      alert("Something Wrong! Please Try Again");
+      break;
+  }
+  return {};
+};
+
 const SignInForm = (props) => {
   const authCtx = useContext(AuthContext);
   const history = useHistory();
-  const [enteredUsername, setEnteredUsername] = useState("");
-  const [usernameIsValid, setUsernameIsValid] = useState(true);
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState(true);
   const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoginFailed, setIsLoginFailed] = useState(false);
+
+  const [formControlState, dispatchFormcontrol] = useReducer(
+    formControlReducer,
+    {
+      username: { value: "", isValid: null },
+      password: { value: "", isValid: null },
+    }
+  );
 
   useEffect(() => {
     console.log("Sign In (AuthContext IsLoggedIn): " + authCtx.isLoggedIn);
@@ -32,28 +69,24 @@ const SignInForm = (props) => {
 
   useEffect(() => {
     const identifier = setTimeout(() => {
-      setUsernameIsValid(
-        enteredUsername.trim().length === 0 || enteredUsername.trim().length > 5
-      );
-      setPasswordIsValid(
-        enteredPassword.trim().length === 0 || enteredPassword.trim().length > 7
-      );
       setFormIsValid(
-        enteredUsername.trim().length > 5 && enteredPassword.trim().length > 7
+        formControlState.username.isValid && formControlState.password.isValid
       );
     }, 200);
+
+    console.log("Validating...");
 
     return () => {
       clearTimeout(identifier);
     };
-  }, [enteredUsername, enteredPassword]);
+  }, [formControlState.username.isValid, formControlState.password.isValid]);
 
   const usernameChangeHandler = (event) => {
-    setEnteredUsername(event.target.value);
+    dispatchFormcontrol({ type: "USERNAME_CHANGE", value: event.target.value });
   };
 
   const passwordChangeHandler = (event) => {
-    setEnteredPassword(event.target.value);
+    dispatchFormcontrol({ type: "PASSWORD_CHANGE", value: event.target.value });
   };
 
   const toastCloseHandler = () => {
@@ -67,8 +100,8 @@ const SignInForm = (props) => {
       setIsLoading(true);
 
       const userInfo = {
-        username: enteredUsername,
-        password: enteredPassword,
+        username: formControlState.username.value,
+        password: formControlState.password.value,
       };
 
       userLogin(userInfo)
@@ -142,18 +175,18 @@ const SignInForm = (props) => {
                   id="username"
                   type="text"
                   label="Username"
-                  isInvalid={!usernameIsValid}
+                  isInvalid={!formControlState.username.isValid}
                   invalidFeedback="Username must be atleast 6 characters long"
-                  defaultValue={enteredUsername}
+                  defaultValue={formControlState.username.value}
                   onChange={usernameChangeHandler}
                 />
                 <FormInput
                   id="password"
                   type="password"
                   label="Password"
-                  isInvalid={!passwordIsValid}
+                  isInvalid={!formControlState.password.isValid}
                   invalidFeedback="Password must be [8-20] characters long"
-                  defaultValue={enteredPassword}
+                  defaultValue={formControlState.password.value}
                   onChange={passwordChangeHandler}
                 />
                 <button
