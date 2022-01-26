@@ -35,6 +35,8 @@ export const authenticate = (credentials) => {
               dispatch(authFailure("Something Went Wrong! Please Try Again"));
           }
         } else {
+          alert("Something Went Wrong! Please Try Again");
+          alert(err);
           dispatch(authFailure("Something Went Wrong! Please Try Again"));
         }
       });
@@ -48,11 +50,23 @@ export const validateToken = () => {
       .then((response) => {
         dispatch(authSuccess(response.data));
       })
-      .catch((e) => {
-        console.log("Invalid Token!");
-        alert("Invalid Token!");
-        localStorage.clear();
-        dispatch(authFailure("Invalid Token!"));
+      .catch((err) => {
+        if (err && err.response) {
+          switch (err.response.status) {
+            case 401:
+              console.log("Invalid Token!");
+              alert("Invalid Token!");
+              localStorage.clear();
+              dispatch(authFailure("Invalid Token!"));
+              break;
+            default:
+              dispatch(authFailure("Something Went Wrong! Please Try Again"));
+          }
+        } else {
+          alert("Something Went Wrong! Please Try Again");
+          alert(err);
+          dispatch(authFailure("Something Went Wrong! Please Try Again"));
+        }
       });
   };
 };
