@@ -11,16 +11,13 @@ import {
   CONTACT_DESELECT,
 } from "./types";
 
-export const getContacts = (userId, selectContactId = undefined) => {
+export const getContacts = (userId) => {
   return (dispatch) => {
     dispatch(contactSendRequest());
 
     getContactsService(userId)
       .then((response) => {
         dispatch(contactReqSuccess(response.data));
-        if (selectContactId !== undefined) {
-          dispatch(selectContact(selectContactId));
-        }
       })
       .catch((err) => {
         console.log(err);
@@ -77,7 +74,7 @@ export const updateContact = (updatedContact) => {
     updateContactService(userId, updatedContact)
       .then((response) => {
         if (response.status === 201) {
-          dispatch(getContacts(userId, updatedContact.id));
+          dispatch(getContacts(userId));
         } else {
           alert("Something Wrong! Please Try Again");
         }

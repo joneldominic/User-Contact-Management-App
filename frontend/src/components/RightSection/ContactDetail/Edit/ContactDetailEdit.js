@@ -41,6 +41,7 @@ const ContactDetailEdit = () => {
   const contact = useSelector((state) => state.contact.selectedContact);
   const isLoading = useSelector((state) => state.contact.isLoading);
   const errorList = useSelector((state) => state.contact.error.errorMessages);
+  const dataHasUpdate = useSelector((state) => state.contact.hasUpdate);
 
   useEffect(() => {
     if (typeof contact == "undefined") {
@@ -123,6 +124,12 @@ const ContactDetailEdit = () => {
   useEffect(() => {
     setShowError(errorList);
   }, [errorList]);
+
+  useEffect(() => {
+    if (dataHasUpdate) {
+      history.replace(`/contacts/${params.contactId}`);
+    }
+  }, [dataHasUpdate, history, params]);
 
   const firstnameChangeHandler = (event) => {
     setFirstname(event.target.value);

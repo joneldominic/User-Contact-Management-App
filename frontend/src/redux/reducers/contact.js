@@ -3,7 +3,7 @@ import {
   CONTACT_REQ_SUCCESS,
   CONTACT_REQ_FAILURE,
   CONTACT_SELECT,
-  CONTACT_DESELECT
+  CONTACT_DESELECT,
 } from "../actions/types";
 
 const initialState = {
@@ -44,6 +44,7 @@ const contact = (state = initialState, action) => {
       const selectedContact = action.payload;
       return {
         ...state,
+        hasUpdate: false,
         error: { hasError: false, errorMessages: [] },
         selectedContact,
       };
