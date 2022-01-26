@@ -9,6 +9,14 @@ import styles from "./Header.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 import { logout } from "../../redux/actions/authActions";
 
+const InitialsAvatar = (props) => {
+  return (
+    <h3 className={classNames(globalStyles["text-white"], styles.avatar)}>
+      {props.name && props.name[0].toUpperCase()}
+    </h3>
+  );
+};
+
 const Header = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -17,14 +25,6 @@ const Header = (props) => {
   const onLogoutHandler = () => {
     dispatch(logout());
     history.replace("/sign-in");
-  };
-
-  const InitialsAvatar = (props) => {
-    return (
-      <h3 className={classNames(globalStyles["text-white"], styles.avatar)}>
-        {props.name && props.name[0].toUpperCase()}
-      </h3>
-    );
   };
 
   return (
