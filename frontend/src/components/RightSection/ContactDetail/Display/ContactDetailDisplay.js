@@ -1,21 +1,23 @@
-import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
-import Card from "../../../common/Card/Card";
+import React from "react";
+import { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { FaEnvelope } from "react-icons/fa";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaStickyNote } from "react-icons/fa";
+import classNames from "classnames";
 
 import NoContactSelected from "../NoContactSelected/NoContactSelected";
 import SelectAction from "./SelectAction";
-import ContactContext from "../../../../context/contact-context";
-
+import Card from "../../../common/Card/Card";
 import styles from "./ContactDetailDisplay.module.css";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
-import classNames from "classnames";
 import Modal from "../../../common/Modal/Modal";
-import { useState } from "react/cjs/react.development";
-import { useHistory } from "react-router-dom";
+import {
+  deleteContact,
+  selectContact,
+} from "../../../../redux/actions/contactActions";
 
 const Header = (props) => {
   return (
@@ -118,9 +120,13 @@ const Note = (props) => {
 const ContactDetailDisplay = () => {
   const params = useParams();
   const history = useHistory();
-  const contactCtx = useContext(ContactContext);
-  const contact = contactCtx.getContact(params.contactId);
+  const dispatch = useDispatch();
+  const contact = useSelector((state) => state.contact.selectedContact);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    dispatch(selectContact(params.contactId));
+  }, [dispatch, params.contactId]);
 
   if (typeof contact == "undefined") {
     return <NoContactSelected message="Contact Not Found!" />;
@@ -131,7 +137,7 @@ const ContactDetailDisplay = () => {
   };
 
   const onModalDiscardHandler = () => {
-    contactCtx.deleteContact(params.contactId);
+    dispatch(deleteContact(params.contactId));
     history.replace("/contacts");
   };
 
