@@ -9,17 +9,17 @@ import ContactList from "./ContactList/ContactList";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 
 const LeftSection = (props) => {
-  const contactsList = useSelector((state) => state.contact.contacts);
+  const contactList = useSelector((state) => state.contact.contacts);
   const [filteredContactList, setFilteredContactList] = useState([]);
 
   useEffect(() => {
     console.log("Loaded Contact List");
-    setFilteredContactList(contactsList);
-  }, [contactsList]);
+    setFilteredContactList(contactList);
+  }, [contactList]);
 
   const onSearchHandler = (event) => {
     setFilteredContactList(
-      contactsList.filter((_contact) => {
+      contactList.filter((_contact) => {
         return `${_contact.firstname} ${_contact.middlename} ${_contact.lastname}`
           .toLowerCase()
           .includes(event.target.value.toLowerCase());
@@ -28,7 +28,7 @@ const LeftSection = (props) => {
   };
 
   const onClearFilterHandler = (_) => {
-    setFilteredContactList(contactsList);
+    setFilteredContactList(contactList);
   };
 
   return (
