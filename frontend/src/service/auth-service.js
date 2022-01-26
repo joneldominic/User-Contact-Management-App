@@ -6,7 +6,7 @@ const getToken = () => {
   return localStorage.getItem("TOKEN");
 };
 
-export const userLogin = (requestBody) => {
+export const userLoginService = (requestBody) => {
   return axios({
     method: "POST",
     url: `${API_URL}/api/auth/login`,
@@ -14,7 +14,7 @@ export const userLogin = (requestBody) => {
   });
 };
 
-export const fetchUserData = () => {
+export const fetchUserDataService = () => {
   return axios({
     method: "GET",
     url: `${API_URL}/api/auth/userinfo`,
@@ -24,7 +24,7 @@ export const fetchUserData = () => {
   });
 };
 
-export const addNewUser = (requestBody) => {
+export const addNewUserService = (requestBody) => {
   return axios({
     method: "POST",
     url: `${API_URL}/api/users`,
