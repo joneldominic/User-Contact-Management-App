@@ -8,7 +8,7 @@ import NewActions from "./NewActions";
 import styles from "./NewContact.module.css";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
 import { FormInputLine, TextArea } from "../../../common/FormInput/FormInput";
-import { addNewContact } from "../../../../service/contact-service";
+import { addNewContactService } from "../../../../service/contact-service";
 import AuthContext from "../../../../context/auth-context";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Toast from "../../../common/Toast/Toast";
@@ -140,7 +140,7 @@ const NewContact = () => {
 
       console.log(newContact);
 
-      addNewContact(authCtx.authUser.id, newContact)
+      addNewContactService(authCtx.authUser.id, newContact)
         .then((response) => {
           if (response.status === 201) {
             contactCtx.createContact();

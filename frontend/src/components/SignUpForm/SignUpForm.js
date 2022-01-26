@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import classNames from "classnames";
 
 import AuthContext from "../../context/auth-context";
-import { addNewUser } from "../../service/auth-service";
+import { addNewUserService } from "../../service/auth-service";
 import Toast from "../common/Toast/Toast";
 import FormInput from "../common/FormInput/FormInput";
 
@@ -93,7 +93,7 @@ const SignUpForm = () => {
 
       console.log(userInfo);
 
-      addNewUser(userInfo)
+      addNewUserService(userInfo)
         .then((response) => {
           if (response.status === 201) {
             console.log("Signup Successful");

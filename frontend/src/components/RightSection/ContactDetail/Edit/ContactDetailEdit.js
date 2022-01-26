@@ -12,7 +12,7 @@ import EditActions from "./EditActions";
 import { FormInputLine, TextArea } from "../../../common/FormInput/FormInput";
 import AuthContext from "../../../../context/auth-context";
 import { useHistory } from "react-router-dom";
-import { updateContact } from "../../../../service/contact-service";
+import { updateContactService } from "../../../../service/contact-service";
 import Toast from "../../../common/Toast/Toast";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
 import Modal from "../../../common/Modal/Modal";
@@ -170,7 +170,7 @@ const ContactDetailEdit = () => {
         notes: notes,
       };
 
-      updateContact(authCtx.authUser.id, updatedContact)
+      updateContactService(authCtx.authUser.id, updatedContact)
         .then((response) => {
           if (response.status === 201) {
             contactCtx.updateContact();
