@@ -26,6 +26,7 @@ const contact = (state = initialState, action) => {
     case CONTACT_REQ_SUCCESS:
       const data = action.payload;
       return {
+        ...state,
         contacts: data,
         hasUpdate: true,
         error: { hasError: false, errorMessages: [] },
@@ -43,6 +44,7 @@ const contact = (state = initialState, action) => {
       const selectedContact = action.payload;
       return {
         ...state,
+        error: { hasError: false, errorMessages: [] },
         selectedContact,
       };
     case CONTACT_DESELECT:

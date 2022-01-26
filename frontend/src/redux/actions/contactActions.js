@@ -1,6 +1,7 @@
 import {
   deleteContactService,
   getContactsService,
+  updateContactService,
 } from "../../service/contact-service";
 import {
   CONTACT_REQ_IN_PROGRESS,
@@ -10,14 +11,16 @@ import {
   CONTACT_DESELECT,
 } from "./types";
 
-export const getContacts = (userId) => {
+export const getContacts = (userId, selectContactId = undefined) => {
   return (dispatch) => {
     dispatch(contactSendRequest());
 
     getContactsService(userId)
       .then((response) => {
-        console.log(response.data);
         dispatch(contactReqSuccess(response.data));
+        if (selectContactId !== undefined) {
+          dispatch(selectContact(selectContactId));
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -61,9 +64,41 @@ export const deleteContact = (contactId) => {
         } else {
           alert("Something Went Wrong! Please Try Again");
           alert(err);
-          dispatch(
-            contactReqFailure(["Something Went Wrong! Please Try Again"])
-          );
+        }
+      });
+  };
+};
+
+export const updateContact = (updatedContact) => {
+  return (dispatch, getState) => {
+    const { auth } = getState();
+    const userId = auth.user.id;
+
+    updateContactService(userId, updatedContact)
+      .then((response) => {
+        if (response.status === 201) {
+          dispatch(getContacts(userId, updatedContact.id));
+        } else {
+          alert("Something Wrong! Please Try Again");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err && err.response) {
+          switch (err.response.status) {
+            case 400:
+              console.log("Invalid Contact Details");
+              const errorMessages = err.response.data.apierror.subErrors.map(
+                (_error) =>
+                  `field: ${_error.field}  |  message: ${_error.message}\n\n`
+              );
+              dispatch(contactReqFailure(errorMessages));
+              break;
+            default:
+              alert("Something Wrong! Please Try Again");
+          }
+        } else {
+          alert("Something Wrong! Please Try Again");
         }
       });
   };
