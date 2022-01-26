@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchUserData } from "../service/auth-service";
+import { fetchUserDataService } from "../service/auth-service";
 
 const AuthContext = React.createContext({
   isLoggedIn: false,
@@ -16,7 +16,7 @@ export const AuthContextProvider = (props) => {
     const _token = localStorage.getItem("TOKEN");
     console.log("AuthContext");
     if (_token !== null) {
-      fetchUserData()
+      fetchUserDataService()
         .then((response) => {
           setAuthUser(response.data);
           setIsLoggedIn(true);
@@ -42,7 +42,7 @@ export const AuthContextProvider = (props) => {
     console.log("Logged In From Auth Context");
     localStorage.setItem("TOKEN", data.token);
 
-    fetchUserData()
+    fetchUserDataService()
       .then((response) => {
         setAuthUser(response.data);
         setIsLoggedIn(true);

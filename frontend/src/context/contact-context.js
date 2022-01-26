@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
-  deleteContact,
-  getContacts,
+  deleteContactService,
+  getContactsService,
 } from "../service/contact-service";
 import AuthContext from "./auth-context";
 
@@ -21,7 +21,7 @@ export const ContactContextProvider = (props) => {
 
   useEffect(() => {
     if (authCtx.isLoggedIn) {
-      getContacts(authCtx.authUser.id)
+      getContactsService(authCtx.authUser.id)
         .then((response) => {
           console.log("From Contact Context");
           setContactList(response.data);
@@ -48,7 +48,7 @@ export const ContactContextProvider = (props) => {
   };
 
   const onDeleteContact = (contactId) => {
-    deleteContact(authCtx.authUser.id, contactId)
+    deleteContactService(authCtx.authUser.id, contactId)
       .then((_) => {
         console.log("From Contact Context On Delete");
         setListOutdated(true);
