@@ -1,20 +1,17 @@
 import React from "react";
 
-import { useState, useEffect, useContext, useReducer } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 import classNames from "classnames";
-
-import AuthContext from "../../context/auth-context";
-import { userLogin } from "../../service/auth-service";
-import FormInput from "../common/FormInput/FormInput";
-import Toast from "../common/Toast/Toast";
 
 import styles from "./SignInForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
+import FormInput from "../common/FormInput/FormInput";
+import Toast from "../common/Toast/Toast";
+import { authenticate } from "../../redux/actions/authActions";
 
 const formControlReducer = (prevState, action) => {
-  console.log(prevState);
-  console.log(action);
   switch (action.type) {
     case "USERNAME_CHANGE":
       return {
@@ -46,11 +43,12 @@ const formControlReducer = (prevState, action) => {
 };
 
 const SignInForm = (props) => {
-  const authCtx = useContext(AuthContext);
   const history = useHistory();
+
   const [formIsValid, setFormIsValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoginFailed, setIsLoginFailed] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const { isLoggedIn, isLoading, hasError, errorMessage, authenticate } = props;
 
   const [formControlState, dispatchFormcontrol] = useReducer(
     formControlReducer,
@@ -61,11 +59,14 @@ const SignInForm = (props) => {
   );
 
   useEffect(() => {
-    console.log("Sign In (AuthContext IsLoggedIn): " + authCtx.isLoggedIn);
-    if (authCtx.isLoggedIn) {
+    if (isLoggedIn) {
       history.replace("/contacts");
     }
-  }, [authCtx, history]);
+  }, [isLoggedIn, history]);
+
+  useEffect(() => {
+    setShowError(hasError);
+  }, [hasError]);
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -73,8 +74,6 @@ const SignInForm = (props) => {
         formControlState.username.isValid && formControlState.password.isValid
       );
     }, 200);
-
-    console.log("Validating...");
 
     return () => {
       clearTimeout(identifier);
@@ -90,44 +89,18 @@ const SignInForm = (props) => {
   };
 
   const toastCloseHandler = () => {
-    setIsLoginFailed(false);
+    setShowError(false);
   };
 
   const submitFormHandler = (event) => {
     event.preventDefault();
 
     if (formIsValid) {
-      setIsLoading(true);
-
-      const userInfo = {
+      const credentials = {
         username: formControlState.username.value,
         password: formControlState.password.value,
       };
-
-      userLogin(userInfo)
-        .then((response) => {
-          if (response.status === 200) {
-            authCtx.onLogin(response.data);
-          } else {
-            alert("Something Wrong! Please Try Again");
-            setIsLoading(false);
-          }
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          if (err && err.response) {
-            switch (err.response.status) {
-              case 401:
-                console.log("Authentication Failed. Incorrect Credentials");
-                setIsLoginFailed(true);
-                break;
-              default:
-                alert("Something Wrong! Please Try Again");
-            }
-          } else {
-            alert("Something Wrong! Please Try Again");
-          }
-        });
+      authenticate(credentials);
     }
   };
 
@@ -162,11 +135,11 @@ const SignInForm = (props) => {
                 My Contacts
               </h4>
 
-              {isLoginFailed && (
+              {showError && (
                 <Toast
                   onClose={toastCloseHandler}
                   className={globalStyles["text-danger"]}
-                  message="Authentication Failed. Incorrect Credentials"
+                  message={errorMessage}
                 />
               )}
 
@@ -223,4 +196,20 @@ const SignInForm = (props) => {
   );
 };
 
-export default SignInForm;
+const mapStateToProps = (state) => {
+  const { auth } = state;
+  return {
+    isLoggedIn: auth.isLoggedIn,
+    isLoading: auth.isLoading,
+    hasError: auth.error.hasError,
+    errorMessage: auth.error.errorMessage,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authenticate: (credentials) => dispatch(authenticate(credentials)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
