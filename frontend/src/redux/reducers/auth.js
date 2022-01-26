@@ -1,4 +1,9 @@
-import { AUTH_REQ, AUTH_SUCCESS, AUTH_FAILURE } from "../actions/types";
+import {
+  AUTH_REQ_IN_PROGRESS,
+  AUTH_REQ_SUCCESS,
+  AUTH_REQ_FAILURE,
+  AUTH_CLEAR,
+} from "../actions/types";
 
 const initialState = {
   user: {},
@@ -8,16 +13,15 @@ const initialState = {
 };
 
 const auth = (state = initialState, action) => {
-  console.log("Reducer Auth :", action.type);
   switch (action.type) {
-    case AUTH_REQ:
+    case AUTH_REQ_IN_PROGRESS:
       return {
         user: {},
         isLoggedIn: false,
         error: { hasError: false, errorMessage: "" },
         isLoading: true,
       };
-    case AUTH_SUCCESS:
+    case AUTH_REQ_SUCCESS:
       const data = action.payload;
       return {
         user: data,
@@ -25,8 +29,7 @@ const auth = (state = initialState, action) => {
         error: { hasError: false, errorMessage: "" },
         isLoading: false,
       };
-
-    case AUTH_FAILURE:
+    case AUTH_REQ_FAILURE:
       const errorMessage = action.payload;
       return {
         user: {},
@@ -34,6 +37,8 @@ const auth = (state = initialState, action) => {
         error: { hasError: true, errorMessage },
         isLoading: false,
       };
+    case AUTH_CLEAR:
+      return { ...initialState };
 
     default:
       return state;
