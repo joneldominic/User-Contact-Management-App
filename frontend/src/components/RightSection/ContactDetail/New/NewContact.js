@@ -1,23 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { useState, useEffect } from "react";
-import ContactContext from "../../../../context/contact-context";
-import Card from "../../../common/Card/Card";
-import NewActions from "./NewActions";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
+import NewActions from "./NewActions";
+import Card from "../../../common/Card/Card";
 import styles from "./NewContact.module.css";
 import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
 import { FormInputLine, TextArea } from "../../../common/FormInput/FormInput";
-import { addNewContactService } from "../../../../service/contact-service";
-import AuthContext from "../../../../context/auth-context";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Toast from "../../../common/Toast/Toast";
 import Modal from "../../../common/Modal/Modal";
+import { addNewContact } from "../../../../redux/actions/contactActions";
 
 const NewContact = () => {
-  const authCtx = useContext(AuthContext);
-  const contactCtx = useContext(ContactContext);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [firstname, setFirstname] = useState("");
   const [firstnameIsValid, setFirstnameIsValid] = useState(true);
@@ -35,10 +33,13 @@ const NewContact = () => {
   const [billingAddress, setBillingAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [formIsValid, setFormIsValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorList, setErrorList] = useState([]);
+  // const [errorList, setErrorList] = useState([]);
+  const [showError, setShowError] = useState(false);
   const [hasInput, setHasInput] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const isLoading = useSelector((state) => state.contact.isLoading);
+  const errorList = useSelector((state) => state.contact.error.errorMessages);
+  const contact = useSelector((state) => state.contact.selectedContact);
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -93,6 +94,10 @@ const NewContact = () => {
     notes,
   ]);
 
+  useEffect(() => {
+    setShowError(errorList);
+  }, [errorList]);
+
   const firstnameChangeHandler = (event) => {
     setFirstname(event.target.value);
   };
@@ -123,8 +128,6 @@ const NewContact = () => {
 
   const onSaveButtonClickHandler = () => {
     if (formIsValid) {
-      setIsLoading(true);
-
       const newContact = {
         firstname: firstname,
         middlename: middlename,
@@ -139,51 +142,27 @@ const NewContact = () => {
       };
 
       console.log(newContact);
-
-      addNewContactService(authCtx.authUser.id, newContact)
-        .then((response) => {
-          if (response.status === 201) {
-            contactCtx.createContact();
-            console.log("From Contact Context On Create");
-            history.replace("/contacts");
-          } else {
-            alert("Something Wrong! Please Try Again");
-            setIsLoading(false);
-          }
+      dispatch(
+        addNewContact(newContact, () => {
+          history.replace(`/contacts/`);
         })
-        .catch((err) => {
-          console.log(err.response);
-          setIsLoading(false);
-          if (err && err.response) {
-            switch (err.response.status) {
-              case 400:
-                console.log("Invalid Contact Details");
-                console.log(err.response);
-                setErrorList(
-                  err.response.data.apierror.subErrors.map(
-                    (_error) => `${_error.field} ${_error.message}`
-                  )
-                );
-                break;
-              default:
-                alert("Something Wrong! Please Try Again");
-            }
-          } else {
-            alert("Something Wrong! Please Try Again");
-          }
-        });
+      );
     }
   };
 
   const toastCloseHandler = () => {
-    setErrorList([]);
+    setShowError(false);
   };
 
   const onCancelButtonClickHandler = () => {
     if (hasInput) {
       setShowModal(true);
     } else {
-      history.replace(`/contacts`);
+      if (contact) {
+        history.replace("/contacts/" + contact.id);
+      } else {
+        history.replace(`/contacts`);
+      }
     }
   };
 
@@ -192,7 +171,11 @@ const NewContact = () => {
   };
 
   const onModalDiscardHandler = () => {
-    history.replace(`/contacts`);
+    if (contact) {
+      history.replace("/contacts/" + contact.id);
+    } else {
+      history.replace(`/contacts`);
+    }
   };
 
   return (
@@ -219,7 +202,7 @@ const NewContact = () => {
           <div className={styles.editLabelContainer}>
             <h3>New Contact</h3>
             <hr />
-            {errorList.length !== 0 &&
+            {showError &&
               errorList.map((_err, idx) => {
                 return (
                   <Toast

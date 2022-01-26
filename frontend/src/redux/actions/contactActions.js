@@ -1,4 +1,5 @@
 import {
+  addNewContactService,
   deleteContactService,
   getContactsService,
   updateContactService,
@@ -52,6 +53,10 @@ export const deleteContact = (contactId) => {
       .catch((err) => {
         console.log(err);
         if (err && err.response) {
+          if (err.response.status === 401) {
+            console.log(err);
+            alert("Something Went Wrong! Please Try Again");
+          }
           const errorMessages = err.response.data.apierror.subErrors.map(
             (_error) =>
               `field: ${_error.field}  |  message: ${_error.message}\n\n`
@@ -75,6 +80,43 @@ export const updateContact = (updatedContact) => {
       .then((response) => {
         if (response.status === 201) {
           dispatch(getContacts(userId));
+        } else {
+          alert("Something Wrong! Please Try Again");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err && err.response) {
+          switch (err.response.status) {
+            case 400:
+              console.log("Invalid Contact Details");
+              const errorMessages = err.response.data.apierror.subErrors.map(
+                (_error) =>
+                  `field: ${_error.field}  |  message: ${_error.message}\n\n`
+              );
+              dispatch(contactReqFailure(errorMessages));
+              break;
+            default:
+              alert("Something Wrong! Please Try Again");
+          }
+        } else {
+          alert("Something Wrong! Please Try Again");
+        }
+      });
+  };
+};
+
+export const addNewContact = (newContact, callBack) => {
+  return (dispatch, getState) => {
+    const { auth } = getState();
+    const userId = auth.user.id;
+
+    addNewContactService(userId, newContact)
+      .then((response) => {
+        if (response.status === 201) {
+          dispatch(contactDeselect());
+          dispatch(getContacts(userId));
+          callBack && callBack();
         } else {
           alert("Something Wrong! Please Try Again");
         }
