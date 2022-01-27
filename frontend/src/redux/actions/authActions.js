@@ -57,8 +57,7 @@ export const validateToken = () => {
             case 401:
               console.log("Invalid Token!");
               alert("Invalid Token!");
-              localStorage.clear();
-              dispatch(authFailure("Invalid Token!"));
+              dispatch(logout());
               break;
             default:
               dispatch(authFailure("Something Went Wrong! Please Try Again"));

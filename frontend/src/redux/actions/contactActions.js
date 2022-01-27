@@ -4,6 +4,7 @@ import {
   getContactsService,
   updateContactService,
 } from "../../service/contact-service";
+import { logout } from "./authActions";
 import {
   CONTACT_REQ_IN_PROGRESS,
   CONTACT_REQ_SUCCESS,
@@ -31,7 +32,7 @@ export const getContacts = (userId, selectedContactId) => {
               console.log("Invalid Token!");
               alert("Invalid Token!");
               localStorage.clear();
-              dispatch(contactReqFailure("Invalid Token!"));
+              dispatch(logout());
               break;
             default:
               dispatch(
@@ -69,8 +70,7 @@ export const deleteContact = (contactId, callBack) => {
             case 401:
               console.log("Invalid Token!");
               alert("Invalid Token!");
-              localStorage.clear();
-              dispatch(contactReqFailure("Invalid Token!"));
+              dispatch(logout());
               break;
             default:
               dispatch(
@@ -125,8 +125,7 @@ export const updateContact = (updatedContact) => {
             case 401:
               console.log("Invalid Token!");
               alert("Invalid Token!");
-              localStorage.clear();
-              dispatch(contactReqFailure("Invalid Token!"));
+              dispatch(logout());
               break;
             default:
               dispatch(
@@ -184,8 +183,7 @@ export const addNewContact = (newContact, callBack) => {
             case 401:
               console.log("Invalid Token!");
               alert("Invalid Token!");
-              localStorage.clear();
-              dispatch(contactReqFailure("Invalid Token!"));
+              dispatch(logout());
               break;
             default:
               dispatch(

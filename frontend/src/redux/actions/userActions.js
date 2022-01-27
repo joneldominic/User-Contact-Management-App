@@ -5,6 +5,7 @@ import {
   USER_REQ_FAILURE,
   USER_CLEAR,
 } from "../actions/types";
+import { logout } from "./authActions";
 
 export const addNewUser = (userInfo, callback) => {
   return (dispatch) => {
@@ -46,8 +47,7 @@ export const addNewUser = (userInfo, callback) => {
             case 401:
               console.log("Invalid Token!");
               alert("Invalid Token!");
-              localStorage.clear();
-              dispatch(userFailure("Invalid Token!"));
+              dispatch(logout());
               break;
             default:
               dispatch(userFailure("Something Went Wrong! Please Try Again"));
