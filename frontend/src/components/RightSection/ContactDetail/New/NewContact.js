@@ -33,12 +33,13 @@ const NewContact = () => {
   const [billingAddress, setBillingAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [formIsValid, setFormIsValid] = useState(false);
-  // const [errorList, setErrorList] = useState([]);
   const [showError, setShowError] = useState(false);
   const [hasInput, setHasInput] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const isLoading = useSelector((state) => state.contact.isLoading);
-  const errorList = useSelector((state) => state.contact.error.errorMessages);
+  const { hasError, errorMessages } = useSelector(
+    (state) => state.contact.error
+  );
   const contact = useSelector((state) => state.contact.selectedContact);
 
   useEffect(() => {
@@ -95,8 +96,8 @@ const NewContact = () => {
   ]);
 
   useEffect(() => {
-    setShowError(errorList);
-  }, [errorList]);
+    setShowError(hasError);
+  }, [hasError]);
 
   const firstnameChangeHandler = (event) => {
     setFirstname(event.target.value);
@@ -202,17 +203,14 @@ const NewContact = () => {
           <div className={styles.editLabelContainer}>
             <h3>New Contact</h3>
             <hr />
-            {showError &&
-              errorList.map((_err, idx) => {
-                return (
-                  <Toast
-                    key={idx}
-                    onClose={toastCloseHandler}
-                    className={globalStyles["text-danger"]}
-                    message={_err}
-                  />
-                );
-              })}
+            {console.log(showError)}
+            {showError && (
+              <Toast
+                onClose={toastCloseHandler}
+                className={globalStyles["text-danger"]}
+                message={errorMessages}
+              />
+            )}
           </div>
 
           <form>

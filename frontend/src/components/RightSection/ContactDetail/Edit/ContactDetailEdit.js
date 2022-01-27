@@ -40,7 +40,9 @@ const ContactDetailEdit = () => {
   const [showError, setShowError] = useState(false);
   const contact = useSelector((state) => state.contact.selectedContact);
   const isLoading = useSelector((state) => state.contact.isLoading);
-  const errorList = useSelector((state) => state.contact.error.errorMessages);
+  const { hasError, errorMessages } = useSelector(
+    (state) => state.contact.error
+  );
   const dataHasUpdate = useSelector((state) => state.contact.hasUpdate);
 
   useEffect(() => {
@@ -100,7 +102,7 @@ const ContactDetailEdit = () => {
           lastname.trim().length >= 2 &&
           title.trim().length >= 2 &&
           email.includes("@") &&
-          phoneNumber.trim().length >= 10 &&
+          phoneNumber.trim().length === 11 && 
           deliveryAddress.trim().length >= 2
       );
     }, 200);
@@ -122,8 +124,8 @@ const ContactDetailEdit = () => {
   ]);
 
   useEffect(() => {
-    setShowError(errorList);
-  }, [errorList]);
+    setShowError(hasError);
+  }, [hasError]);
 
   useEffect(() => {
     if (dataHasUpdate) {
@@ -222,17 +224,13 @@ const ContactDetailEdit = () => {
           <div className={styles.editLabelContainer}>
             <h3>Edit Contact</h3>
             <hr />
-            {showError &&
-              errorList.map((_err, idx) => {
-                return (
-                  <Toast
-                    key={idx}
-                    onClose={toastCloseHandler}
-                    className={globalStyles["text-danger"]}
-                    message={_err}
-                  />
-                );
-              })}
+            {showError && (
+              <Toast
+                onClose={toastCloseHandler}
+                className={globalStyles["text-danger"]}
+                message={errorMessages}
+              />
+            )}
           </div>
           <form>
             <FormInputLine
@@ -280,7 +278,7 @@ const ContactDetailEdit = () => {
             />
             <FormInputLine
               id="phone"
-              type="text"
+              type="number"
               label="PHONE"
               placeholder="09XXXXXXXXX"
               isInvalid={!phoneNumberIsValid}

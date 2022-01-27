@@ -13,7 +13,6 @@ const LeftSection = (props) => {
   const [filteredContactList, setFilteredContactList] = useState([]);
 
   useEffect(() => {
-    console.log("Loaded Contact List");
     setFilteredContactList(contactList);
   }, [contactList]);
 

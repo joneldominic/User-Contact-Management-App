@@ -91,8 +91,16 @@ export const updateContact = (updatedContact) => {
             case 400:
               console.log("Invalid Contact Details");
               const errorMessages = err.response.data.apierror.subErrors.map(
-                (_error) =>
-                  `field: ${_error.field}  |  message: ${_error.message}\n\n`
+                (_error) => {
+                  switch (_error.field) {
+                    case "number":
+                      return "Phone must be a valid Phone Number";
+                    case "email":
+                      return "Email Must be a valid Email Address. ";
+                    default:
+                      return "Invalid Contact Details";
+                  }
+                }
               );
               dispatch(contactReqFailure(errorMessages));
               break;
@@ -129,7 +137,7 @@ export const addNewContact = (newContact, callBack) => {
               console.log("Invalid Contact Details");
               const errorMessages = err.response.data.apierror.subErrors.map(
                 (_error) =>
-                  `field: ${_error.field}  |  message: ${_error.message}\n\n`
+                  `field: ${_error.field}  |  message: ${_error.message}`
               );
               dispatch(contactReqFailure(errorMessages));
               break;
