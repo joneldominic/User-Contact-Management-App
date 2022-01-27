@@ -24,7 +24,7 @@ const FormInput = (props) => {
         id={props.id}
         placeholder={props.label}
         defaultValue={props.defaultValue}
-        onChange={props.onChange}
+        onInput={props.onChange}
       />
       <label htmlFor={props.id}>{props.label}</label>
       <div className={globalStyles["invalid-feedback"]}>
@@ -55,7 +55,7 @@ export const FormInputLine = (props) => {
           id={props.id}
           placeholder={props.placeholder || ""}
           defaultValue={props.defaultValue}
-          onChange={props.onChange}
+          onInput={props.onChange}
         />
         <div className={globalStyles["invalid-feedback"]}>
           {props.invalidFeedback}

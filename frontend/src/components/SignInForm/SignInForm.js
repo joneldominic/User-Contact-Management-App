@@ -2,35 +2,33 @@ import React from "react";
 
 import { useState, useEffect, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import classNames from "classnames";
 
 import styles from "./SignInForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 import FormInput from "../common/FormInput/FormInput";
 import Toast from "../common/Toast/Toast";
-import { authenticate } from "../../redux/actions/authActions";
+import { authClearError, authenticate } from "../../redux/actions/authActions";
+
+const initialState = {
+  username: { value: "", isValid: null },
+  password: { value: "", isValid: null },
+};
 
 const formControlReducer = (prevState, action) => {
-  console.log(action);
   switch (action.type) {
     case "username":
       return {
+        ...prevState,
         username: {
           value: action.value,
           isValid: action.value.trim().length > 5,
         },
-        password: {
-          value: prevState.password.value,
-          isValid: prevState.password.isValid,
-        },
       };
     case "password":
       return {
-        username: {
-          value: prevState.username.value,
-          isValid: prevState.username.isValid,
-        },
+        ...prevState,
         password: {
           value: action.value,
           isValid: action.value.trim().length > 7,
@@ -38,13 +36,13 @@ const formControlReducer = (prevState, action) => {
       };
     default:
       alert("Something Wrong! Please Try Again");
-      break;
+      return { ...initialState };
   }
-  return {};
 };
 
 const SignInForm = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [formIsValid, setFormIsValid] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -53,10 +51,7 @@ const SignInForm = (props) => {
 
   const [formControlState, dispatchFormcontrol] = useReducer(
     formControlReducer,
-    {
-      username: { value: "", isValid: null },
-      password: { value: "", isValid: null },
-    }
+    initialState
   );
 
   useEffect(() => {
@@ -80,6 +75,12 @@ const SignInForm = (props) => {
       clearTimeout(identifier);
     };
   }, [formControlState.username.isValid, formControlState.password.isValid]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(authClearError());
+    };
+  }, [dispatch]);
 
   const inputChangeHandle = (event) => {
     const type = event.target.id;

@@ -1,4 +1,4 @@
-import { addNewUserService } from "../../service/auth-service";
+import { addNewUserService } from "../../service/user-service";
 import {
   USER_REQ_IN_PROGRESS,
   USER_REQ_SUCCESS,
