@@ -8,7 +8,6 @@ import SignInPage from "./pages/SignInPage";
 import Main from "./pages/Main";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import SignUpPage from "./pages/SignUpPage";
-import { AuthContextProvider } from "./context/auth-context";
 import { validateToken } from "./redux/actions/authActions";
 
 function App() {
@@ -23,27 +22,25 @@ function App() {
   }, [dispatch]);
 
   return (
-    <AuthContextProvider>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact>
-            <Redirect to="/contacts" />
-          </Route>
-          <Route path="/sign-up" exact>
-            <SignUpPage />
-          </Route>
-          <Route path="/sign-in" exact>
-            <SignInPage />
-          </Route>
-          <Route path="/contacts">
-            {isLoggedIn ? <Main /> : <Redirect to="/sign-in" />}
-          </Route>
-          <Route path="*">
-            <PageNotFound />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </AuthContextProvider>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact>
+          <Redirect to="/contacts" />
+        </Route>
+        <Route path="/sign-up" exact>
+          <SignUpPage />
+        </Route>
+        <Route path="/sign-in" exact>
+          <SignInPage />
+        </Route>
+        <Route path="/contacts">
+          {isLoggedIn ? <Main /> : <Redirect to="/sign-in" />}
+        </Route>
+        <Route path="*">
+          <PageNotFound />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import Header from "../components/Header/Header";
 import RightSection from "../components/RightSection/RightSection";
 import LeftSection from "../components/LeftSection/LeftSection";
-import { ContactContextProvider } from "../context/contact-context";
 
 import globalStyles from "../assets/global-styles/bootstrap.min.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +18,7 @@ const Main = () => {
   }, [dispatch, user]);
 
   return (
-    <ContactContextProvider>
+    <>
       <Header user={user} />
       <div className={globalStyles.container}>
         <div className={globalStyles.row}>
@@ -31,7 +30,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-    </ContactContextProvider>
+      </>
   );
 };
 
