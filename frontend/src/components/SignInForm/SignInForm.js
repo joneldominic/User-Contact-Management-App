@@ -184,7 +184,7 @@ const SignInForm = (props) => {
                   )}
                 >
                   <p>
-                    Don't have an account?
+                    Don't have an account?{" "}
                     <Link to={!isLoading ? "sign-up" : "#"}>Sign Up</Link>
                   </p>
                 </div>

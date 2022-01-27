@@ -206,7 +206,7 @@ const SignUpForm = (props) => {
                   )}
                 >
                   <p>
-                    Already have an Account?
+                    Already have an Account?{" "}
                     <Link to={!isLoading ? "sign-in" : "#"}>Sign In</Link>
                   </p>
                 </div>
