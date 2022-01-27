@@ -7,6 +7,7 @@ import {
   AUTH_REQ_SUCCESS,
   AUTH_REQ_FAILURE,
   AUTH_CLEAR,
+  AUTH_CLEAR_ERROR,
 } from "./types";
 
 export const authenticate = (credentials) => {
@@ -93,4 +94,8 @@ export const authFailure = (error) => {
 
 export const authClear = () => {
   return { type: AUTH_CLEAR };
+};
+
+export const authClearError = () => {
+  return { type: AUTH_CLEAR_ERROR };
 };

@@ -3,6 +3,7 @@ import {
   AUTH_REQ_SUCCESS,
   AUTH_REQ_FAILURE,
   AUTH_CLEAR,
+  AUTH_CLEAR_ERROR,
 } from "../actions/types";
 
 const initialState = {
@@ -37,6 +38,8 @@ const auth = (state = initialState, action) => {
         error: { hasError: true, errorMessage },
         isLoading: false,
       };
+    case AUTH_CLEAR_ERROR:
+      return { ...state, error: { hasError: false, errorMessage: "" } };
     case AUTH_CLEAR:
       return { ...initialState };
     default:

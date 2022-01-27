@@ -2,14 +2,14 @@ import React from "react";
 
 import { useState, useEffect, useReducer } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import classNames from "classnames";
 
 import styles from "./SignInForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 import FormInput from "../common/FormInput/FormInput";
 import Toast from "../common/Toast/Toast";
-import { authenticate } from "../../redux/actions/authActions";
+import { authClearError, authenticate } from "../../redux/actions/authActions";
 
 const formControlReducer = (prevState, action) => {
   switch (action.type) {
@@ -40,6 +40,7 @@ const formControlReducer = (prevState, action) => {
 
 const SignInForm = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [formIsValid, setFormIsValid] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -75,6 +76,12 @@ const SignInForm = (props) => {
       clearTimeout(identifier);
     };
   }, [formControlState.username.isValid, formControlState.password.isValid]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(authClearError());
+    };
+  }, [dispatch]);
 
   const inputChangeHandle = (event) => {
     const type = event.target.id;
