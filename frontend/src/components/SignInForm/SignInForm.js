@@ -12,8 +12,9 @@ import Toast from "../common/Toast/Toast";
 import { authenticate } from "../../redux/actions/authActions";
 
 const formControlReducer = (prevState, action) => {
+  console.log(action);
   switch (action.type) {
-    case "USERNAME_CHANGE":
+    case "username":
       return {
         username: {
           value: action.value,
@@ -24,7 +25,7 @@ const formControlReducer = (prevState, action) => {
           isValid: prevState.password.isValid,
         },
       };
-    case "PASSWORD_CHANGE":
+    case "password":
       return {
         username: {
           value: prevState.username.value,
@@ -80,12 +81,10 @@ const SignInForm = (props) => {
     };
   }, [formControlState.username.isValid, formControlState.password.isValid]);
 
-  const usernameChangeHandler = (event) => {
-    dispatchFormcontrol({ type: "USERNAME_CHANGE", value: event.target.value });
-  };
-
-  const passwordChangeHandler = (event) => {
-    dispatchFormcontrol({ type: "PASSWORD_CHANGE", value: event.target.value });
+  const inputChangeHandle = (event) => {
+    const type = event.target.id;
+    const value = event.target.value;
+    dispatchFormcontrol({ type, value });
   };
 
   const toastCloseHandler = () => {
@@ -151,7 +150,7 @@ const SignInForm = (props) => {
                   isInvalid={!formControlState.username.isValid}
                   invalidFeedback="Username must be atleast 6 characters long"
                   defaultValue={formControlState.username.value}
-                  onChange={usernameChangeHandler}
+                  onChange={inputChangeHandle}
                 />
                 <FormInput
                   id="password"
@@ -160,7 +159,7 @@ const SignInForm = (props) => {
                   isInvalid={!formControlState.password.isValid}
                   invalidFeedback="Password must be [8-20] characters long"
                   defaultValue={formControlState.password.value}
-                  onChange={passwordChangeHandler}
+                  onChange={inputChangeHandle}
                 />
                 <button
                   type="submit"
