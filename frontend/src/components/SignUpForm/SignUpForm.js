@@ -3,16 +3,17 @@ import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import classNames from "classnames";
 
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Toast from "../common/Toast/Toast";
 import FormInput from "../common/FormInput/FormInput";
 
 import styles from "./SignUpForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
-import { addNewUser } from "../../redux/actions/userActions";
+import { addNewUser, userClear } from "../../redux/actions/userActions";
 
 const SignUpForm = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [enteredName, setEnteredName] = useState("");
   const [enteredNameIsValid, setEnteredNameIsValid] = useState(true);
@@ -66,6 +67,12 @@ const SignUpForm = (props) => {
       clearTimeout(identifier);
     };
   }, [enteredUsername, enteredName, enteredPassword, enteredPassConfirmation]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(userClear());
+    };
+  }, [dispatch]);
 
   const nameChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -199,7 +206,8 @@ const SignUpForm = (props) => {
                   )}
                 >
                   <p>
-                    Already have an Account? <Link to="sign-in">Sign In</Link>
+                    Already have an Account?
+                    <Link to={!isLoading ? "sign-in" : "#"}>Sign In</Link>
                   </p>
                 </div>
               </form>

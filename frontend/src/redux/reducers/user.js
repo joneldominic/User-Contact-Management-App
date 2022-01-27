@@ -2,6 +2,7 @@ import {
   USER_REQ_IN_PROGRESS,
   USER_REQ_SUCCESS,
   USER_REQ_FAILURE,
+  USER_CLEAR,
 } from "../actions/types";
 
 const initialState = {
@@ -27,6 +28,8 @@ const user = (state = initialState, action) => {
         error: { hasError: true, errorMessages },
         isLoading: false,
       };
+    case USER_CLEAR:
+      return { ...initialState };
     default:
       return state;
   }

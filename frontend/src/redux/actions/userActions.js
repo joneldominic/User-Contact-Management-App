@@ -3,6 +3,7 @@ import {
   USER_REQ_IN_PROGRESS,
   USER_REQ_SUCCESS,
   USER_REQ_FAILURE,
+  USER_CLEAR,
 } from "../actions/types";
 
 export const addNewUser = (userInfo, callback) => {
@@ -71,4 +72,8 @@ export const userSuccess = (content) => {
 
 export const userFailure = (error) => {
   return { type: USER_REQ_FAILURE, payload: error };
+};
+
+export const userClear = () => {
+  return { type: USER_CLEAR };
 };
