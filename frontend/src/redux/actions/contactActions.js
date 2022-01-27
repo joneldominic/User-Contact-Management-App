@@ -25,13 +25,20 @@ export const getContacts = (userId, selectedContactId) => {
       })
       .catch((err) => {
         console.log(err);
-        if (err && err.response) {
-          const errorMessages = err.response.data.apierror.subErrors.map(
-            (_error) =>
-              `field: ${_error.field}  |  message: ${_error.message}\n\n`
-          );
-          dispatch(contactReqFailure(errorMessages));
-          alert(errorMessages);
+        if (err && err.response && err.response.data) {
+          switch (err.response.status) {
+            case 401:
+              console.log("Invalid Token!");
+              alert("Invalid Token!");
+              localStorage.clear();
+              dispatch(contactReqFailure("Invalid Token!"));
+              break;
+            default:
+              dispatch(
+                contactReqFailure("Something Went Wrong! Please Try Again")
+              );
+              alert("Something Went Wrong! Please Try Again");
+          }
         } else {
           alert("Something Went Wrong! Please Try Again");
           alert(err);
@@ -43,7 +50,7 @@ export const getContacts = (userId, selectedContactId) => {
   };
 };
 
-export const deleteContact = (contactId) => {
+export const deleteContact = (contactId, callBack) => {
   return (dispatch, getState) => {
     dispatch(contactSendRequest());
 
@@ -54,23 +61,27 @@ export const deleteContact = (contactId) => {
       .then((_) => {
         dispatch(contactDeselect());
         dispatch(getContacts(userId));
+        callBack && callBack();
       })
       .catch((err) => {
-        console.log(err);
         if (err && err.response) {
-          if (err.response.status === 401) {
-            console.log(err);
-            alert("Something Went Wrong! Please Try Again");
+          switch (err.response.status) {
+            case 401:
+              console.log("Invalid Token!");
+              alert("Invalid Token!");
+              localStorage.clear();
+              dispatch(contactReqFailure("Invalid Token!"));
+              break;
+            default:
+              dispatch(
+                contactReqFailure("Something Went Wrong! Please Try Again")
+              );
+              alert("Something Went Wrong! Please Try Again");
           }
-          const errorMessages = err.response.data.apierror.subErrors.map(
-            (_error) =>
-              `field: ${_error.field}  |  message: ${_error.message}\n\n`
-          );
-          dispatch(contactReqFailure(errorMessages));
-          alert(errorMessages);
         } else {
           alert("Something Went Wrong! Please Try Again");
           alert(err);
+          dispatch(contactReqFailure("Something Went Wrong! Please Try Again"));
         }
       });
   };
@@ -111,11 +122,22 @@ export const updateContact = (updatedContact) => {
               );
               dispatch(contactReqFailure(errorMessages));
               break;
+            case 401:
+              console.log("Invalid Token!");
+              alert("Invalid Token!");
+              localStorage.clear();
+              dispatch(contactReqFailure("Invalid Token!"));
+              break;
             default:
-              alert("Something Wrong! Please Try Again");
+              dispatch(
+                contactReqFailure("Something Went Wrong! Please Try Again")
+              );
+              alert("Something Went Wrong! Please Try Again");
           }
         } else {
-          alert("Something Wrong! Please Try Again");
+          alert("Something Went Wrong! Please Try Again");
+          alert(err);
+          dispatch(contactReqFailure("Something Went Wrong! Please Try Again"));
         }
       });
   };
@@ -159,11 +181,22 @@ export const addNewContact = (newContact, callBack) => {
               );
               dispatch(contactReqFailure(errorMessages));
               break;
+            case 401:
+              console.log("Invalid Token!");
+              alert("Invalid Token!");
+              localStorage.clear();
+              dispatch(contactReqFailure("Invalid Token!"));
+              break;
             default:
-              alert("Something Wrong! Please Try Again");
+              dispatch(
+                contactReqFailure("Something Went Wrong! Please Try Again")
+              );
+              alert("Something Went Wrong! Please Try Again");
           }
         } else {
-          alert("Something Wrong! Please Try Again");
+          alert("Something Went Wrong! Please Try Again");
+          alert(err);
+          dispatch(contactReqFailure("Something Went Wrong! Please Try Again"));
         }
       });
   };

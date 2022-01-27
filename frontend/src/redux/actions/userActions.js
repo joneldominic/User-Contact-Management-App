@@ -42,8 +42,15 @@ export const addNewUser = (userInfo, callback) => {
               console.log("Username Conflict");
               dispatch(userFailure(["Username Already Exists!"]));
               break;
+            case 401:
+              console.log("Invalid Token!");
+              alert("Invalid Token!");
+              localStorage.clear();
+              dispatch(userFailure("Invalid Token!"));
+              break;
             default:
               dispatch(userFailure("Something Went Wrong! Please Try Again"));
+              alert("Something Went Wrong! Please Try Again");
           }
         } else {
           alert("Something Went Wrong! Please Try Again");

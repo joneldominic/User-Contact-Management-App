@@ -33,6 +33,7 @@ export const authenticate = (credentials) => {
               break;
             default:
               dispatch(authFailure("Something Went Wrong! Please Try Again"));
+              alert("Something Went Wrong! Please Try Again");
           }
         } else {
           alert("Something Went Wrong! Please Try Again");
@@ -61,6 +62,7 @@ export const validateToken = () => {
               break;
             default:
               dispatch(authFailure("Something Went Wrong! Please Try Again"));
+              alert("Something Went Wrong! Please Try Again");
           }
         } else {
           alert("Something Went Wrong! Please Try Again");
