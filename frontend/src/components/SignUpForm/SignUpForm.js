@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import classNames from "classnames";
@@ -11,22 +11,69 @@ import styles from "./SignUpForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 import { addNewUser, userClear } from "../../redux/actions/userActions";
 
+const formControlReducer = (prevState, action) => {
+  switch (action.type) {
+    case "username":
+      return {
+        ...prevState,
+        username: {
+          value: action.value,
+          isValid: action.value.trim().length > 5,
+        },
+      };
+    case "name":
+      return {
+        ...prevState,
+        name: {
+          value: action.value,
+          isValid: action.value.trim().length >= 2,
+        },
+      };
+    case "password":
+      return {
+        ...prevState,
+        password: {
+          value: action.value,
+          isValid: action.value.trim().length > 7,
+        },
+      };
+    case "passwordConfirmation":
+      return {
+        ...prevState,
+        passwordConfirmation: {
+          value: action.value,
+          isValid: action.value === prevState.password.value,
+        },
+      };
+    default:
+      alert("Something Wrong! Please Try Again");
+      return {
+        username: { value: "", isValid: null },
+        name: { value: "", isValid: null },
+        password: { value: "", isValid: null },
+        passwordConfirmation: { value: "", isValid: null },
+      };
+  }
+};
+
 const SignUpForm = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(true);
-  const [enteredUsername, setEnteredUsername] = useState("");
-  const [usernameIsValid, setUsernameIsValid] = useState(true);
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState(true);
-  const [enteredPassConfirmation, setEnteredPassConfirmation] = useState("");
-  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
   const [showError, setShowError] = useState(false);
 
   const { isLoggedIn, isLoading, hasError, errorMessages, addNewUser } = props;
+
+  const [formControlState, dispatchFormcontrol] = useReducer(
+    formControlReducer,
+    {
+      username: { value: "", isValid: null },
+      name: { value: "", isValid: null },
+      password: { value: "", isValid: null },
+      passwordConfirmation: { value: "", isValid: null },
+    }
+  );
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -40,33 +87,23 @@ const SignUpForm = (props) => {
 
   useEffect(() => {
     const identifier = setTimeout(() => {
-      setUsernameIsValid(
-        enteredUsername.trim().length === 0 || enteredUsername.trim().length > 5
-      );
-      setEnteredNameIsValid(
-        enteredName.trim().length === 0 || enteredName.trim().length >= 2
-      );
-      setPasswordIsValid(
-        enteredPassword.trim().length === 0 || enteredPassword.trim().length > 7
-      );
-
-      setIsPasswordMatch(
-        enteredPassConfirmation.trim().length === 0 ||
-          enteredPassword === enteredPassConfirmation
-      );
-
       setFormIsValid(
-        enteredUsername.trim().length > 5 &&
-          enteredName.trim().length > 2 &&
-          enteredPassword.trim().length > 7 &&
-          enteredPassword === enteredPassConfirmation
+        formControlState.username.isValid &&
+          formControlState.name.isValid &&
+          formControlState.password.isValid &&
+          formControlState.passwordConfirmation.isValid
       );
     }, 200);
 
     return () => {
       clearTimeout(identifier);
     };
-  }, [enteredUsername, enteredName, enteredPassword, enteredPassConfirmation]);
+  }, [
+    formControlState.username.isValid,
+    formControlState.name.isValid,
+    formControlState.password.isValid,
+    formControlState.passwordConfirmation.isValid,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -74,19 +111,10 @@ const SignUpForm = (props) => {
     };
   }, [dispatch]);
 
-  const nameChangeHandler = (event) => {
-    setEnteredName(event.target.value);
-  };
-  const usernameChangeHandler = (event) => {
-    setEnteredUsername(event.target.value);
-  };
-
-  const passwordChangeHandler = (event) => {
-    setEnteredPassword(event.target.value);
-  };
-
-  const passConfirmationChangeHandler = (event) => {
-    setEnteredPassConfirmation(event.target.value);
+  const inputChangeHandle = (event) => {
+    const type = event.target.id;
+    const value = event.target.value;
+    dispatchFormcontrol({ type, value });
   };
 
   const submitFormHandler = (event) => {
@@ -94,9 +122,9 @@ const SignUpForm = (props) => {
 
     if (formIsValid) {
       const userInfo = {
-        name: enteredName,
-        username: enteredUsername,
-        password: enteredPassword,
+        name: formControlState.name.value,
+        username: formControlState.username.value,
+        password: formControlState.password.value,
       };
 
       addNewUser(userInfo, () => {
@@ -151,38 +179,38 @@ const SignUpForm = (props) => {
                   id="username"
                   type="text"
                   label="Username"
-                  isInvalid={!usernameIsValid}
+                  isInvalid={!formControlState.username.isValid}
                   invalidFeedback="Username must be atleast 6 characters long"
-                  defaultValue={enteredUsername}
-                  onChange={usernameChangeHandler}
+                  defaultValue={formControlState.username.value}
+                  onChange={inputChangeHandle}
                 />
                 <FormInput
                   id="name"
                   type="text"
                   label="Full Name"
-                  isInvalid={!enteredNameIsValid}
+                  isInvalid={!formControlState.name.isValid}
                   invalidFeedback="Full Name should have atleast 2 characters"
-                  defaultValue={enteredName}
-                  onChange={nameChangeHandler}
+                  defaultValue={formControlState.name.value}
+                  onChange={inputChangeHandle}
                 />
                 <FormInput
                   id="password"
                   type="password"
                   label="Password"
-                  isInvalid={!passwordIsValid}
+                  isInvalid={!formControlState.password.isValid}
                   invalidFeedback="Password must be [8-20] characters long"
-                  defaultValue={enteredPassword}
-                  onChange={passwordChangeHandler}
+                  defaultValue={formControlState.password.value}
+                  onChange={inputChangeHandle}
                 />
 
                 <FormInput
                   id="passwordConfirmation"
                   type="password"
                   label="Confirm Password"
-                  isInvalid={!isPasswordMatch}
+                  isInvalid={!formControlState.passwordConfirmation.isValid}
                   invalidFeedback="Password does not match"
-                  defaultValue={enteredPassConfirmation}
-                  onChange={passConfirmationChangeHandler}
+                  defaultValue={formControlState.passwordConfirmation.value}
+                  onChange={inputChangeHandle}
                 />
                 <button
                   type="submit"
