@@ -6,12 +6,12 @@ import globalStyles from "../../../assets/global-styles/bootstrap.min.module.css
 const Toast = (props) => {
   let errorMessage = "";
   if (Array.isArray(props.message)) {
-    errorMessage = props.message.map((_err) => {
+    errorMessage = props.message.map((_err, _idx) => {
       return (
-        <>
+        <div key={_idx}>
           {_err}
           <br />
-        </>
+        </div>
       );
     });
   } else {
