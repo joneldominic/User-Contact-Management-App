@@ -39,7 +39,6 @@ const auth = (state = initialState, action) => {
       };
     case AUTH_CLEAR:
       return { ...initialState };
-
     default:
       return state;
   }

@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import { useEffect, useContext } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import classNames from "classnames";
 
-import AuthContext from "../../context/auth-context";
-import { addNewUserService } from "../../service/auth-service";
+import { connect } from "react-redux";
 import Toast from "../common/Toast/Toast";
 import FormInput from "../common/FormInput/FormInput";
 
 import styles from "./SignUpForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
+import { addNewUser } from "../../redux/actions/userActions";
 
-const SignUpForm = () => {
-  const authCtx = useContext(AuthContext);
+const SignUpForm = (props) => {
   const history = useHistory();
 
   const [enteredName, setEnteredName] = useState("");
@@ -24,15 +23,19 @@ const SignUpForm = () => {
   const [enteredPassConfirmation, setEnteredPassConfirmation] = useState("");
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorList, setErrorList] = useState([]);
+  const [showError, setShowError] = useState(false);
+
+  const { isLoggedIn, isLoading, hasError, errorMessages, addNewUser } = props;
 
   useEffect(() => {
-    console.log("Sign Up (AuthContext IsLoggedIn): " + authCtx.isLoggedIn);
-    if (authCtx.isLoggedIn) {
+    if (isLoggedIn) {
       history.replace("/contacts");
     }
-  }, [authCtx, history]);
+  }, [isLoggedIn, history]);
+
+  useEffect(() => {
+    setShowError(hasError);
+  }, [hasError]);
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -83,56 +86,20 @@ const SignUpForm = () => {
     event.preventDefault();
 
     if (formIsValid) {
-      setIsLoading(true);
-
       const userInfo = {
         name: enteredName,
         username: enteredUsername,
         password: enteredPassword,
       };
 
-      console.log(userInfo);
-
-      addNewUserService(userInfo)
-        .then((response) => {
-          if (response.status === 201) {
-            console.log("Signup Successful");
-            history.replace("/sign-in");
-          } else {
-            alert("Something Wrong! Please Try Again");
-            setIsLoading(false);
-          }
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          if (err && err.response) {
-            switch (err.response.status) {
-              case 400:
-                console.log("Invalid User Details");
-                console.log(err.response);
-                setErrorList(
-                  err.response.data.apierror.subErrors.map(
-                    (_error) => `${_error.field} ${_error.message}`
-                  )
-                );
-                break;
-              case 409:
-                console.log("Username Conflict");
-                console.log(err.response);
-                setErrorList(["Username Already Exists!"]);
-                break;
-              default:
-                alert("Something Wrong! Please Try Again");
-            }
-          } else {
-            alert("Something Wrong! Please Try Again");
-          }
-        });
+      addNewUser(userInfo, () => {
+        history.replace("/sign-in");
+      });
     }
   };
 
   const toastCloseHandler = () => {
-    setErrorList([]);
+    setShowError(false);
   };
 
   return (
@@ -165,19 +132,13 @@ const SignUpForm = () => {
               >
                 Create Account
               </h4>
-
-              {errorList.length !== 0 &&
-                errorList.map((_err, idx) => {
-                  return (
-                    <Toast
-                      key={idx}
-                      onClose={toastCloseHandler}
-                      className={globalStyles["text-danger"]}
-                      message={_err}
-                    />
-                  );
-                })}
-
+              {showError && (
+                <Toast
+                  onClose={toastCloseHandler}
+                  className={globalStyles["text-danger"]}
+                  message={errorMessages}
+                />
+              )}
               <form onSubmit={submitFormHandler}>
                 <FormInput
                   id="username"
@@ -250,4 +211,21 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+const mapStateToProps = (state) => {
+  const { auth, user } = state;
+  return {
+    isLoggedIn: auth.isLoggedIn,
+    isLoading: user.isLoading,
+    hasError: user.error.hasError,
+    errorMessages: user.error.errorMessages,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewUser: (userInfo, callback) =>
+      dispatch(addNewUser(userInfo, callback)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
