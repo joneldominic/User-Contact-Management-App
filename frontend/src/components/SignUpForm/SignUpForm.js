@@ -36,6 +36,10 @@ const formControlReducer = (prevState, action) => {
           value: action.value,
           isValid: action.value.trim().length > 7,
         },
+        passwordConfirmation: {
+          ...prevState.passwordConfirmation,
+          isValid: prevState.passwordConfirmation.value === action.value,
+        },
       };
     case "passwordConfirmation":
       return {
