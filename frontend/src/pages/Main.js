@@ -1,30 +1,25 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import Header from "../components/Header/Header";
 import RightSection from "../components/RightSection/RightSection";
 import LeftSection from "../components/LeftSection/LeftSection";
 
-import AuthContext from "../context/auth-context";
-import { ContactContextProvider } from "../context/contact-context";
-
 import globalStyles from "../assets/global-styles/bootstrap.min.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getContacts } from "../redux/actions/contactActions";
 
 const Main = () => {
-  const authCtx = useContext(AuthContext);
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    console.log("Main (AuthContext IsLoggedIn): " + authCtx.isLoggedIn);
-    if (!authCtx.isLoggedIn) {
-      history.replace("/sign-in");
-    }
-  }, [authCtx, history]);
+    dispatch(getContacts(user.id));
+  }, [dispatch, user]);
 
   return (
-    <ContactContextProvider>
-      <Header />
+    <>
+      <Header user={user} />
       <div className={globalStyles.container}>
         <div className={globalStyles.row}>
           <div className={globalStyles["col-lg-6"]}>
@@ -35,7 +30,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-    </ContactContextProvider>
+      </>
   );
 };
 

@@ -6,7 +6,7 @@ const getToken = () => {
   return localStorage.getItem("TOKEN");
 };
 
-export const getContacts = (userId) => {
+export const getContactsService = (userId) => {
   return axios({
     method: "GET",
     url: `${API_URL}/api/users/${userId}/contacts`,
@@ -16,7 +16,7 @@ export const getContacts = (userId) => {
   });
 };
 
-export const addNewContact = (userId, requestBody) => {
+export const addNewContactService = (userId, requestBody) => {
   return axios({
     method: "POST",
     url: `${API_URL}/api/users/${userId}/contacts`,
@@ -27,7 +27,7 @@ export const addNewContact = (userId, requestBody) => {
   });
 };
 
-export const deleteContact = (userId, contactId) => {
+export const deleteContactService = (userId, contactId) => {
   return axios({
     method: "DELETE",
     url: `${API_URL}/api/users/${userId}/contacts/${contactId}`,
@@ -37,7 +37,7 @@ export const deleteContact = (userId, contactId) => {
   });
 };
 
-export const updateContact = (userId, contactInfo) => {
+export const updateContactService = (userId, contactInfo) => {
   return axios({
     method: "PUT",
     url: `${API_URL}/api/users/${userId}/contacts/${contactInfo.id}`,
@@ -47,4 +47,3 @@ export const updateContact = (userId, contactInfo) => {
     },
   });
 };
-

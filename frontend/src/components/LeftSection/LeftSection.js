@@ -1,25 +1,24 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import SearchBar from "./SearchBar/SearchBar";
 import ContactList from "./ContactList/ContactList";
-import ContactContext from "../../context/contact-context";
 
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 
 const LeftSection = (props) => {
-  const contactCtx = useContext(ContactContext);
-  const [filteredContactList, setContactList] = useState([]);
+  const contactList = useSelector((state) => state.contact.contacts);
+  const [filteredContactList, setFilteredContactList] = useState([]);
 
   useEffect(() => {
-    console.log("Loaded Contact List");
-    setContactList(contactCtx.contactList);
-  }, [contactCtx]);
+    setFilteredContactList(contactList);
+  }, [contactList]);
 
   const onSearchHandler = (event) => {
-    setContactList(
-      contactCtx.contactList.filter((_contact) => {
+    setFilteredContactList(
+      contactList.filter((_contact) => {
         return `${_contact.firstname} ${_contact.middlename} ${_contact.lastname}`
           .toLowerCase()
           .includes(event.target.value.toLowerCase());
@@ -28,7 +27,7 @@ const LeftSection = (props) => {
   };
 
   const onClearFilterHandler = (_) => {
-    setContactList(contactCtx.contactList);
+    setFilteredContactList(contactList);
   };
 
   return (

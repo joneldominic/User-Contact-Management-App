@@ -1,27 +1,23 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
+
+import { useParams, useHistory } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import Card from "../../../common/Card/Card";
-
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-
-import ContactContext from "../../../../context/contact-context";
-
 import styles from "./ContactDetailEdit.module.css";
 import NoContactSelected from "../NoContactSelected/NoContactSelected";
 import EditActions from "./EditActions";
 import { FormInputLine, TextArea } from "../../../common/FormInput/FormInput";
-import AuthContext from "../../../../context/auth-context";
-import { useHistory } from "react-router-dom";
-import { updateContact } from "../../../../service/contact-service";
 import Toast from "../../../common/Toast/Toast";
-import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
 import Modal from "../../../common/Modal/Modal";
+import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
+import { updateContact } from "../../../../redux/actions/contactActions";
 
 const ContactDetailEdit = () => {
-  const contactCtx = useContext(ContactContext);
-  const authCtx = useContext(AuthContext);
   const history = useHistory();
   const params = useParams();
+  const dispatch = useDispatch();
 
   const [firstname, setFirstname] = useState("");
   const [firstnameIsValid, setFirstnameIsValid] = useState(true);
@@ -39,14 +35,15 @@ const ContactDetailEdit = () => {
   const [billingAddress, setBillingAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [formIsValid, setFormIsValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [hasUpdate, setHasUpdate] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [errorList, setErrorList] = useState([]);
-
-  const contact = contactCtx.contactList.find(
-    (_contact) => +_contact.id === +params.contactId
+  const [showError, setShowError] = useState(false);
+  const contact = useSelector((state) => state.contact.selectedContact);
+  const isLoading = useSelector((state) => state.contact.isLoading);
+  const { hasError, errorMessages } = useSelector(
+    (state) => state.contact.error
   );
+  const dataHasUpdate = useSelector((state) => state.contact.hasUpdate);
 
   useEffect(() => {
     if (typeof contact == "undefined") {
@@ -75,7 +72,7 @@ const ContactDetailEdit = () => {
       setTitleIsValid(title.trim().length === 0 || title.trim().length >= 2);
       setEmailIsValid(email.trim().length === 0 || email.includes("@"));
       setPhoneNumberIsValid(
-        phoneNumber.trim().length === 0 || phoneNumber.trim().length >= 10
+        phoneNumber.trim().length === 0 || phoneNumber.trim().length === 11
       );
       setDeliveryAddressIsValid(
         deliveryAddress.trim().length === 0 ||
@@ -104,7 +101,7 @@ const ContactDetailEdit = () => {
           lastname.trim().length >= 2 &&
           title.trim().length >= 2 &&
           email.includes("@") &&
-          phoneNumber.trim().length >= 10 &&
+          phoneNumber.trim().length === 11 &&
           deliveryAddress.trim().length >= 2
       );
     }, 200);
@@ -124,6 +121,16 @@ const ContactDetailEdit = () => {
     notes,
     contact,
   ]);
+
+  useEffect(() => {
+    setShowError(hasError);
+  }, [hasError]);
+
+  useEffect(() => {
+    if (dataHasUpdate) {
+      history.replace(`/contacts/${params.contactId}`);
+    }
+  }, [dataHasUpdate, history, params]);
 
   const firstnameChangeHandler = (event) => {
     setFirstname(event.target.value);
@@ -155,8 +162,6 @@ const ContactDetailEdit = () => {
 
   const onSaveButtonClickHandler = () => {
     if (formIsValid && hasUpdate) {
-      setIsLoading(true);
-
       const updatedContact = {
         id: contact.id,
         firstname: firstname,
@@ -166,47 +171,17 @@ const ContactDetailEdit = () => {
         email: email,
         title: title,
         address1: deliveryAddress,
-        address2: billingAddress,
+        address2:
+          billingAddress.length === 0 ? deliveryAddress : billingAddress,
         notes: notes,
       };
 
-      updateContact(authCtx.authUser.id, updatedContact)
-        .then((response) => {
-          if (response.status === 201) {
-            contactCtx.updateContact();
-            console.log("From Contact Context On Update");
-            history.replace("/contacts");
-          } else {
-            alert("Something Wrong! Please Try Again");
-            setIsLoading(false);
-          }
-        })
-        .catch((err) => {
-          console.log(err.response);
-          setIsLoading(false);
-          if (err && err.response) {
-            switch (err.response.status) {
-              case 400:
-                console.log("Invalid Contact Details");
-                console.log(err.response);
-                setErrorList(
-                  err.response.data.apierror.subErrors.map(
-                    (_error) => `${_error.field} ${_error.message}`
-                  )
-                );
-                break;
-              default:
-                alert("Something Wrong! Please Try Again");
-            }
-          } else {
-            alert("Something Wrong! Please Try Again");
-          }
-        });
+      dispatch(updateContact(updatedContact));
     }
   };
 
   const toastCloseHandler = () => {
-    setErrorList([]);
+    setShowError(false);
   };
 
   const onCancelButtonClickHandler = () => {
@@ -249,17 +224,13 @@ const ContactDetailEdit = () => {
           <div className={styles.editLabelContainer}>
             <h3>Edit Contact</h3>
             <hr />
-            {errorList.length !== 0 &&
-              errorList.map((_err, idx) => {
-                return (
-                  <Toast
-                    key={idx}
-                    onClose={toastCloseHandler}
-                    className={globalStyles["text-danger"]}
-                    message={_err}
-                  />
-                );
-              })}
+            {showError && (
+              <Toast
+                onClose={toastCloseHandler}
+                className={globalStyles["text-danger"]}
+                message={errorMessages}
+              />
+            )}
           </div>
           <form>
             <FormInputLine
@@ -307,7 +278,7 @@ const ContactDetailEdit = () => {
             />
             <FormInputLine
               id="phone"
-              type="text"
+              type="number"
               label="PHONE"
               placeholder="09XXXXXXXXX"
               isInvalid={!phoneNumberIsValid}

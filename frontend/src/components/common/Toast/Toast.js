@@ -4,6 +4,20 @@ import classNames from "classnames";
 import globalStyles from "../../../assets/global-styles/bootstrap.min.module.css";
 
 const Toast = (props) => {
+  let errorMessage = "";
+  if (Array.isArray(props.message)) {
+    errorMessage = props.message.map((_err) => {
+      return (
+        <>
+          {_err}
+          <br />
+        </>
+      );
+    });
+  } else {
+    errorMessage = <>{props.message}</>;
+  }
+
   return (
     <div
       className={classNames(
@@ -18,7 +32,7 @@ const Toast = (props) => {
         <div
           className={classNames(globalStyles["toast-body"], props.className)}
         >
-          {props.message}
+          {errorMessage}
         </div>
         <button
           type="button"

@@ -1,28 +1,30 @@
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 
+import { useHistory } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
-import AuthContext from "../../context/auth-context";
+import { useDispatch } from "react-redux";
+import classNames from "classnames";
 
 import styles from "./Header.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
-import classNames from "classnames";
+import { logout } from "../../redux/actions/authActions";
 
-const Header = () => {
-  const authCtx = useContext(AuthContext);
+const InitialsAvatar = (props) => {
+  return (
+    <h3 className={classNames(globalStyles["text-white"], styles.avatar)}>
+      {props.name && props.name[0].toUpperCase()}
+    </h3>
+  );
+};
+
+const Header = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { user } = props;
 
   const onLogoutHandler = () => {
-    authCtx.onLogout();
+    dispatch(logout());
     history.replace("/sign-in");
-  };
-
-  const InitialsAvatar = (props) => {
-    return (
-      <h3 className={classNames(globalStyles["text-white"], styles.avatar)}>
-        {props.name && props.name[0].toUpperCase()}
-      </h3>
-    );
   };
 
   return (
@@ -37,9 +39,9 @@ const Header = () => {
         <span className={globalStyles["navbar-brand"]}>My Contacts</span>
         <ul className={globalStyles["navbar-nav"]}>
           <li className={classNames(globalStyles["nav-item"], styles.user)}>
-            <InitialsAvatar name={authCtx.authUser.name} />
+            <InitialsAvatar name={user.name} />
             <h3 className={classNames(globalStyles["text-white"], styles.name)}>
-              {authCtx.authUser.name}
+              {user.name}
             </h3>
             <FaSignOutAlt
               className={styles.signout}
