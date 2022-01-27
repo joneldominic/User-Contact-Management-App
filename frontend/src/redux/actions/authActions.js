@@ -1,7 +1,5 @@
-import {
-  fetchUserDataService,
-  userLoginService,
-} from "../../service/auth-service";
+import { userLoginService } from "../../service/auth-service";
+import { fetchUserDataService } from "../../service/user-service";
 import {
   AUTH_REQ_IN_PROGRESS,
   AUTH_REQ_SUCCESS,
