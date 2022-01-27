@@ -12,25 +12,18 @@ import Toast from "../common/Toast/Toast";
 import { authenticate } from "../../redux/actions/authActions";
 
 const formControlReducer = (prevState, action) => {
-  console.log(action);
   switch (action.type) {
     case "username":
       return {
+        ...prevState,
         username: {
           value: action.value,
           isValid: action.value.trim().length > 5,
         },
-        password: {
-          value: prevState.password.value,
-          isValid: prevState.password.isValid,
-        },
       };
     case "password":
       return {
-        username: {
-          value: prevState.username.value,
-          isValid: prevState.username.isValid,
-        },
+        ...prevState,
         password: {
           value: action.value,
           isValid: action.value.trim().length > 7,
@@ -38,9 +31,11 @@ const formControlReducer = (prevState, action) => {
       };
     default:
       alert("Something Wrong! Please Try Again");
-      break;
+      return {
+        username: { value: "", isValid: null },
+        password: { value: "", isValid: null },
+      };
   }
-  return {};
 };
 
 const SignInForm = (props) => {
