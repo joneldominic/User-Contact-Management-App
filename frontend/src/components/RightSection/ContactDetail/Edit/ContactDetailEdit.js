@@ -80,7 +80,6 @@ const ContactDetailEdit = () => {
       );
 
       const _contact = contact;
-      console.log("Check Update");
       if (
         _contact.firstname !== firstname ||
         _contact.middlename !== middlename ||
