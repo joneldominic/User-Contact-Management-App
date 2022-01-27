@@ -18,7 +18,11 @@ const ContactList = (props) => {
   const isLoading = useSelector((state) => state.contact.isLoading);
 
   if (isLoading) {
-    return <NoContactFound message="Loading..." />;
+    return (
+      <Card className={styles.container}>
+        <NoContactFound message="Loading..." />
+      </Card>
+    );
   }
   return (
     <Card className={styles.container}>
