@@ -142,10 +142,9 @@ const NewContact = () => {
         notes: notes,
       };
 
-      console.log(newContact);
       dispatch(
-        addNewContact(newContact, () => {
-          history.replace(`/contacts/`);
+        addNewContact(newContact, (id) => {
+          history.replace(`/contacts/${id}`);
         })
       );
     }
@@ -203,7 +202,6 @@ const NewContact = () => {
           <div className={styles.editLabelContainer}>
             <h3>New Contact</h3>
             <hr />
-            {console.log(showError)}
             {showError && (
               <Toast
                 onClose={toastCloseHandler}

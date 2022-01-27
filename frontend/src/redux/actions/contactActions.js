@@ -12,13 +12,16 @@ import {
   CONTACT_DESELECT,
 } from "./types";
 
-export const getContacts = (userId) => {
+export const getContacts = (userId, selectedContactId) => {
   return (dispatch) => {
     dispatch(contactSendRequest());
 
     getContactsService(userId)
       .then((response) => {
         dispatch(contactReqSuccess(response.data));
+        if (selectedContactId !== undefined) {
+          dispatch(selectContact(selectedContactId));
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -128,9 +131,10 @@ export const addNewContact = (newContact, callBack) => {
     addNewContactService(userId, newContact)
       .then((response) => {
         if (response.status === 201) {
+          const { id: newContactId } = response.data;
           dispatch(contactDeselect());
-          dispatch(getContacts(userId));
-          callBack && callBack();
+          dispatch(getContacts(userId, newContactId));
+          callBack && callBack(response.data.id);
         } else {
           alert("Something Wrong! Please Try Again");
         }

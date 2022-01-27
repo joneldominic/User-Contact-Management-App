@@ -126,7 +126,7 @@ const ContactDetailDisplay = () => {
 
   useEffect(() => {
     dispatch(selectContact(params.contactId));
-  }, [dispatch, params]);
+  }, [dispatch, params, contact]);
 
   if (typeof contact === "undefined") {
     return <NoContactSelected message="Contact Not Found!" />;
