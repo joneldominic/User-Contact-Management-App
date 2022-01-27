@@ -122,14 +122,19 @@ const ContactDetailDisplay = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const contact = useSelector((state) => state.contact.selectedContact);
+  const isLoading = useSelector((state) => state.contact.isLoading);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     dispatch(selectContact(params.contactId));
-  }, [dispatch, params, contact]);
+  }, [dispatch, params]);
 
-  if (typeof contact === "undefined") {
-    return <NoContactSelected message="Contact Not Found!" />;
+  if (typeof contact === "undefined" || isLoading) {
+    return (
+      <NoContactSelected
+        message={isLoading ? "Loading... " : "Contact Not Found!"}
+      />
+    );
   }
 
   const onModalCancelHandler = () => {
@@ -137,8 +142,11 @@ const ContactDetailDisplay = () => {
   };
 
   const onModalDiscardHandler = () => {
-    dispatch(deleteContact(params.contactId));
-    history.replace("/contacts");
+    dispatch(
+      deleteContact(params.contactId, () => {
+        history.replace("/contacts");
+      })
+    );
   };
 
   const onDeleteHandler = () => {
