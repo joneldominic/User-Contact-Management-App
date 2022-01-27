@@ -42,6 +42,8 @@ export const getContacts = (userId) => {
 
 export const deleteContact = (contactId) => {
   return (dispatch, getState) => {
+    dispatch(contactSendRequest());
+
     const { auth } = getState();
     const userId = auth.user.id;
 
@@ -73,6 +75,8 @@ export const deleteContact = (contactId) => {
 
 export const updateContact = (updatedContact) => {
   return (dispatch, getState) => {
+    dispatch(contactSendRequest());
+
     const { auth } = getState();
     const userId = auth.user.id;
 
@@ -116,6 +120,8 @@ export const updateContact = (updatedContact) => {
 
 export const addNewContact = (newContact, callBack) => {
   return (dispatch, getState) => {
+    dispatch(contactSendRequest());
+
     const { auth } = getState();
     const userId = auth.user.id;
 

@@ -53,7 +53,7 @@ const NewContact = () => {
       setTitleIsValid(title.trim().length === 0 || title.trim().length >= 2);
       setEmailIsValid(email.trim().length === 0 || email.includes("@"));
       setPhoneNumberIsValid(
-        phoneNumber.trim().length === 0 || phoneNumber.trim().length >= 10
+        phoneNumber.trim().length === 0 || phoneNumber.trim().length === 11
       );
       setDeliveryAddressIsValid(
         deliveryAddress.trim().length === 0 ||

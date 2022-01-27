@@ -72,7 +72,7 @@ const ContactDetailEdit = () => {
       setTitleIsValid(title.trim().length === 0 || title.trim().length >= 2);
       setEmailIsValid(email.trim().length === 0 || email.includes("@"));
       setPhoneNumberIsValid(
-        phoneNumber.trim().length === 0 || phoneNumber.trim().length >= 10
+        phoneNumber.trim().length === 0 || phoneNumber.trim().length === 11
       );
       setDeliveryAddressIsValid(
         deliveryAddress.trim().length === 0 ||
@@ -102,7 +102,7 @@ const ContactDetailEdit = () => {
           lastname.trim().length >= 2 &&
           title.trim().length >= 2 &&
           email.includes("@") &&
-          phoneNumber.trim().length === 11 && 
+          phoneNumber.trim().length === 11 &&
           deliveryAddress.trim().length >= 2
       );
     }, 200);
@@ -172,7 +172,8 @@ const ContactDetailEdit = () => {
         email: email,
         title: title,
         address1: deliveryAddress,
-        address2: billingAddress,
+        address2:
+          billingAddress.length === 0 ? deliveryAddress : billingAddress,
         notes: notes,
       };
 
