@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,7 +65,7 @@ public class ContactController {
 	}
 
 	@PostMapping("/users/{id}/contacts")
-	public ResponseEntity<Object> createContact(@PathVariable long id, @Valid @RequestBody Contact contact) {
+	public ResponseEntity<Contact> createContact(@PathVariable long id, @Valid @RequestBody Contact contact) {
 
 		Optional<User> user = userRepository.findById(id);
 
@@ -72,12 +73,12 @@ public class ContactController {
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		contact.setUser(user.get());
-		contactRepository.save(contact);
+		Contact savedContact = contactRepository.save(contact);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(contact.getId())
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedContact.getId())
 				.toUri();
 
-		return ResponseEntity.created(location).build();
+		return ResponseEntity.created(location).body(savedContact);
 	}
 
 	@PutMapping("/users/{id}/contacts/{contactId}")
@@ -100,7 +101,8 @@ public class ContactController {
 		_contact.setNumber(updatedContact.getNumber());
 		_contact.setEmail(updatedContact.getEmail());
 		_contact.setTitle(updatedContact.getTitle());
-		_contact.setAddress(updatedContact.getAddress());
+		_contact.setAddress1(updatedContact.getAddress1());
+		_contact.setAddress2(updatedContact.getAddress2());
 		_contact.setNotes(updatedContact.getNotes());
 
 		Contact savedContact = contactRepository.save(_contact);

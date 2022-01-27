@@ -18,27 +18,29 @@ public class Contact {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Size(min = 2, message = "Firstname should have atleast 2 chars")
 	private String firstname;
-	
-	@Size(min = 2, message = "Middlename should have atleast 2 chars")
+
 	private String middlename;
-	
+
 	@Size(min = 2, message = "Lastname should have atleast 2 chars")
 	private String lastname;
-	
-	@Length(min = 11, max=13, message = "Invalid Input")
+
+	@Length(min = 10, max = 13, message = "Invalid Input")
 	private String number;
-	
+
 	@Email(message = "Invalid Input")
 	private String email;
-	
+
 	@Size(min = 2, message = "Title should have atleast 2 chars")
 	private String title;
-	
-	@Size(min = 2, message = "Title should have atleast 2 chars")
-	private String address;
+
+	@Size(min = 2, message = "Address should have atleast 2 chars")
+	private String address1;
+
+	@Size(min = 2, message = "Address should have atleast 2 chars")
+	private String address2;
 
 	private String notes;
 
@@ -98,12 +100,20 @@ public class Contact {
 		this.title = title;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getAddress1() {
+		return address1;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address) {
+		this.address1 = address;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address) {
+		this.address2 = address;
 	}
 
 	public String getNotes() {
@@ -124,9 +134,9 @@ public class Contact {
 
 	@Override
 	public String toString() {
-		return String.format(
-				"Contact [id=%s, firstname=%s, middlename=%s, lastname=%s, number=%s, email=%s, title=%s, address=%s, notes=%s, user=%s]",
-				id, firstname, middlename, lastname, number, email, title, address, notes, user);
+		return "Contact [id=" + id + ", firstname=" + firstname + ", middlename=" + middlename + ", lastname="
+				+ lastname + ", number=" + number + ", email=" + email + ", title=" + title + ", address1=" + address1
+				+ ", address2=" + address2 + ", notes=" + notes + ", user=" + user + "]";
 	}
 
 }

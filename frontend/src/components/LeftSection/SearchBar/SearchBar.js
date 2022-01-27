@@ -1,18 +1,19 @@
 import React from "react";
 
-import { useRef } from "react";
-
+import { useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import styles from "./SearchBar.module.css";
 import { FaSearch } from "react-icons/fa";
 import { FaBackspace } from "react-icons/fa";
+
+import styles from "./SearchBar.module.css";
+import classNames from "classnames";
 
 const SearchBar = (props) => {
   const searchFieldRef = useRef();
   const location = useLocation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const { pathname } = location;
     if (pathname === "/contacts") {
       searchFieldRef.current.value = "";
@@ -20,7 +21,7 @@ const SearchBar = (props) => {
   }, [location]);
 
   return (
-    <form className={styles.searchForm}>
+    <form className={classNames(styles.searchForm, props.className)}>
       <FaSearch className={styles.searchIcon} />
       <input
         className={styles.searchInput}

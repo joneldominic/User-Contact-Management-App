@@ -55,7 +55,8 @@ public class DBInit implements CommandLineRunner {
 				_contact.setNumber("0900000000" + j);
 				_contact.setEmail("contact" + j + "@test.com");
 				_contact.setTitle("Contact for " + j);
-				_contact.setAddress("Street " + j);
+				_contact.setAddress1("Street " + j);
+				_contact.setAddress2("Street " + j);
 				_contact.setNotes("Notes" + j);
 				_contact.setUser(savedUser);
 

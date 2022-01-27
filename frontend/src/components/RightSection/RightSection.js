@@ -4,7 +4,6 @@ import ContactDetailDisplay from "./ContactDetail/Display/ContactDetailDisplay";
 import ContactDetailEdit from "./ContactDetail/Edit/ContactDetailEdit";
 import NewContact from "./ContactDetail/New/NewContact";
 
-// import styles from "./RightSection.module.css";
 import { Route, Switch, Redirect } from "react-router-dom";
 import NoContactSelected from "./ContactDetail/NoContactSelected/NoContactSelected";
 

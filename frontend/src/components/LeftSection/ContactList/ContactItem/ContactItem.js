@@ -3,11 +3,21 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import styles from "./ContactItem.module.css";
+import globalStyles from "../../../../assets/global-styles/bootstrap.min.module.css";
+import classNames from "classnames";
 
 const ContactItem = (props) => {
   const location = useLocation();
   const { pathname } = location;
   const splitLocation = pathname.split("/");
+
+  const InitialsAvatar = (props) => {
+    return (
+      <h3 className={classNames(globalStyles["text-white"], styles.avatar)}>
+        {props.name && props.name[0].toUpperCase()}
+      </h3>
+    );
+  };
 
   return (
     <Link to={`/contacts/${props.contact.id}`}>
@@ -16,11 +26,7 @@ const ContactItem = (props) => {
           +splitLocation[2] === props.contact.id ? styles.isActive : ""
         }`}
       >
-        <img
-          src={require("../../../../assets/images/img_avatar.png").default}
-          alt="Avatar"
-          className={styles.avatar}
-        />
+        <InitialsAvatar name={props.contact.firstname} />
         <div>
           <h3
             className={styles.contactName}

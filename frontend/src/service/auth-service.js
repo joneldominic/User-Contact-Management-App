@@ -1,36 +1,11 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080";
+const API_URL = process.env.REACT_APP_API_URL;
 
-const getToken = () => {
-  return localStorage.getItem("TOKEN");
-};
-
-export const userLogin = (requestBody) => {
+export const userLoginService = (requestBody) => {
   return axios({
     method: "POST",
     url: `${API_URL}/api/auth/login`,
     data: requestBody,
-  });
-};
-
-export const fetchUserData = () => {
-  return axios({
-    method: "GET",
-    url: `${API_URL}/api/auth/userinfo`,
-    headers: {
-      Authorization: "Bearer " + getToken(),
-    },
-  });
-};
-
-export const addNewUser = (requestBody) => {
-  return axios({
-    method: "POST",
-    url: `${API_URL}/api/users`,
-    data: requestBody,
-    headers: {
-      Authorization: "Bearer " + getToken(),
-    },
   });
 };
