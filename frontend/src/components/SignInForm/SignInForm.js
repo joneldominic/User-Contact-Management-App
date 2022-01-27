@@ -11,6 +11,11 @@ import FormInput from "../common/FormInput/FormInput";
 import Toast from "../common/Toast/Toast";
 import { authClearError, authenticate } from "../../redux/actions/authActions";
 
+const initialState = {
+  username: { value: "", isValid: null },
+  password: { value: "", isValid: null },
+};
+
 const formControlReducer = (prevState, action) => {
   switch (action.type) {
     case "username":
@@ -31,10 +36,7 @@ const formControlReducer = (prevState, action) => {
       };
     default:
       alert("Something Wrong! Please Try Again");
-      return {
-        username: { value: "", isValid: null },
-        password: { value: "", isValid: null },
-      };
+      return { ...initialState };
   }
 };
 
@@ -49,10 +51,7 @@ const SignInForm = (props) => {
 
   const [formControlState, dispatchFormcontrol] = useReducer(
     formControlReducer,
-    {
-      username: { value: "", isValid: null },
-      password: { value: "", isValid: null },
-    }
+    initialState
   );
 
   useEffect(() => {

@@ -11,6 +11,13 @@ import styles from "./SignUpForm.module.css";
 import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
 import { addNewUser, userClear } from "../../redux/actions/userActions";
 
+const initialState = {
+  username: { value: "", isValid: null },
+  name: { value: "", isValid: null },
+  password: { value: "", isValid: null },
+  passwordConfirmation: { value: "", isValid: null },
+};
+
 const formControlReducer = (prevState, action) => {
   switch (action.type) {
     case "username":
@@ -51,12 +58,7 @@ const formControlReducer = (prevState, action) => {
       };
     default:
       alert("Something Wrong! Please Try Again");
-      return {
-        username: { value: "", isValid: null },
-        name: { value: "", isValid: null },
-        password: { value: "", isValid: null },
-        passwordConfirmation: { value: "", isValid: null },
-      };
+      return { ...initialState };
   }
 };
 
@@ -71,12 +73,7 @@ const SignUpForm = (props) => {
 
   const [formControlState, dispatchFormcontrol] = useReducer(
     formControlReducer,
-    {
-      username: { value: "", isValid: null },
-      name: { value: "", isValid: null },
-      password: { value: "", isValid: null },
-      passwordConfirmation: { value: "", isValid: null },
-    }
+    initialState
   );
 
   useEffect(() => {
