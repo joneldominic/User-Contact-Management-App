@@ -76,7 +76,7 @@ const NewContact = () => {
           lastname.trim().length >= 2 &&
           title.trim().length >= 2 &&
           email.includes("@") &&
-          phoneNumber.trim().length >= 10 &&
+          phoneNumber.trim().length === 11 &&
           deliveryAddress.trim().length >= 2
       );
     }, 200);
@@ -259,7 +259,7 @@ const NewContact = () => {
             />
             <FormInputLine
               id="phone"
-              type="text"
+              type="number"
               label="PHONE"
               placeholder="09XXXXXXXXX"
               isInvalid={!phoneNumberIsValid}
