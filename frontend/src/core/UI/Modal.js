@@ -3,7 +3,11 @@ import ReactDOM from "react-dom";
 
 import styled from "styled-components";
 
-import { FaExclamationTriangle } from "react-icons/fa";
+import {
+  FaExclamationTriangle,
+  FaExclamationCircle,
+  FaRegCheckCircle,
+} from "react-icons/fa";
 
 import Button from "./Button";
 import Card from "./Card";
@@ -85,7 +89,11 @@ const ModalOverlay = (props) => {
     <ModalWrapper>
       <CardContent>
         <IconWrapper color={props.color}>
-          {props.icon || <FaExclamationTriangle />}
+          {props.color === "warning" && <FaExclamationTriangle />}
+          {props.color === "success" && <FaRegCheckCircle />}
+          {(props.color === "error" || props.color === "info") && (
+            <FaExclamationCircle />
+          )}
         </IconWrapper>
         <TitleWrapper>{props.title}</TitleWrapper>
         <MessageWrapper>{props.message}</MessageWrapper>
@@ -112,7 +120,6 @@ const Modal = (props) => {
       )}
       {ReactDOM.createPortal(
         <ModalOverlay
-          icon={props.icon}
           color={props.color}
           title={props.title}
           message={props.message}
@@ -126,7 +133,7 @@ const Modal = (props) => {
 };
 
 Modal.defaultProps = {
-  color: "warning",
+  color: "success",
   title: "Are you sure?",
   message:
     "Do you really want to perform this action? This process cannot be undone.",
