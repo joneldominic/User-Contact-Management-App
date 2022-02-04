@@ -20,7 +20,7 @@ const AvatarWrapper = styled.div`
 const Title = styled.span`
   margin: 0;
   display: block;
-  font-size: ${(props) => props.theme.size.base};
+  font-size: ${(props) => props.theme.size.xl};
 
   ${(props) => props.sx}
 `;
@@ -28,7 +28,7 @@ const Title = styled.span`
 const Subtitle = styled.span`
   margin: 5px 0 0 0;
   display: block;
-  font-size: ${(props) => props.theme.size.sm};
+  font-size: ${(props) => props.theme.size.base};
   color: ${(props) => props.theme.text.secondary};
 
   ${(props) => props.sx}
