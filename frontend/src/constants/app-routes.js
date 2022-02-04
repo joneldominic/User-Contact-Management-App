@@ -11,6 +11,10 @@ const AppRoutes = {
     title: "Sign Up",
     path: "/sign-up",
   },
+  ContactPage: {
+    title: "Contacts",
+    path: "/contacts",
+  },
 };
 
 export default AppRoutes;

@@ -1,5 +1,9 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+
+import Main from "./pages/Main";
+
+import AppRoutes from "./constants/app-routes";
 
 // import Avatar from "./core/UI/Avatar";
 // import Button from "./core/UI/Button";
@@ -11,8 +15,18 @@ import { BrowserRouter } from "react-router-dom";
 import Portal from "./pages/Portal";
 
 const App = () => {
+  const isLoggedIn = true;
+
   return (
     <BrowserRouter>
+      <Switch>
+        <Route path={AppRoutes.MainPage.path} exact>
+          <Redirect to={AppRoutes.ContactPage.path} />
+        </Route>
+        <Route path={AppRoutes.ContactPage.path}>
+          {isLoggedIn ? <Main /> : <Redirect to={AppRoutes.SignInPage.path} />}
+        </Route>
+      </Switch>
       <Portal />
     </BrowserRouter>
   );

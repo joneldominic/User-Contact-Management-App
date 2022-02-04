@@ -20,8 +20,8 @@ const SignIn = () => {
       <Card height="380px" width="500px">
         <CardContent>
           <Header>
-            <FaUsers />
             My Contacts
+            <FaUsers />
           </Header>
           <Form>
             <InputUnderlined
