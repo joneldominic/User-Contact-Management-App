@@ -69,7 +69,7 @@ const darkTheme = {
     contrastText: "rgba(0, 0, 0, 0.87)",
   },
   divider: "rgba(255, 255, 255, 0.12)",
-  sizes: {
+  size: {
     xs: "12px",
     sm: "14px",
     base: "16px",

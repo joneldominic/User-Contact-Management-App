@@ -6,7 +6,7 @@ const Button = styled.button`
   border-radius: 5px;
   letter-spacing: 0.025em;
 
-  font-size: ${(props) => props.theme.sizes[props.size]};
+  font-size: ${(props) => props.theme.size[props.size]};
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
 
@@ -47,6 +47,8 @@ const Button = styled.button`
         `;
     }
   }}
+
+  ${(props) => props.sx}
 `;
 
 Button.defaultProps = {
@@ -55,6 +57,7 @@ Button.defaultProps = {
   size: "base",
   margin: "0.5em",
   padding: "0.5em 1em",
+  sx: {},
 };
 
 export default Button;

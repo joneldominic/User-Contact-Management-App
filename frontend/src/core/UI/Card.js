@@ -12,6 +12,8 @@ const Card = styled.div`
   overflow: ${(props) => props.overflow};
   margin: ${(props) => props.margin};
   background: ${(props) => props.background || props.theme.background.paper};
+
+  ${(props) => props.sx}
 `;
 
 Card.defaultProps = {
@@ -21,6 +23,7 @@ Card.defaultProps = {
   minWidth: "275px",
   margin: "0.5em",
   background: undefined,
+  sx: {},
 };
 
 export default Card;
