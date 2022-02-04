@@ -4,7 +4,7 @@ import {
   USER_REQ_SUCCESS,
   USER_REQ_FAILURE,
   USER_CLEAR,
-} from "../actions/types";
+} from "./types";
 import { logout } from "./authActions";
 
 export const addNewUser = (userInfo, callback) => {
