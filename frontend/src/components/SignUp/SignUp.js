@@ -14,14 +14,14 @@ import AppRoutes from "../../constants/app-routes";
 
 import { Header, Wrapper, Form, FormAction, Footer } from "./styles";
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <Wrapper>
-      <Card height="380px" width="500px">
+      <Card height="480px" width="500px">
         <CardContent>
           <Header>
             <FaUsers />
-            My Contacts
+            Welcome to My Contacts
           </Header>
           <Form>
             <InputUnderlined
@@ -31,19 +31,31 @@ const SignIn = () => {
               type="text"
               placeholder="Username"
             />
+            <InputUnderlined
+              icon={<FaUser />}
+              id="firstname"
+              name="firstname"
+              type="text"
+              placeholder="Firstname"
+            />
             <PasswordInputUnderlined
               id="password"
               name="password"
               placeholder="Password"
             />
+            <PasswordInputUnderlined
+              id="confirmpassword"
+              name="confirmpassword"
+              placeholder="Confirm Password"
+            />
             <FormAction>
-              <Button variant="contained">Sign In</Button>
+              <Button variant="contained">Sign Up</Button>
             </FormAction>
           </Form>
           <Footer>
             <p>
-              Don't have an account yet?{" "}
-              <Link to={AppRoutes.SignUpPage.path}>Sign Up</Link>
+              Already have an account?{" "}
+              <Link to={AppRoutes.SignInPage.path}>Sign In</Link>
             </p>
           </Footer>
         </CardContent>
@@ -52,4 +64,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
