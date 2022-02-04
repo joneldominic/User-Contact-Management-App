@@ -43,13 +43,7 @@ const ModalWrapper = styled(Card)`
 
   & > .actions button:first-child {
     margin-left: auto;
-    /* margin-right: 20px; */
   }
-
-  /* & > .actions button:last-child {
-    margin-right: auto;
-    margin-left: 20px;
-  } */
 `;
 
 const IconWrapper = styled.div`
@@ -73,7 +67,7 @@ const TitleWrapper = styled.div`
 const MessageWrapper = styled.div`
   margin-top: 25px;
   margin-bottom: 5px;
-  padding: 0px 20px;
+  padding: 0px 15px;
   width: 100%;
   display: inline-flex;
   justify-content: center;
@@ -82,28 +76,27 @@ const MessageWrapper = styled.div`
 
 const Divider = styled.hr`
   border-top: 1px solid ${(props) => props.theme.divider};
+  margin-left: 15px;
+  margin-right: 15px;
 `;
 
 const ModalOverlay = (props) => {
   return (
     <ModalWrapper>
       <CardContent>
-        <IconWrapper color="warning">
-          <FaExclamationTriangle />
+        <IconWrapper color={props.color}>
+          {props.icon || <FaExclamationTriangle />}
         </IconWrapper>
-        <TitleWrapper>Are you sure?</TitleWrapper>
-        <MessageWrapper>
-          Do you really want to delete this contact? This process cannot be
-          undone.
-        </MessageWrapper>
+        <TitleWrapper>{props.title}</TitleWrapper>
+        <MessageWrapper>{props.message}</MessageWrapper>
       </CardContent>
       <Divider />
       <CardActions className="actions">
-        <Button variant="outlined" color="warning">
-          Option 1
+        <Button variant="outlined" color={props.option1.color}>
+          {props.option1.label}
         </Button>
-        <Button variant="outlined" color="success">
-          Option 2
+        <Button variant="outlined" color={props.option2.color}>
+          {props.option2.label}
         </Button>
       </CardActions>
     </ModalWrapper>
@@ -118,13 +111,27 @@ const Modal = (props) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay />,
+        <ModalOverlay
+          icon={props.icon}
+          color={props.color}
+          title={props.title}
+          message={props.message}
+          option1={props.option1}
+          option2={props.option2}
+        />,
         document.getElementById("overlay-root")
       )}
     </>
   );
 };
 
-Modal.defaultProps = {};
+Modal.defaultProps = {
+  color: "warning",
+  title: "Are you sure?",
+  message:
+    "Do you really want to perform this action? This process cannot be undone.",
+  option1: { color: "warning", label: "Option 1" },
+  option2: { color: "error", label: "Option 2" },
+};
 
 export default Modal;

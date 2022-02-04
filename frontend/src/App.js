@@ -13,11 +13,7 @@ const App = () => {
 
   return (
     <>
-      <Modal
-        title="Warning!"
-        message="Are you sure you want to Delete this Contact?"
-        buttonALabel="Cancel"
-      />
+      <Modal />
       <BrowserRouter>
         <Switch>
           <Route path={AppRoutes.MainPage.path} exact>
