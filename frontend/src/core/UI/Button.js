@@ -47,8 +47,6 @@ const Button = styled.button`
         `;
     }
   }}
-
-  ${(props) => props.sx}
 `;
 
 Button.defaultProps = {
@@ -57,7 +55,6 @@ Button.defaultProps = {
   size: "base",
   margin: "0.5em",
   padding: "0.5em 1em",
-  sx: {},
 };
 
 export default Button;

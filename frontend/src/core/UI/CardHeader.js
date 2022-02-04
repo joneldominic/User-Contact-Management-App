@@ -4,8 +4,6 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   padding: 16px;
-
-  ${(props) => props.sx}
 `;
 
 const Content = styled.div`
@@ -38,7 +36,7 @@ const Subtitle = styled.span`
 
 const CardHeader = (props) => {
   return (
-    <Header sx={props.sx}>
+    <Header>
       <AvatarWrapper show={props.avatar}>{props.avatar}</AvatarWrapper>
       <Content>
         <Title sx={props.sxTitle}>{props.title}</Title>
@@ -48,6 +46,6 @@ const CardHeader = (props) => {
   );
 };
 
-CardHeader.defaultProps = { sx: {}, sxTitle: {}, sxSubTitle: {} };
+CardHeader.defaultProps = { sxTitle: {}, sxSubTitle: {} };
 
 export default CardHeader;

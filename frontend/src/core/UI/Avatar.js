@@ -11,12 +11,9 @@ const Avatar = styled.div`
   border-radius: 50%;
   overflow: hidden;
   background-color: ${(props) => props.backgroundColor};
-
-  ${(props) => props.sx}
 `;
 
 Avatar.defaultProps = {
-  sx: {},
   width: "42px",
   height: "42px",
   backgroundColor: "#2ec5d3",
