@@ -4,7 +4,8 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Main from "./pages/Main";
 import Portal from "./pages/Portal";
 
-import Modal from "./core/UI/Modal";
+// import Modal from "./core/UI/Modal";
+// import Snackbar from "./core/UI/Snackbar";
 
 import AppRoutes from "./constants/app-routes";
 
@@ -13,7 +14,8 @@ const App = () => {
 
   return (
     <>
-      <Modal />
+      {/* <Snackbar /> */}
+      {/* <Modal /> */}
       <BrowserRouter>
         <Switch>
           <Route path={AppRoutes.MainPage.path} exact>
