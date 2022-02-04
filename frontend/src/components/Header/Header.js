@@ -14,6 +14,8 @@ import {
   SignOutButton,
 } from "./style";
 
+import { stringToColor } from "../../util/helper-functions";
+
 const Header = () => {
   return (
     <AppBar>
@@ -24,7 +26,7 @@ const Header = () => {
             My Contacts
           </LogoWrapper>
           <ProfileWrapper>
-            <Avatar>JT</Avatar>
+            <Avatar backgroundColor={stringToColor("Jonel Tapang")}>JT</Avatar>
             <UserName>Jonel Dominic Tapang</UserName>
             <SignOutButton>
               <FaSignOutAlt />
