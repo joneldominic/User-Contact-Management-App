@@ -20,8 +20,9 @@ const SignUp = () => {
       <Card height="480px" width="500px">
         <CardContent>
           <Header>
-            Welcome to My Contacts
+            Welcome to
             <FaUsers />
+            My Contacts
           </Header>
           <Form>
             <InputUnderlined

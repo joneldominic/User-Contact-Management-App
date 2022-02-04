@@ -16,7 +16,7 @@ const Avatar = styled.div`
 Avatar.defaultProps = {
   width: "42px",
   height: "42px",
-  backgroundColor: "#2ec5d3",
+  backgroundColor: "#492231",
 };
 
 export default Avatar;
