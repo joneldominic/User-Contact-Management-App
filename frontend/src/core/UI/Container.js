@@ -4,8 +4,14 @@ const Container = styled.div`
   margin-right: auto;
   margin-left: auto;
 
-  @media (max-width: 576px) {
+  @media (max-width: 575px) {
     width: 100%;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  @media (min-width: 576px) {
+    width: 95%;
   }
 
   @media (min-width: 768px) {

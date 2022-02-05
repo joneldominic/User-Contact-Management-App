@@ -46,5 +46,6 @@ export const SignOutButton = styled.div`
   font-size: ${(props) => props.theme.size.xl};
   &:hover {
     cursor: pointer;
+    color: ${(props) => props.theme.text.secondary};
   }
 `;

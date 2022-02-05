@@ -4,34 +4,23 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Main from "./pages/Main";
 import Portal from "./pages/Portal";
 
-// import Modal from "./core/UI/Modal";
-// import Snackbar from "./core/UI/Snackbar";
-
 import AppRoutes from "./constants/app-routes";
 
 const App = () => {
   const isLoggedIn = true;
 
   return (
-    <>
-      {/* <Snackbar /> */}
-      {/* <Modal /> */}
-      <BrowserRouter>
-        <Switch>
-          <Route path={AppRoutes.MainPage.path} exact>
-            <Redirect to={AppRoutes.ContactPage.path} />
-          </Route>
-          <Route path={AppRoutes.ContactPage.path}>
-            {isLoggedIn ? (
-              <Main />
-            ) : (
-              <Redirect to={AppRoutes.SignInPage.path} />
-            )}
-          </Route>
-        </Switch>
-        <Portal />
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Switch>
+        <Route path={AppRoutes.MainPage.path} exact>
+          <Redirect to={AppRoutes.ContactPage.path} />
+        </Route>
+        <Route path={AppRoutes.ContactPage.path}>
+          {isLoggedIn ? <Main /> : <Redirect to={AppRoutes.SignInPage.path} />}
+        </Route>
+      </Switch>
+      <Portal />
+    </BrowserRouter>
   );
 };
 

@@ -75,8 +75,11 @@ const MessageWrapper = styled.div`
   text-align: justify;
 `;
 
-const Divider = styled.hr`
-  border-top: 1px solid ${(props) => props.theme.divider};
+
+export const Divider = styled.hr`
+  height: 2px;
+  border: none;
+  background-color: ${(props) => props.theme.divider};
   margin-left: 15px;
   margin-right: 15px;
 `;
