@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import Avatar from "../../core/UI/Avatar";
 
@@ -9,6 +9,14 @@ const MainWrapper = styled.li`
 
   padding: 10px 20px;
   border-bottom: 1px solid ${(props) => props.theme.divider};
+  ${(props) => {
+    return (
+      props.isSelected &&
+      css`
+        background-color: ${(props) => props.theme.divider};
+      `
+    );
+  }};
 `;
 
 const ContactAvatar = styled(Avatar)`
@@ -29,9 +37,9 @@ const Title = styled.div`
   color: ${(props) => props.theme.text.secondary};
 `;
 
-const ContactListItem = () => {
+const ContactListItem = (props) => {
   return (
-    <MainWrapper>
+    <MainWrapper isSelected={props.isSelected}>
       <ContactAvatar>JT</ContactAvatar>
       <DetailWrapper>
         <Name>Jonel Dominic Tapang</Name>
@@ -39,6 +47,10 @@ const ContactListItem = () => {
       </DetailWrapper>
     </MainWrapper>
   );
+};
+
+ContactListItem.defaultProps = {
+  isSelected: false,
 };
 
 export default ContactListItem;

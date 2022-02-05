@@ -22,7 +22,7 @@ const ContactList = () => {
           <ContactListItemContainer>
             <ContactListItem />
             <ContactListItem />
-            <ContactListItem />
+            <ContactListItem isSelected />
             <ContactListItem />
             <ContactListItem />
             <ContactListItem />
