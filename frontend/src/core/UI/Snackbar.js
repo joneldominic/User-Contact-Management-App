@@ -17,6 +17,7 @@ const MainWrapper = styled.div`
   z-index: 1400;
   position: fixed;
   display: flex;
+  width: ${(props) => props.width};
 `;
 
 const ContentWrapper = styled.div`
@@ -34,9 +35,10 @@ const ContentWrapper = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  margin-right: 12px;
+  margin-right: 15px;
   padding: 7px 0;
   display: flex;
+  align-items: center;
   opacity: 0.9;
   font-size: ${(props) => props.theme.size.xl};
 `;
@@ -47,11 +49,10 @@ const MessageWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  display: block;
+  display: flex;
   align-items: center;
-  padding: 10px 0 0 16px;
-  margin-left: auto;
-  margin-right: -4px;
+  justify-content: center;
+  margin-left: 15px;
 
   &:hover {
     cursor: pointer;
@@ -60,7 +61,7 @@ const ButtonWrapper = styled.div`
 
 const Snackbar = (props) => {
   return (
-    <MainWrapper>
+    <MainWrapper width={props.width}>
       <ContentWrapper color={props.color}>
         <IconWrapper>
           {props.color === "warning" && <FaExclamationTriangle />}
@@ -80,7 +81,8 @@ const Snackbar = (props) => {
 
 Snackbar.defaultProps = {
   color: "error",
-  message: "Something went wrong. Please try again!",
+  message: "Something went wrong. Please try again! aa a asdfa sdfas dfas",
+  width: "400px",
 };
 
 export default Snackbar;

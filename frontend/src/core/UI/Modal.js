@@ -20,7 +20,7 @@ const Backdrop = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 10;
+  z-index: 99;
   background: rgba(0, 0, 0, 0.45);
 `;
 
@@ -51,8 +51,7 @@ const ModalWrapper = styled(Card)`
 `;
 
 const IconWrapper = styled.div`
-  width: 100%;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   font-size: 50px;
   color: ${(props) => props.theme[props.color].main};
@@ -61,8 +60,7 @@ const IconWrapper = styled.div`
 const TitleWrapper = styled.div`
   margin-top: 10px;
   padding: 0px 20px;
-  width: 100%;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   text-align: justify;
   font-size: ${(props) => props.theme.size.xl};
@@ -72,8 +70,7 @@ const MessageWrapper = styled.div`
   margin-top: 25px;
   margin-bottom: 5px;
   padding: 0px 15px;
-  width: 100%;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   text-align: justify;
 `;
