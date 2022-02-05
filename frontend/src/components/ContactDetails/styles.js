@@ -19,3 +19,24 @@ export const ContactListCard = styled(Card)`
     margin: 30px 0px 0px 0px;
   }
 `;
+
+export const Divider = styled.hr`
+  height: 1px;
+  border: none;
+  margin: 0px;
+  background-color: ${(props) => props.theme.divider};
+`;
+
+export const ActionContainer = styled.div`
+  height: 91px;
+
+  padding-right: 15px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  & > button {
+    width: 150px;
+  }
+`;
