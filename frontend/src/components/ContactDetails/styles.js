@@ -11,7 +11,7 @@ export const ContactDetailsContainer = styled(Container)`
   }
 `;
 
-export const ContactDetailCard = styled(Card)`
+export const ContactDetailsCard = styled(Card)`
   margin: 50px 0px 0px 10px;
   height: 75vh;
 
@@ -28,8 +28,7 @@ export const Divider = styled.hr`
 `;
 
 export const ActionContainer = styled.div`
-  min-height: 91px;
-  flex: 1 1 auto;
+  height: 75px;
   padding: 0px 15px;
 
   display: flex;
@@ -42,10 +41,21 @@ export const ActionContainer = styled.div`
 
 // Contact Details View ------------------------------------
 
-export const ContactViewContainer = styled.div`
+export const ContactDetailsViewContent = styled.div`
+  padding: 16px 0px 0px 0px;
+
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  padding: 15px 50px 0px 50px;
+  flex-flow: column;
+`;
+
+export const ContactViewContainer = styled.div`
+  padding: 15px 50px;
+  flex: 2;
+
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 `;
 
 export const ContactViewHead = styled.div`
@@ -68,23 +78,20 @@ export const ContactViewTitle = styled.div`
 
 export const DetailItemsWrapper = styled.div`
   margin: 15px 0px 15px 0px;
-  height: 35vh;
-  padding: 0px 20px 15px 20px;
+  padding: 0px 20px 30px 20px;
+
+  flex: 2;
 
   overflow-y: auto;
-
   ::-webkit-scrollbar {
     width: 5px;
   }
-
   ::-webkit-scrollbar-track {
     background: ${(props) => props.theme.text.secondary};
   }
-
   ::-webkit-scrollbar-thumb {
     background: ${(props) => props.theme.colors.gray1};
   }
-
   ::-webkit-scrollbar-thumb:hover {
     background: ${(props) => props.theme.colors.gray2};
   }
