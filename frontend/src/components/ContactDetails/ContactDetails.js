@@ -5,17 +5,17 @@ import ContactDetailsEdit from "./ContactDetailsEdit";
 import ContactDetailsNew from "./ContactDetailsNew";
 import NoContactSelected from "./NoContactSelected";
 
-import { ContactDetailsContainer, ContactListCard } from "./styles";
+import { ContactDetailsContainer, ContactDetailCard } from "./styles";
 
 const ContactDetails = () => {
   return (
     <ContactDetailsContainer>
-      <ContactListCard>
-        {/* <ContactDetailsView /> */}
+      <ContactDetailCard>
+        <ContactDetailsView />
         {/* <ContactDetailsEdit /> */}
         {/* <ContactDetailsNew /> */}
-        <NoContactSelected />
-      </ContactListCard>
+        {/* <NoContactSelected /> */}
+      </ContactDetailCard>
     </ContactDetailsContainer>
   );
 };

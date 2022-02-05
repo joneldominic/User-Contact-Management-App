@@ -41,6 +41,7 @@ export const ContactListItemContainer = styled.ul`
   margin: 0px;
   padding: 0px;
   list-style-type: none;
+  
   overflow-y: auto;
 
   ::-webkit-scrollbar {

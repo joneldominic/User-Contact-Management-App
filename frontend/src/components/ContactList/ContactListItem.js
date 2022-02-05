@@ -40,7 +40,7 @@ const Title = styled.div`
 const ContactListItem = (props) => {
   return (
     <MainWrapper isSelected={props.isSelected}>
-      <ContactAvatar>JT</ContactAvatar>
+      <ContactAvatar name="Jonel Dominic Tapang" />
       <DetailWrapper>
         <Name>Jonel Dominic Tapang</Name>
         <Title>Developer</Title>

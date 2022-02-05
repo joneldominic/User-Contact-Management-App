@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-const Avatar = styled.div`
+import { stringToColor } from "../../util/helper-functions";
+
+const AvatarWrapper = styled.div`
   font-size: 1.25rem;
   position: relative;
   display: flex;
@@ -10,13 +12,34 @@ const Avatar = styled.div`
   height: ${(props) => props.height};
   border-radius: 50%;
   overflow: hidden;
-  background-color: ${(props) => props.backgroundColor};
+  background-color: ${(props) => props.color};
 `;
+
+const Avatar = (props) => {
+  const stringToInitials = (name) => {
+    const nameSplit = name.trim().split(" ");
+    const initials = `${nameSplit[0][0]}${
+      nameSplit.length > 1 ? nameSplit[nameSplit.length - 1][0] : ""
+    }`;
+
+    return initials;
+  };
+
+  return (
+    <AvatarWrapper
+      color={stringToColor(props.name)}
+      width={props.width}
+      height={props.height}
+    >
+      {stringToInitials(props.name)}
+    </AvatarWrapper>
+  );
+};
 
 Avatar.defaultProps = {
   width: "42px",
   height: "42px",
-  backgroundColor: "#492231",
+  name: "",
 };
 
 export default Avatar;
