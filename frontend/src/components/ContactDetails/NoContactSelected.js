@@ -29,7 +29,7 @@ const NoContactSelected = () => {
       <IconWrapper>
         <FaInfoCircle />
       </IconWrapper>
-      <Message>No Contact Selected.</Message>
+      <Message>No Contact Selected</Message>
       <SubMessage>Try selecting one from the list.</SubMessage>
     </MainWrapper>
   );

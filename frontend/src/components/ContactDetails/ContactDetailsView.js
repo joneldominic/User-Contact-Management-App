@@ -14,7 +14,7 @@ import Avatar from "../../core/UI/Avatar";
 import {
   Divider,
   ContactDetailsContentWrapper,
-  ActionContainer,
+  ViewActionContainer,
   ContactViewContainer,
   ContactViewHead,
   ContactViewName,
@@ -29,14 +29,14 @@ import {
 const ContactDetailsView = () => {
   return (
     <ContactDetailsContentWrapper>
-      <ActionContainer>
+      <ViewActionContainer>
         <Button variant="outlined" color="info">
           Edit
         </Button>
         <Button variant="outlined" color="warning">
           Delete
         </Button>
-      </ActionContainer>
+      </ViewActionContainer>
       <Divider />
       <ContactViewContainer>
         <ContactViewHead>

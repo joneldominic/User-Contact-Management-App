@@ -50,6 +50,17 @@ export const ContactDetailsContentWrapper = styled.div`
 `;
 
 // Contact Details View ------------------------------------
+export const ViewActionContainer = styled.div`
+  height: 91px;
+  padding: 0px 15px;
+
+  display: flex;
+  align-items: center;
+
+  & > button {
+    width: 100%;
+  }
+`;
 
 export const ContactViewContainer = styled.div`
   padding: 15px 50px;
@@ -64,6 +75,7 @@ export const ContactViewHead = styled.div`
   margin: 10px 0px 25px 0px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 export const ContactViewName = styled.div`
