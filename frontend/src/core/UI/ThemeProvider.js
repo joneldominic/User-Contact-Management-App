@@ -79,6 +79,10 @@ const darkTheme = {
     xxxl: "30px",
     xxxxl: "36px",
   },
+  colors: {
+    gray1: "#888888",
+    gray2: "#555555",
+  },
 };
 
 const ThemeProvider = (props) => {

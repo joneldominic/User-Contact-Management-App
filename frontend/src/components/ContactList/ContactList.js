@@ -2,12 +2,14 @@ import React from "react";
 
 import SearchBar from "./SearchBar";
 import FloatingAddButton from "./FloatingAddButton";
+import ContactListItem from "./ContactListItem";
 
 import {
   ContactListContainer,
   ContactListCard,
   ContactListCardContent,
   Divider,
+  ContactListItemContainer,
 } from "./styles";
 
 const ContactList = () => {
@@ -17,6 +19,21 @@ const ContactList = () => {
         <ContactListCardContent>
           <SearchBar />
           <Divider />
+          <ContactListItemContainer>
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+            <ContactListItem />
+          </ContactListItemContainer>
         </ContactListCardContent>
       </ContactListCard>
       <FloatingAddButton />
