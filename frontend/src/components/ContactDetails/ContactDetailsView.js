@@ -13,14 +13,14 @@ import Avatar from "../../core/UI/Avatar";
 
 import {
   Divider,
-  ContactDetailsViewContent,
+  ContactDetailsContentWrapper,
   ActionContainer,
   ContactViewContainer,
   ContactViewHead,
   ContactViewName,
   ContactViewTitle,
   DetailItemsWrapper,
-  DetailItem,
+  DetailItemWrapper,
   IconLabelWrapper,
   DetailItemInfo,
   DetailItemNote,
@@ -28,7 +28,7 @@ import {
 
 const ContactDetailsView = () => {
   return (
-    <ContactDetailsViewContent>
+    <ContactDetailsContentWrapper>
       <ActionContainer>
         <Button variant="outlined" color="info">
           Edit
@@ -45,35 +45,35 @@ const ContactDetailsView = () => {
           <ContactViewTitle>Developer</ContactViewTitle>
         </ContactViewHead>
         <DetailItemsWrapper>
-          <DetailItem>
+          <DetailItemWrapper>
             <IconLabelWrapper>
               <FaEnvelope />
               Email
             </IconLabelWrapper>
             <DetailItemInfo>joneldominictapang@gmail.com</DetailItemInfo>
-          </DetailItem>
-          <DetailItem>
+          </DetailItemWrapper>
+          <DetailItemWrapper>
             <IconLabelWrapper>
               <FaPhoneAlt />
               Phone
             </IconLabelWrapper>
             <DetailItemInfo>09087863725</DetailItemInfo>
-          </DetailItem>
-          <DetailItem>
+          </DetailItemWrapper>
+          <DetailItemWrapper>
             <IconLabelWrapper>
               <FaMapMarkedAlt />
               Delivery Address
             </IconLabelWrapper>
             <DetailItemInfo>Itum, Duero, Bohol</DetailItemInfo>
-          </DetailItem>
-          <DetailItem>
+          </DetailItemWrapper>
+          <DetailItemWrapper>
             <IconLabelWrapper>
               <FaMap />
               Billing Address
             </IconLabelWrapper>
             <DetailItemInfo>Itum, Duero, Bohol</DetailItemInfo>
-          </DetailItem>
-          <DetailItem>
+          </DetailItemWrapper>
+          <DetailItemWrapper>
             <IconLabelWrapper>
               <FaStickyNote />
               Notes
@@ -82,10 +82,10 @@ const ContactDetailsView = () => {
               hello my name is jonel dominic tapang. I live in Itum, Duero,
               Bohol. I graduated from Visayas State University
             </DetailItemNote>
-          </DetailItem>
+          </DetailItemWrapper>
         </DetailItemsWrapper>
       </ContactViewContainer>
-    </ContactDetailsViewContent>
+    </ContactDetailsContentWrapper>
   );
 };
 

@@ -14,7 +14,7 @@ export const ContactListContainer = styled(Container)`
 
 export const ContactListCard = styled(Card)`
   margin: 50px 10px 0px 0px;
-  height: 75vh;
+  height: 80vh;
 
   @media (max-width: 991px) {
     margin: 50px 0px 0px 0px;
@@ -41,7 +41,7 @@ export const ContactListItemContainer = styled.ul`
   margin: 0px;
   padding: 0px;
   list-style-type: none;
-  
+
   overflow-y: auto;
 
   ::-webkit-scrollbar {

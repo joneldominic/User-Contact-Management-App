@@ -11,9 +11,9 @@ const ContactDetails = () => {
   return (
     <ContactDetailsContainer>
       <ContactDetailsCard>
-        <ContactDetailsView />
+        {/* <ContactDetailsView /> */}
         {/* <ContactDetailsEdit /> */}
-        {/* <ContactDetailsNew /> */}
+        <ContactDetailsNew />
         {/* <NoContactSelected /> */}
       </ContactDetailsCard>
     </ContactDetailsContainer>
