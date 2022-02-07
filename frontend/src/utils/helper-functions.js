@@ -15,3 +15,12 @@ export const stringToColor = (string) => {
 
   return color;
 };
+
+export const asyncAwaitCatch = async (promise) => {
+  try {
+    const response = await promise;
+    return [response, null];
+  } catch (error) {
+    return [null, error];
+  }
+};

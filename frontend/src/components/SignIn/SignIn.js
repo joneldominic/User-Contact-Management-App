@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useReducer, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { FaUsers, FaUser } from "react-icons/fa";
 
@@ -16,7 +16,7 @@ import AppRoutes from "../../constants/app-routes";
 
 import { Header, Wrapper, Form, FormAction, Footer } from "./styles";
 
-import { uiActions } from "../../redux/ui-slice";
+import { authenticateUser } from "../../redux/auth-slice";
 
 const initialState = {
   username: { value: "", isValid: null },
@@ -48,6 +48,7 @@ const SignInReducer = (state, action) => {
 
 const SignIn = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.auth.isLoading);
 
   const [formIsValid, setFormIsValid] = useState(false);
 
@@ -82,15 +83,8 @@ const SignIn = () => {
         username: formControlState.username.value,
         password: formControlState.password.value,
       };
-      // authenticate(credentials);
 
-      console.log(credentials);
-      dispatch(
-        uiActions.showNotification({
-          color: "error",
-          message: "Invalid Credentials. Please try again.",
-        })
-      );
+      dispatch(authenticateUser(credentials));
     }
   };
 
@@ -120,8 +114,8 @@ const SignIn = () => {
               onChange={inputChangeHandler}
             />
             <FormAction>
-              <Button variant="contained" disabled={!formIsValid}>
-                Sign In
+              <Button variant="contained" disabled={!formIsValid || isLoading}>
+                {!isLoading ? "Sign In" : "Loading..."}
               </Button>
             </FormAction>
           </Form>

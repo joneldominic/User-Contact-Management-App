@@ -19,7 +19,7 @@ export const Header = styled.div`
   font-size: ${(props) => props.theme.size.xl};
 
   & svg {
-    margin-left: 5px;
+    margin-right: 5px;
     font-size: ${(props) => props.theme.size.xxl};
   }
 `;
