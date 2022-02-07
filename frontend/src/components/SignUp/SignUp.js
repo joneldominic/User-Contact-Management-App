@@ -7,8 +7,8 @@ import Card from "../../core/UI/Card";
 import CardContent from "../../core/UI/CardContent";
 import Button from "../../core/UI/Button";
 
-import InputUnderlined from "../common/InputUnderlined";
-import PasswordInputUnderlined from "../common/PasswordInputUnderlined";
+import UnderlinedInput from "../common/UnderlinedInput";
+import UnderlinedPasswordInput from "../common/UnderlinedPasswordInput";
 
 import AppRoutes from "../../constants/app-routes";
 
@@ -25,26 +25,26 @@ const SignUp = () => {
             My Contacts
           </Header>
           <Form>
-            <InputUnderlined
+            <UnderlinedInput
               icon={<FaUser />}
               id="username"
               name="username"
               type="text"
               placeholder="Username"
             />
-            <InputUnderlined
+            <UnderlinedInput
               icon={<FaUser />}
               id="firstname"
               name="firstname"
               type="text"
               placeholder="Firstname"
             />
-            <PasswordInputUnderlined
+            <UnderlinedPasswordInput
               id="password"
               name="password"
               placeholder="Password"
             />
-            <PasswordInputUnderlined
+            <UnderlinedPasswordInput
               id="confirmpassword"
               name="confirmpassword"
               placeholder="Confirm Password"

@@ -17,6 +17,10 @@ const MainWrapper = styled.li`
       `
     );
   }};
+
+  &:hover {
+    background-color: ${(props) => props.theme.divider};
+  }
 `;
 
 const ContactAvatar = styled(Avatar)`

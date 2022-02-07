@@ -4,7 +4,7 @@ const FormControl = styled.div`
   display: flex;
   border-bottom: 1px solid ${(props) => props.theme.divider};
 
-  border-bottom-color: ${(props) => props.invalid && props.theme.error.main};
+  border-bottom-color: ${(props) => props.isInvalid && props.theme.error.main};
 `;
 
 const Input = styled.input`
@@ -14,28 +14,32 @@ const Input = styled.input`
 
   border: hidden;
   background-color: transparent;
+  background: none;
 
   &:focus {
     outline: none;
   }
 `;
 
-const InputUnderlined = (props) => {
+const UnderlinedInput = (props) => {
   return (
-    <FormControl invalid={props.invalid}>
+    <FormControl isInvalid={props.isInvalid}>
       {props.icon}
       <Input
         id={props.id}
         name={props.name}
         type={props.type}
+        autoComplete="off"
         placeholder={props.placeholder}
+        value={props.value}
+        onChange={props.onChange}
       />
     </FormControl>
   );
 };
 
-InputUnderlined.defaultProps = {
-  invalid: false,
+UnderlinedInput.defaultProps = {
+  isInvalid: false,
 };
 
-export default InputUnderlined;
+export default UnderlinedInput;

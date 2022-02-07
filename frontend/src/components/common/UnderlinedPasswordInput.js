@@ -8,7 +8,7 @@ const FormControl = styled.div`
   display: flex;
   border-bottom: 1px solid ${(props) => props.theme.divider};
 
-  border-bottom-color: ${(props) => props.invalid && props.theme.error.main};
+  border-bottom-color: ${(props) => props.isInvalid && props.theme.error.main};
 
   & > .toggleButton:hover {
     cursor: pointer;
@@ -22,13 +22,14 @@ const Input = styled.input`
 
   border: hidden;
   background-color: transparent;
+  background: none;
 
   &:focus {
     outline: none;
   }
 `;
 
-const PasswordInputUnderlined = (props) => {
+const UnderlinedPasswordInput = (props) => {
   const [show, setShow] = useState(false);
 
   const toggleShow = () => {
@@ -36,13 +37,15 @@ const PasswordInputUnderlined = (props) => {
   };
 
   return (
-    <FormControl invalid={props.invalid}>
+    <FormControl isInvalid={props.isInvalid}>
       <FaLock />
       <Input
         id={props.id}
         name={props.name}
         type={show ? "text" : "password"}
         placeholder={props.placeholder}
+        value={props.value}
+        onChange={props.onChange}
       />
       <div className="toggleButton" onClick={toggleShow}>
         {show ? <FaEyeSlash /> : <FaEye />}
@@ -51,8 +54,8 @@ const PasswordInputUnderlined = (props) => {
   );
 };
 
-PasswordInputUnderlined.defaultProps = {
-  invalid: false,
+UnderlinedPasswordInput.defaultProps = {
+  isInvalid: false,
 };
 
-export default PasswordInputUnderlined;
+export default UnderlinedPasswordInput;

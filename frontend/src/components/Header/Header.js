@@ -12,7 +12,7 @@ import {
   ProfileWrapper,
   UserName,
   SignOutButton,
-} from "./style";
+} from "./styles";
 
 const Header = () => {
   return (

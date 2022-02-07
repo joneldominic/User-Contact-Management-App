@@ -1,5 +1,7 @@
 import React from "react";
+import { useState, useReducer, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { FaUsers, FaUser } from "react-icons/fa";
 
@@ -7,14 +9,91 @@ import Card from "../../core/UI/Card";
 import CardContent from "../../core/UI/CardContent";
 import Button from "../../core/UI/Button";
 
-import InputUnderlined from "../common/InputUnderlined";
-import PasswordInputUnderlined from "../common/PasswordInputUnderlined";
+import UnderlinedInput from "../common/UnderlinedInput";
+import UnderlinedPasswordInput from "../common/UnderlinedPasswordInput";
 
 import AppRoutes from "../../constants/app-routes";
 
 import { Header, Wrapper, Form, FormAction, Footer } from "./styles";
 
+import { uiActions } from "../../redux/ui-slice";
+
+const initialState = {
+  username: { value: "", isValid: null },
+  password: { value: "", isValid: null },
+};
+
+const SignInReducer = (state, action) => {
+  switch (action.type) {
+    case "username":
+      return {
+        ...state,
+        username: {
+          value: action.value,
+          isValid: action.value.trim().length !== 0,
+        },
+      };
+    case "password":
+      return {
+        ...state,
+        password: {
+          value: action.value,
+          isValid: action.value.trim().length !== 0,
+        },
+      };
+    default:
+      throw Error("Something Wrong! Please Try Again");
+  }
+};
+
 const SignIn = () => {
+  const dispatch = useDispatch();
+
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  const [formControlState, dispatchFormControl] = useReducer(
+    SignInReducer,
+    initialState
+  );
+
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      setFormIsValid(
+        formControlState.username.isValid && formControlState.password.isValid
+      );
+    }, 200);
+
+    return () => {
+      clearTimeout(identifier);
+    };
+  }, [formControlState.username.isValid, formControlState.password.isValid]);
+
+  const inputChangeHandler = (event) => {
+    const type = event.target.id;
+    const value = event.target.value;
+    dispatchFormControl({ type, value });
+  };
+
+  const submitFormHandler = (event) => {
+    event.preventDefault();
+
+    if (formIsValid) {
+      const credentials = {
+        username: formControlState.username.value,
+        password: formControlState.password.value,
+      };
+      // authenticate(credentials);
+
+      console.log(credentials);
+      dispatch(
+        uiActions.showNotification({
+          color: "error",
+          message: "Invalid Credentials. Please try again.",
+        })
+      );
+    }
+  };
+
   return (
     <Wrapper>
       <Card height="380px" width="500px">
@@ -23,21 +102,27 @@ const SignIn = () => {
             <FaUsers />
             My Contacts
           </Header>
-          <Form>
-            <InputUnderlined
+          <Form onSubmit={submitFormHandler}>
+            <UnderlinedInput
               icon={<FaUser />}
               id="username"
               name="username"
               type="text"
               placeholder="Username"
+              value={formControlState.username.value}
+              onChange={inputChangeHandler}
             />
-            <PasswordInputUnderlined
+            <UnderlinedPasswordInput
               id="password"
               name="password"
               placeholder="Password"
+              value={formControlState.password.value}
+              onChange={inputChangeHandler}
             />
             <FormAction>
-              <Button variant="contained">Sign In</Button>
+              <Button variant="contained" disabled={!formIsValid}>
+                Sign In
+              </Button>
             </FormAction>
           </Form>
           <Footer>

@@ -19,10 +19,14 @@ const Button = styled.button`
           background-repeat: no-repeat;
           border: 1px solid ${props.theme[props.color].main};
 
-          &:hover {
+          &:hover:not([disabled]) {
             background-color: ${props.theme[props.color].main}1A;
             border: 1px solid ${props.theme[props.color].light};
           }
+
+          /* &[disabled] {
+            background-color: red;
+          } */
         `;
       case "contained":
         return css`
@@ -30,8 +34,13 @@ const Button = styled.button`
           background-color: ${props.theme[props.color].main};
           border: none;
 
-          &:hover {
+          &:hover:not([disabled]) {
             background-color: ${props.theme[props.color].dark};
+          }
+
+          &[disabled] {
+            background-color: ${props.theme[props.color].dark};
+            cursor: not-allowed;
           }
         `;
       default:
@@ -41,7 +50,7 @@ const Button = styled.button`
           background-repeat: no-repeat;
           border: none;
 
-          &:hover {
+          &:hover:not([disabled]) {
             background-color: ${props.theme[props.color].main}1A;
           }
         `;

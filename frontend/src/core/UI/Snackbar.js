@@ -1,5 +1,10 @@
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import styled from "styled-components";
+
+import { uiActions } from "../../redux/ui-slice";
 
 import {
   FaExclamationTriangle,
@@ -52,7 +57,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 15px;
+  margin-left: auto;
 
   &:hover {
     cursor: pointer;
@@ -60,6 +65,18 @@ const ButtonWrapper = styled.div`
 `;
 
 const Snackbar = (props) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      dispatch(uiActions.closeNotification());
+    }, props.timeout);
+
+    return () => {
+      clearTimeout(identifier);
+    };
+  }, [dispatch, props.timeout]);
+
   return (
     <MainWrapper width={props.width}>
       <ContentWrapper color={props.color}>
@@ -71,7 +88,7 @@ const Snackbar = (props) => {
           )}
         </IconWrapper>
         <MessageWrapper>{props.message}</MessageWrapper>
-        <ButtonWrapper>
+        <ButtonWrapper onClick={() => dispatch(uiActions.closeNotification())}>
           <FaTimes />
         </ButtonWrapper>
       </ContentWrapper>
@@ -81,8 +98,9 @@ const Snackbar = (props) => {
 
 Snackbar.defaultProps = {
   color: "error",
-  message: "Something went wrong. Please try again! aa a asdfa sdfas dfas",
+  message: "Something went wrong. Please try again!",
   width: "400px",
+  timeout: 3000,
 };
 
 export default Snackbar;

@@ -75,7 +75,6 @@ const MessageWrapper = styled.div`
   text-align: justify;
 `;
 
-
 export const Divider = styled.hr`
   height: 2px;
   border: none;
@@ -100,10 +99,18 @@ const ModalOverlay = (props) => {
       </CardContent>
       <Divider />
       <CardActions className="actions">
-        <Button variant="outlined" color={props.option1.color}>
+        <Button
+          variant="outlined"
+          color={props.option1.color}
+          onClick={props.option1.callback}
+        >
           {props.option1.label}
         </Button>
-        <Button variant="outlined" color={props.option2.color}>
+        <Button
+          variant="outlined"
+          color={props.option2.color}
+          onClick={props.option2.callback}
+        >
           {props.option2.label}
         </Button>
       </CardActions>
@@ -115,7 +122,7 @@ const Modal = (props) => {
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop />,
+        <Backdrop onClick={props.option1.callback} />,
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
@@ -137,8 +144,8 @@ Modal.defaultProps = {
   title: "Are you sure?",
   message:
     "Do you really want to perform this action? This process cannot be undone.",
-  option1: { color: "warning", label: "Option 1" },
-  option2: { color: "error", label: "Option 2" },
+  option1: { color: "warning", label: "Option 1", callback: () => {} },
+  option2: { color: "error", label: "Option 2", callback: () => {} },
 };
 
 export default Modal;

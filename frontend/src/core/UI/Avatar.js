@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { stringToColor } from "../../util/helper-functions";
+import { stringToColor } from "../../utils/helper-functions";
 
 const AvatarWrapper = styled.div`
   font-size: 1.25rem;
