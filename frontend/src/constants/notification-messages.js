@@ -1,7 +1,7 @@
 const notificationMessage = {
   invalidCredential: {
     color: "error",
-    message: "Invalid Credentials. Please try again.",
+    message: "Incorrect Credentials. Please try again.",
   },
   connectionError: {
     color: "error",
@@ -13,7 +13,19 @@ const notificationMessage = {
   },
   unknownError: {
     color: "error",
-    message: "Invalid Credentials. Please try again.",
+    message: "Something went wrong. Please try again.",
+  },
+  invalidUserDetails: {
+    color: "error",
+    message: "Invalid User Details. Please try again.",
+  },
+  duplicateUsername: {
+    color: "error",
+    message: "Username Already Exists. Please try another one.",
+  },
+  registrationSuccessful: {
+    color: "success",
+    message: "User Registered Successfully.",
   },
 };
 

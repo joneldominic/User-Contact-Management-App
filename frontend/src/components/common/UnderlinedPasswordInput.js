@@ -2,7 +2,9 @@ import { useState } from "react";
 
 import styled from "styled-components";
 
-import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaLock, FaEye, FaEyeSlash, FaInfoCircle } from "react-icons/fa";
+
+const MainWrapper = styled.div``;
 
 const FormControl = styled.div`
   display: flex;
@@ -29,6 +31,18 @@ const Input = styled.input`
   }
 `;
 
+const InvalidFeedback = styled.div`
+  font-size: ${(props) => props.theme.size.xs};
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  color: ${(props) => props.theme.error.main};
+
+  & > svg {
+    margin-right: 5px;
+  }
+`;
+
 const UnderlinedPasswordInput = (props) => {
   const [show, setShow] = useState(false);
 
@@ -37,20 +51,28 @@ const UnderlinedPasswordInput = (props) => {
   };
 
   return (
-    <FormControl isInvalid={props.isInvalid}>
-      <FaLock />
-      <Input
-        id={props.id}
-        name={props.name}
-        type={show ? "text" : "password"}
-        placeholder={props.placeholder}
-        value={props.value}
-        onChange={props.onChange}
-      />
-      <div className="toggleButton" onClick={toggleShow}>
-        {show ? <FaEyeSlash /> : <FaEye />}
-      </div>
-    </FormControl>
+    <MainWrapper>
+      <FormControl isInvalid={props.isInvalid}>
+        <FaLock />
+        <Input
+          id={props.id}
+          name={props.name}
+          type={show ? "text" : "password"}
+          placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
+        />
+        <div className="toggleButton" onClick={toggleShow}>
+          {show ? <FaEyeSlash /> : <FaEye />}
+        </div>
+      </FormControl>
+      {props.isInvalid && props.invalidFeedback && (
+        <InvalidFeedback>
+          <FaInfoCircle />
+          {props.invalidFeedback}
+        </InvalidFeedback>
+      )}
+    </MainWrapper>
   );
 };
 

@@ -10,7 +10,6 @@ const uiSlice = createSlice({
   initialState,
   reducers: {
     showNotification(state, action) {
-      console.log(action);
       state.notification = {
         color: action.payload.color,
         message: action.payload.message,

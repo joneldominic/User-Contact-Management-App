@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+import { FaInfoCircle } from "react-icons/fa";
+
+const MainWrapper = styled.div``;
+
 const FormControl = styled.div`
   display: flex;
   border-bottom: 1px solid ${(props) => props.theme.divider};
@@ -21,20 +25,40 @@ const Input = styled.input`
   }
 `;
 
+const InvalidFeedback = styled.div`
+  font-size: ${(props) => props.theme.size.xs};
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  color: ${(props) => props.theme.error.main};
+
+  & > svg {
+    margin-right: 5px;
+  }
+`;
+
 const UnderlinedInput = (props) => {
   return (
-    <FormControl isInvalid={props.isInvalid}>
-      {props.icon}
-      <Input
-        id={props.id}
-        name={props.name}
-        type={props.type}
-        autoComplete="off"
-        placeholder={props.placeholder}
-        value={props.value}
-        onChange={props.onChange}
-      />
-    </FormControl>
+    <MainWrapper>
+      <FormControl isInvalid={props.isInvalid}>
+        {props.icon}
+        <Input
+          id={props.id}
+          name={props.name}
+          type={props.type}
+          autoComplete="off"
+          placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
+        />
+      </FormControl>
+      {props.isInvalid && props.invalidFeedback && (
+        <InvalidFeedback>
+          <FaInfoCircle />
+          {props.invalidFeedback}
+        </InvalidFeedback>
+      )}
+    </MainWrapper>
   );
 };
 
