@@ -8,8 +8,8 @@ import { ContactContainer } from "./styles";
 const Contacts = () => {
   return (
     <ContactContainer>
-      <ContactList></ContactList>
-      <ContactDetails></ContactDetails>
+      <ContactList />
+      <ContactDetails />
     </ContactContainer>
   );
 };

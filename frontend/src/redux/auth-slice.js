@@ -8,7 +8,7 @@ import notificationMessage from "../constants/notification-messages";
 import { asyncAwaitCatch } from "../utils/helper-functions";
 import { uiActions } from "./ui-slice";
 
-const initialState = { isLoading: false, user: null };
+const initialState = { isLoading: false, user: null, isLoggedIn: false };
 
 const authSlice = createSlice({
   name: "auth",
@@ -17,10 +17,12 @@ const authSlice = createSlice({
     requestPending(state, action) {
       state.isLoading = true;
       state.user = null;
+      state.isLoggedIn = false;
     },
     requestFulfilled(state, action) {
       state.isLoading = false;
       state.user = action.payload;
+      state.isLoggedIn = true;
     },
     requestRejected(state, action) {
       state.isLoading = false;
@@ -91,6 +93,7 @@ export const validateToken = () => {
             dispatch(
               uiActions.showNotification(notificationMessage.invalidToken)
             );
+            localStorage.clear();
             break;
           default:
             dispatch(

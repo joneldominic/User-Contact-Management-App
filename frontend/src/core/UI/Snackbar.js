@@ -100,7 +100,7 @@ Snackbar.defaultProps = {
   color: "error",
   message: "Something went wrong. Please try again!",
   width: "400px",
-  timeout: 3000,
+  timeout: 5000,
 };
 
 export default Snackbar;

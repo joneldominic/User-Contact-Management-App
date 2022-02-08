@@ -9,8 +9,8 @@ import Card from "../../core/UI/Card";
 import CardContent from "../../core/UI/CardContent";
 import Button from "../../core/UI/Button";
 
-import UnderlinedInput from "../common/UnderlinedInput";
-import UnderlinedPasswordInput from "../common/UnderlinedPasswordInput";
+import UnderlinedInput from "../../components/common/UnderlinedInput";
+import UnderlinedPasswordInput from "../../components/common/UnderlinedPasswordInput";
 
 import AppRoutes from "../../constants/app-routes";
 
