@@ -27,6 +27,11 @@ const authSlice = createSlice({
     requestRejected(state, action) {
       state.isLoading = false;
     },
+    clearAuth(state, action) {
+      state.isLoading = false;
+      state.user = null;
+      state.isLoggedIn = false;
+    },
   },
 });
 
@@ -107,6 +112,13 @@ export const validateToken = () => {
         );
       }
     }
+  };
+};
+
+export const logout = () => {
+  return (dispatch) => {
+    localStorage.clear();
+    dispatch(authActions.clearAuth());
   };
 };
 

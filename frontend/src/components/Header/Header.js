@@ -1,9 +1,12 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { FaUsers, FaSignOutAlt } from "react-icons/fa";
 
 import Container from "../../core/UI/Container";
 import Avatar from "../../core/UI/Avatar";
+
+import { logout } from "../../redux/auth-slice";
 
 import {
   AppBar,
@@ -15,6 +18,13 @@ import {
 } from "./styles";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const { name } = useSelector((state) => state.auth.user);
+
+  const onLogoutHandler = () => {
+    dispatch(logout());
+  };
+
   return (
     <AppBar>
       <Container>
@@ -24,9 +34,9 @@ const Header = () => {
             My Contacts
           </LogoWrapper>
           <ProfileWrapper>
-            <Avatar name="Jonel Dominic Tapang" />
-            <UserName>Jonel Dominic Tapang</UserName>
-            <SignOutButton>
+            <Avatar name={name} />
+            <UserName>{name}</UserName>
+            <SignOutButton onClick={onLogoutHandler}>
               <FaSignOutAlt />
             </SignOutButton>
           </ProfileWrapper>
