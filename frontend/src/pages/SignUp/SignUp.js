@@ -19,10 +19,10 @@ import { addNewUser, userActions } from "../../redux/user-slice";
 import { Header, Wrapper, Form, FormAction, Footer } from "./styles";
 
 const initialState = {
-  username: { value: "", isValid: null },
-  name: { value: "", isValid: null },
-  password: { value: "", isValid: null },
-  passwordConfirmation: { value: "", isValid: null },
+  username: { value: "", isValid: null, hasInput: false },
+  name: { value: "", isValid: null, hasInput: false },
+  password: { value: "", isValid: null, hasInput: false },
+  passwordConfirmation: { value: "", isValid: null, hasInput: false },
 };
 
 const SignUpReducer = (prevState, action) => {

@@ -11,7 +11,7 @@ const initialState = {
   isLoading: false,
   contactList: [],
   selectedContact: null,
-  // hasUpdate: false,
+  hasPending: { status: false, from: "" },
 };
 
 const contactSlice = createSlice({
@@ -35,6 +35,12 @@ const contactSlice = createSlice({
         (_contact) => +_contact.id === +action.payload
       );
       state.selectedContact = contact;
+    },
+    setPending(state, action) {
+      state.hasPending = {
+        status: action.payload.status,
+        from: action.payload.from,
+      };
     },
   },
 });

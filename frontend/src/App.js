@@ -9,14 +9,13 @@ import SignIn from "./pages/SignIn/SignIn";
 
 import AppRoutes from "./constants/app-routes";
 
-import Modal from "./core/UI/Modal";
 import Snackbar from "./core/UI/Snackbar";
 
 import { validateToken } from "./redux/auth-slice";
 
 const App = () => {
   const dispatch = useDispatch();
-  const { notification, modal } = useSelector((state) => state.ui);
+  const { notification } = useSelector((state) => state.ui);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
@@ -31,7 +30,6 @@ const App = () => {
       {notification && (
         <Snackbar color={notification.color} message={notification.message} />
       )}
-      {/* <Modal /> */}
       <BrowserRouter>
         <Switch>
           <Route path={AppRoutes.MainPage.path} exact>

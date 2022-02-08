@@ -39,8 +39,6 @@ const ContactDetailsView = () => {
 
   const contact = useSelector((state) => state.contact.selectedContact);
 
-  console.log(contact);
-
   useEffect(() => {
     dispatch(contactActions.selectContact(params.contactId));
   }, [dispatch, params]);
@@ -62,7 +60,9 @@ const ContactDetailsView = () => {
       <Divider />
       <ContactViewContainer>
         <ContactViewHead>
-          <Avatar name="Jonel Tapang" />
+          <Avatar
+            name={`${contact.firstname} ${contact.middlename} ${contact.lastname}`}
+          />
           <ContactViewName>{`${contact.firstname} ${contact.middlename} ${contact.lastname}`}</ContactViewName>
           <ContactViewTitle>{contact.title}</ContactViewTitle>
         </ContactViewHead>

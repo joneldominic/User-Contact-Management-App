@@ -26,9 +26,9 @@ const FloatWrapper = styled.div`
   }
 `;
 
-const FloatingAddButton = () => {
+const FloatingAddButton = (props) => {
   return (
-    <FloatWrapper>
+    <FloatWrapper onClick={props.onClick}>
       <FaPlus />
     </FloatWrapper>
   );

@@ -48,6 +48,9 @@ const ModalWrapper = styled(Card)`
   & > .actions button:first-child {
     margin-left: auto;
   }
+  & > .actions button {
+    width: 100px;
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -122,7 +125,7 @@ const Modal = (props) => {
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop onClick={props.option1.callback} />,
+        <Backdrop onClick={props.option2.callback} />,
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(

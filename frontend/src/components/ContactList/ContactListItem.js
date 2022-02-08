@@ -1,13 +1,12 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import Avatar from "../../core/UI/Avatar";
 
-const LinkWrapper = styled(Link)`
-  text-decoration: none;
-  color: ${(props) => props.theme.text.primary};
-`;
+import { contactActions } from "../../redux/contact-slice";
+import { uiActions } from "../../redux/ui-slice";
 
 const MainWrapper = styled.li`
   display: flex;
@@ -26,6 +25,7 @@ const MainWrapper = styled.li`
 
   &:hover {
     background-color: ${(props) => props.theme.divider};
+    cursor: pointer;
   }
 `;
 
@@ -48,23 +48,37 @@ const Title = styled.div`
 `;
 
 const ContactListItem = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const location = useLocation();
+  const hasPending = useSelector((state) => state.contact.hasPending);
+
   const { pathname } = location;
   const splitLocation = pathname.split("/");
 
   const { contact } = props;
   const name = `${contact.firstname} ${contact.middlename} ${contact.lastname}`;
 
+  const onClickHandler = () => {
+    if (hasPending.status) {
+      dispatch(contactActions.selectContact(props.contact.id));
+      dispatch(uiActions.setModal({ show: true, location: hasPending.from }));
+    } else {
+      history.push(`/contacts/${contact.id}`);
+    }
+  };
+
   return (
-    <LinkWrapper to={`/contacts/${contact.id}`}>
-      <MainWrapper isSelected={+splitLocation[2] === props.contact.id}>
-        <ContactAvatar name={name} />
-        <DetailWrapper>
-          <Name>{name}</Name>
-          <Title>{contact.title}</Title>
-        </DetailWrapper>
-      </MainWrapper>
-    </LinkWrapper>
+    <MainWrapper
+      isSelected={+splitLocation[2] === props.contact.id}
+      onClick={onClickHandler}
+    >
+      <ContactAvatar name={name} />
+      <DetailWrapper>
+        <Name>{name}</Name>
+        <Title>{contact.title}</Title>
+      </DetailWrapper>
+    </MainWrapper>
   );
 };
 

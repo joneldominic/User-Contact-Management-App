@@ -51,6 +51,8 @@ const LabaledTextArea = (props) => {
           name={props.name}
           rows={props.rows}
           placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
         />
       </TextAreaWrapper>
     </FormControl>
@@ -63,6 +65,8 @@ LabaledTextArea.defaultProps = {
   rows: 5,
   label: "Label",
   placeholder: "",
+  value: "",
+  onChange: () => {},
 };
 
 export default LabaledTextArea;

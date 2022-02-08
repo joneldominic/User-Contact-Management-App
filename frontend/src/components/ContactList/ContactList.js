@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import SearchBar from "./SearchBar";
 import FloatingAddButton from "./FloatingAddButton";
@@ -20,13 +21,13 @@ import NoContact from "./NoContact";
 
 const ContactList = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const { id: userId } = useSelector((state) => state.auth.user);
   const contactList = useSelector((state) => state.contact.contactList);
   const [filteredContactList, setFilteredContactList] = useState([]);
 
   const isLoading = useSelector((state) => state.contact.isLoading);
-
-  console.log(isLoading);
 
   useEffect(() => {
     dispatch(getContacts(userId));
@@ -48,6 +49,10 @@ const ContactList = () => {
 
   const onClearFilterHandler = () => {
     setFilteredContactList(contactList);
+  };
+
+  const onAddButtonClickHandler = () => {
+    history.push("/contacts/new");
   };
 
   return (
@@ -74,7 +79,7 @@ const ContactList = () => {
           </ContactListItemContainer>
         </ContactListCardContent>
       </ContactListCard>
-      <FloatingAddButton />
+      <FloatingAddButton onClick={onAddButtonClickHandler} />
     </ContactListContainer>
   );
 };

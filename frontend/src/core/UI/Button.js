@@ -24,9 +24,9 @@ const Button = styled.button`
             border: 1px solid ${props.theme[props.color].light};
           }
 
-          /* &[disabled] {
-            background-color: red;
-          } */
+          &[disabled] {
+            cursor: not-allowed;
+          }
         `;
       case "contained":
         return css`

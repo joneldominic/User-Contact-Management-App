@@ -8,7 +8,13 @@ const FormControl = styled.div`
 
 const LabelWrapper = styled.div`
   padding: 0px 0px 5px 0px;
-  & > label > span {
+  & > label > span:first-child {
+    margin-left: 5px;
+    color: ${(props) => props.theme.error.main};
+  }
+
+  & > label > span:last-child {
+    margin-left: 5px;
     color: ${(props) => props.theme.error.main};
   }
 `;
@@ -32,6 +38,16 @@ const Input = styled.input`
   &:focus {
     outline: none;
   }
+
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const LabaledInput = (props) => {
@@ -41,6 +57,9 @@ const LabaledInput = (props) => {
         <Label htmlFor={props.name}>
           {props.label}
           {props.isRequired && <span> *</span>}
+          {props.isInvalid && props.invalidFeedback && (
+            <span>{props.invalidFeedback}</span>
+          )}
         </Label>
       </LabelWrapper>
       <InputWrapper>
@@ -48,7 +67,10 @@ const LabaledInput = (props) => {
           id={props.name}
           name={props.name}
           type={props.type}
+          autoComplete="off"
           placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
         />
       </InputWrapper>
     </FormControl>
@@ -61,6 +83,8 @@ LabaledInput.defaultProps = {
   type: "text",
   label: "Label",
   placeholder: "",
+  value: "",
+  onChange: () => {},
 };
 
 export default LabaledInput;
