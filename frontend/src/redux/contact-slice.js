@@ -10,7 +10,7 @@ import { uiActions } from "./ui-slice";
 const initialState = {
   isLoading: false,
   contactList: [],
-  // selectedContact: undefined,
+  selectedContact: null,
   // hasUpdate: false,
 };
 
@@ -28,6 +28,13 @@ const contactSlice = createSlice({
     },
     requestRejected(state, action) {
       state.isLoading = false;
+    },
+    selectContact(state, action) {
+      const contactList = state.contactList;
+      const contact = contactList.find(
+        (_contact) => +_contact.id === +action.payload
+      );
+      state.selectedContact = contact;
     },
   },
 });

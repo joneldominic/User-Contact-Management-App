@@ -139,7 +139,8 @@ export const DetailItemInfo = styled.div`
 export const DetailItemNote = styled.div`
   flex: 2 1 0;
   flex-wrap: wrap;
-  padding-top: 3px;
+  padding-top: 7px;
+  padding-left: 5px;
   padding-right: 10px;
 `;
 

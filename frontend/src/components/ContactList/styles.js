@@ -65,8 +65,8 @@ export const ContactListItemContainer = styled.ul`
 const LdsSpinnerWrapper = styled.div`
   height: 100%;
   display: flex;
-  margin-left: -80px;
-  margin-top: -80px;
+  margin-left: -40px;
+  margin-top: -40px;
 
   align-items: center;
   justify-content: center;
@@ -89,11 +89,11 @@ const LdsSpinner = styled.div`
     color: ${(props) => props.theme.text.primary};
     display: inline-block;
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
   }
   & div {
-    transform-origin: 40px 40px;
+    transform-origin: 20px 20px;
     animation: ${ldsSpinner} 1.2s linear infinite;
   }
   & div:after {
@@ -101,9 +101,9 @@ const LdsSpinner = styled.div`
     display: block;
     position: absolute;
     top: 3px;
-    left: 37px;
-    width: 6px;
-    height: 18px;
+    left: 17px;
+    width: 4px;
+    height: 8px;
     border-radius: 20%;
     background: #fff;
   }

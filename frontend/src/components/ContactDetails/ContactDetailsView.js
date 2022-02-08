@@ -1,4 +1,7 @@
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import {
   FaEnvelope,
@@ -10,6 +13,8 @@ import {
 
 import Button from "../../core/UI/Button";
 import Avatar from "../../core/UI/Avatar";
+
+import NoContactSelected from "./NoContactSelected";
 
 import {
   Divider,
@@ -26,7 +31,24 @@ import {
   DetailItemNote,
 } from "./styles";
 
+import { contactActions } from "../../redux/contact-slice";
+
 const ContactDetailsView = () => {
+  const params = useParams();
+  const dispatch = useDispatch();
+
+  const contact = useSelector((state) => state.contact.selectedContact);
+
+  console.log(contact);
+
+  useEffect(() => {
+    dispatch(contactActions.selectContact(params.contactId));
+  }, [dispatch, params]);
+
+  if (!contact) {
+    return <NoContactSelected />;
+  }
+
   return (
     <ContactDetailsContentWrapper>
       <ViewActionContainer>
@@ -41,8 +63,8 @@ const ContactDetailsView = () => {
       <ContactViewContainer>
         <ContactViewHead>
           <Avatar name="Jonel Tapang" />
-          <ContactViewName>Jonel Dominic Tapang</ContactViewName>
-          <ContactViewTitle>Developer</ContactViewTitle>
+          <ContactViewName>{`${contact.firstname} ${contact.middlename} ${contact.lastname}`}</ContactViewName>
+          <ContactViewTitle>{contact.title}</ContactViewTitle>
         </ContactViewHead>
         <DetailItemsWrapper>
           <DetailItemWrapper>
@@ -50,38 +72,35 @@ const ContactDetailsView = () => {
               <FaEnvelope />
               Email
             </IconLabelWrapper>
-            <DetailItemInfo>joneldominictapang@gmail.com</DetailItemInfo>
+            <DetailItemInfo>{contact.email}</DetailItemInfo>
           </DetailItemWrapper>
           <DetailItemWrapper>
             <IconLabelWrapper>
               <FaPhoneAlt />
               Phone
             </IconLabelWrapper>
-            <DetailItemInfo>09087863725</DetailItemInfo>
+            <DetailItemInfo>{contact.number}</DetailItemInfo>
           </DetailItemWrapper>
           <DetailItemWrapper>
             <IconLabelWrapper>
               <FaMapMarkedAlt />
               Delivery Address
             </IconLabelWrapper>
-            <DetailItemInfo>Itum, Duero, Bohol</DetailItemInfo>
+            <DetailItemInfo>{contact.address1}</DetailItemInfo>
           </DetailItemWrapper>
           <DetailItemWrapper>
             <IconLabelWrapper>
               <FaMap />
               Billing Address
             </IconLabelWrapper>
-            <DetailItemInfo>Itum, Duero, Bohol</DetailItemInfo>
+            <DetailItemInfo>{contact.address2}</DetailItemInfo>
           </DetailItemWrapper>
           <DetailItemWrapper>
             <IconLabelWrapper>
               <FaStickyNote />
               Notes
             </IconLabelWrapper>
-            <DetailItemNote>
-              hello my name is jonel dominic tapang. I live in Itum, Duero,
-              Bohol. I graduated from Visayas State University
-            </DetailItemNote>
+            <DetailItemNote>{contact.notes}</DetailItemNote>
           </DetailItemWrapper>
         </DetailItemsWrapper>
       </ContactViewContainer>
