@@ -51,10 +51,13 @@ const SearchBar = (props) => {
 
   const clearKeywordHandler = () => {
     setKeyword("");
+    props.onClear();
   };
 
   const onChangeKeywordHandler = (event) => {
-    setKeyword(event.target.value);
+    const _keyword = event.target.value;
+    setKeyword(_keyword);
+    props.onChange(_keyword);
   };
 
   return (
@@ -74,7 +77,5 @@ const SearchBar = (props) => {
     </FormControl>
   );
 };
-
-SearchBar.defaultProps = {};
 
 export default SearchBar;

@@ -36,11 +36,28 @@ const ContactList = () => {
     setFilteredContactList(contactList);
   }, [contactList]);
 
+  const onChangeKeywordHandler = (keyword) => {
+    setFilteredContactList(
+      contactList.filter((_contact) => {
+        return `${_contact.firstname} ${_contact.middlename} ${_contact.lastname}`
+          .toLowerCase()
+          .includes(keyword.toLowerCase());
+      })
+    );
+  };
+
+  const onClearFilterHandler = () => {
+    setFilteredContactList(contactList);
+  };
+
   return (
     <ContactListContainer>
       <ContactListCard>
         <ContactListCardContent>
-          <SearchBar />
+          <SearchBar
+            onChange={onChangeKeywordHandler}
+            onClear={onClearFilterHandler}
+          />
           <Divider />
           <ContactListItemContainer>
             {isLoading && <LoadingSpinner />}
