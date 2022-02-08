@@ -1,7 +1,13 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import Avatar from "../../core/UI/Avatar";
+
+const LinkWrapper = styled(Link)`
+  text-decoration: none;
+  color: ${(props) => props.theme.text.primary};
+`;
 
 const MainWrapper = styled.li`
   display: flex;
@@ -42,19 +48,24 @@ const Title = styled.div`
 `;
 
 const ContactListItem = (props) => {
-  return (
-    <MainWrapper isSelected={props.isSelected}>
-      <ContactAvatar name="Jonel Dominic Tapang" />
-      <DetailWrapper>
-        <Name>Jonel Dominic Tapang</Name>
-        <Title>Developer</Title>
-      </DetailWrapper>
-    </MainWrapper>
-  );
-};
+  const location = useLocation();
+  const { pathname } = location;
+  const splitLocation = pathname.split("/");
 
-ContactListItem.defaultProps = {
-  isSelected: false,
+  const { contact } = props;
+  const name = `${contact.firstname} ${contact.middlename} ${contact.lastname}`;
+
+  return (
+    <LinkWrapper to={`/contacts/${contact.id}`}>
+      <MainWrapper isSelected={+splitLocation[2] === props.contact.id}>
+        <ContactAvatar name={name} />
+        <DetailWrapper>
+          <Name>{name}</Name>
+          <Title>{contact.title}</Title>
+        </DetailWrapper>
+      </MainWrapper>
+    </LinkWrapper>
+  );
 };
 
 export default ContactListItem;

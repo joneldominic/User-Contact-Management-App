@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import Main from "./pages/Main";
-import SignUp from "./components/SignUp/SignUp";
+import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
 
 import AppRoutes from "./constants/app-routes";
