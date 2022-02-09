@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   notification: null,
-  modal: { show: false, location: "" },
+  modal: { show: false, id: "" },
 };
 
 const uiSlice = createSlice({
@@ -21,7 +21,7 @@ const uiSlice = createSlice({
     setModal(state, action) {
       state.modal = {
         show: action.payload.show,
-        location: action.payload.location,
+        id: action.payload.id,
       };
     },
   },

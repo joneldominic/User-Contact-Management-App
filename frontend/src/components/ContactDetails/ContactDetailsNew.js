@@ -127,7 +127,7 @@ const ContactDetailsNew = () => {
   const history = useHistory();
 
   const [formIsValid, setFormIsValid] = useState(false);
-  const { show: showModal, location: modalLocation } = useSelector(
+  const { show: showModal, id: modalId } = useSelector(
     (state) => state.ui.modal
   );
   const { hasPending, selectedContact, isLoading } = useSelector(
@@ -230,7 +230,7 @@ const ContactDetailsNew = () => {
   const onCancelButtonClickHandler = () => {
     if (hasPending.status) {
       dispatch(
-        uiActions.setModal({ show: true, location: "contactdetailsnew" })
+        uiActions.setModal({ show: true, id: "contactdetailsnew" })
       );
     } else {
       redirect();
@@ -244,17 +244,17 @@ const ContactDetailsNew = () => {
         from: "",
       })
     );
-    dispatch(uiActions.setModal({ show: false, location: "" }));
+    dispatch(uiActions.setModal({ show: false, id: "" }));
     redirect();
   };
 
   const onModalCancelClickHandler = () => {
-    dispatch(uiActions.setModal({ show: false, location: "" }));
+    dispatch(uiActions.setModal({ show: false, id: "" }));
   };
 
   return (
     <>
-      {showModal && modalLocation === "contactdetailsnew" && (
+      {showModal && modalId === "contactdetailsnew" && (
         <Modal
           color="warning"
           title="Are you sure?"

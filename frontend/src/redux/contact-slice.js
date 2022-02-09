@@ -110,6 +110,12 @@ export const addNewContact = (newContact, callback) => {
     if (response) {
       if (response.status === 201) {
         await dispatch(getContacts(userId));
+        dispatch(
+          contactActions.setPending({
+            status: false,
+            from: "",
+          })
+        );
         dispatch(contactActions.selectContact(response.data.id));
         callback(response.data.id);
       } else {

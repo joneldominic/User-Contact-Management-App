@@ -61,8 +61,9 @@ const ContactListItem = (props) => {
 
   const onClickHandler = () => {
     if (hasPending.status) {
+      console.log(hasPending)
       dispatch(contactActions.selectContact(props.contact.id));
-      dispatch(uiActions.setModal({ show: true, location: hasPending.from }));
+      dispatch(uiActions.setModal({ show: true, id: hasPending.from }));
     } else {
       history.push(`/contacts/${contact.id}`);
     }
