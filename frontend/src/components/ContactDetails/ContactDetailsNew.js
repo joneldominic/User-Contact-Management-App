@@ -20,6 +20,8 @@ import {
   EditNewForm,
 } from "./styles";
 
+import AppRoutes from "../../constants/app-routes";
+
 const initialState = {
   firstname: { value: "", isValid: false, hasInput: false },
   middlename: { value: "", isValid: true, hasInput: false },
@@ -213,7 +215,7 @@ const ContactDetailsNew = () => {
 
       dispatch(
         addNewContact(newContact, (id) => {
-          history.replace(`/contacts/${id}`);
+          history.replace(`${AppRoutes.ContactPage.path}/${id}`);
         })
       );
     }
@@ -221,17 +223,15 @@ const ContactDetailsNew = () => {
 
   const redirect = () => {
     if (selectedContact) {
-      history.replace(`/contacts/${selectedContact.id}`);
+      history.replace(`${AppRoutes.ContactPage.path}/${selectedContact.id}`);
     } else {
-      history.replace(`/contacts`);
+      history.replace(`${AppRoutes.ContactPage.path}`);
     }
   };
 
   const onCancelButtonClickHandler = () => {
     if (hasPending.status) {
-      dispatch(
-        uiActions.setModal({ show: true, id: "contactdetailsnew" })
-      );
+      dispatch(uiActions.setModal({ show: true, id: "contactdetailsnew" }));
     } else {
       redirect();
     }

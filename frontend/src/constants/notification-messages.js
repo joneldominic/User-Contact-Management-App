@@ -23,13 +23,21 @@ const notificationMessage = {
     color: "error",
     message: "Username Already Exists. Please try another one.",
   },
+  invalidContactDetails: {
+    color: "error",
+    message: "Invalid Contact Details. Please try again.",
+  },
   registrationSuccessful: {
     color: "success",
     message: "User Registered Successfully.",
   },
-  invalidContactDetails: {
-    color: "error",
-    message: "Invalid Contact Details. Please try again.",
+  contactAddSuccessful: {
+    color: "success",
+    message: "Contact Added Successfully.",
+  },
+  contactDeleteSuccessful: {
+    color: "success",
+    message: "Contact Deleted Successfully.",
   },
 };
 

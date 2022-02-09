@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
   addNewContactService,
+  deleteContactService,
   getContactsService,
 } from "../services/contact-service";
 
@@ -118,6 +119,9 @@ export const addNewContact = (newContact, callback) => {
         );
         dispatch(contactActions.selectContact(response.data.id));
         callback(response.data.id);
+        dispatch(
+          uiActions.showNotification(notificationMessage.contactAddSuccessful)
+        );
       } else {
         dispatch(contactActions.requestRejected());
         dispatch(uiActions.showNotification(notificationMessage.unknownError));
@@ -133,6 +137,54 @@ export const addNewContact = (newContact, callback) => {
               )
             );
             break;
+          case 401:
+            dispatch(
+              uiActions.showNotification(notificationMessage.invalidToken)
+            );
+            localStorage.clear();
+            break;
+          default:
+            dispatch(
+              uiActions.showNotification(notificationMessage.unknownError)
+            );
+            break;
+        }
+      } else {
+        dispatch(
+          uiActions.showNotification(notificationMessage.connectionError)
+        );
+      }
+    }
+  };
+};
+
+export const deleteContact = (contactId, callback) => {
+  return async (dispatch, getState) => {
+    dispatch(contactActions.requestPending());
+
+    const { auth } = getState();
+    const userId = auth.user.id;
+
+    const [response, error] = await asyncAwaitCatch(
+      deleteContactService(userId, contactId)
+    );
+
+    if (response) {
+      if (response.status === 200) {
+        await dispatch(getContacts(userId));
+        dispatch(
+          uiActions.showNotification(
+            notificationMessage.contactDeleteSuccessful
+          )
+        );
+      } else {
+        dispatch(contactActions.requestRejected());
+        dispatch(uiActions.showNotification(notificationMessage.unknownError));
+      }
+    } else if (error) {
+      dispatch(contactActions.requestRejected());
+      if (error.response) {
+        switch (error.response.status) {
           case 401:
             dispatch(
               uiActions.showNotification(notificationMessage.invalidToken)

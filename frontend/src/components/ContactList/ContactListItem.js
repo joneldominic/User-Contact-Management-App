@@ -8,6 +8,8 @@ import Avatar from "../../core/UI/Avatar";
 import { contactActions } from "../../redux/contact-slice";
 import { uiActions } from "../../redux/ui-slice";
 
+import AppRoutes from "../../constants/app-routes";
+
 const MainWrapper = styled.li`
   display: flex;
   align-items: center;
@@ -61,11 +63,10 @@ const ContactListItem = (props) => {
 
   const onClickHandler = () => {
     if (hasPending.status) {
-      console.log(hasPending)
       dispatch(contactActions.selectContact(props.contact.id));
       dispatch(uiActions.setModal({ show: true, id: hasPending.from }));
     } else {
-      history.push(`/contacts/${contact.id}`);
+      history.push(`${AppRoutes.ContactPage.path}/${contact.id}`);
     }
   };
 
