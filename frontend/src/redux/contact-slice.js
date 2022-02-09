@@ -4,6 +4,7 @@ import {
   addNewContactService,
   deleteContactService,
   getContactsService,
+  updateContactService,
 } from "../services/contact-service";
 
 import notificationMessage from "../constants/notification-messages";
@@ -185,6 +186,70 @@ export const deleteContact = (contactId, callback) => {
       dispatch(contactActions.requestRejected());
       if (error.response) {
         switch (error.response.status) {
+          case 401:
+            dispatch(
+              uiActions.showNotification(notificationMessage.invalidToken)
+            );
+            localStorage.clear();
+            break;
+          default:
+            dispatch(
+              uiActions.showNotification(notificationMessage.unknownError)
+            );
+            break;
+        }
+      } else {
+        dispatch(
+          uiActions.showNotification(notificationMessage.connectionError)
+        );
+      }
+    }
+  };
+};
+
+export const updateContact = (updatedContact) => {
+  return async (dispatch, getState) => {
+    dispatch(contactActions.requestPending());
+
+    const { auth } = getState();
+    const userId = auth.user.id;
+
+    console.log(updatedContact);
+    const [response, error] = await asyncAwaitCatch(
+      updateContactService(userId, updatedContact)
+    );
+
+    if (response) {
+      console.log(response);
+      if (response.status === 201) {
+        await dispatch(getContacts(userId));
+        dispatch(
+          contactActions.setPending({
+            status: false,
+            from: "",
+          })
+        );
+        dispatch(
+          uiActions.showNotification(
+            notificationMessage.contactUpdateSuccessful
+          )
+        );
+        console.log("Showing Notif");
+      } else {
+        dispatch(contactActions.requestRejected());
+        dispatch(uiActions.showNotification(notificationMessage.unknownError));
+      }
+    } else if (error) {
+      dispatch(contactActions.requestRejected());
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            dispatch(
+              uiActions.showNotification(
+                notificationMessage.invalidContactDetails
+              )
+            );
+            break;
           case 401:
             dispatch(
               uiActions.showNotification(notificationMessage.invalidToken)

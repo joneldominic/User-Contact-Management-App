@@ -6,7 +6,9 @@ import { fetchUserDataService } from "../services/user-service";
 import notificationMessage from "../constants/notification-messages";
 
 import { asyncAwaitCatch } from "../utils/helper-functions";
+
 import { uiActions } from "./ui-slice";
+import { contactActions } from "./contact-slice";
 
 const initialState = { isLoading: false, user: null, isLoggedIn: false };
 
@@ -117,6 +119,13 @@ export const validateToken = () => {
 
 export const logout = () => {
   return (dispatch) => {
+    dispatch(contactActions.selectContact(-1));
+    dispatch(
+      contactActions.setPending({
+        status: false,
+        from: "",
+      })
+    );
     localStorage.clear();
     dispatch(authActions.clearAuth());
   };

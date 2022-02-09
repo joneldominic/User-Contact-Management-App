@@ -39,6 +39,10 @@ const notificationMessage = {
     color: "success",
     message: "Contact Deleted Successfully.",
   },
+  contactUpdateSuccessful: {
+    color: "success",
+    message: "Contact Updated Successfully.",
+  },
 };
 
 export default notificationMessage;

@@ -56,6 +56,10 @@ const ContactDetailsView = () => {
     return <NoContactSelected />;
   }
 
+  const onEditButtonClickHandler = () => {
+    history.replace(`${AppRoutes.ContactPage.path}/${contact.id}/edit`);
+  };
+
   const onDeleteButtonClickHandler = () => {
     dispatch(uiActions.setModal({ show: true, id: "contactdetailsview" }));
   };
@@ -78,7 +82,7 @@ const ContactDetailsView = () => {
           title="Are you sure?"
           message="Selected Contact will be Deleted. This process cannot be undone."
           option1={{
-            color: "primary",
+            color: "error",
             label: "Confirm",
             callback: onModalConfirmClickHandler,
           }}
@@ -91,7 +95,11 @@ const ContactDetailsView = () => {
       )}
       <ContactDetailsContentWrapper>
         <ViewActionContainer>
-          <Button variant="outlined" color="info">
+          <Button
+            variant="outlined"
+            color="info"
+            onClick={onEditButtonClickHandler}
+          >
             Edit
           </Button>
           <Button
