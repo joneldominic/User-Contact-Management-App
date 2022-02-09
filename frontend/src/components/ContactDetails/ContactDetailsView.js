@@ -78,7 +78,7 @@ const ContactDetailsView = () => {
     <>
       {showModal && modalId === "contactdetailsview" && (
         <Modal
-          color="warning"
+          color="error"
           title="Are you sure?"
           message="Selected Contact will be Deleted. This process cannot be undone."
           option1={{

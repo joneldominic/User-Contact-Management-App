@@ -19,15 +19,18 @@ import {
 import { getContacts } from "../../redux/contact-slice";
 import NoContact from "./NoContact";
 
+import { uiActions } from "../../redux/ui-slice";
+
 const ContactList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const { id: userId } = useSelector((state) => state.auth.user);
   const contactList = useSelector((state) => state.contact.contactList);
-  const [filteredContactList, setFilteredContactList] = useState([]);
-
+  const hasPending = useSelector((state) => state.contact.hasPending);
   const isLoading = useSelector((state) => state.contact.isLoading);
+
+  const [filteredContactList, setFilteredContactList] = useState([]);
 
   useEffect(() => {
     dispatch(getContacts(userId));
@@ -52,7 +55,11 @@ const ContactList = () => {
   };
 
   const onAddButtonClickHandler = () => {
-    history.push("/contacts/new");
+    if (hasPending.status) {
+      dispatch(uiActions.setModal({ show: true, id: hasPending.from }));
+    } else {
+      history.push("/contacts/new");
+    }
   };
 
   return (

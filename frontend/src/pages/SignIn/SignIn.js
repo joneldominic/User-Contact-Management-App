@@ -122,7 +122,9 @@ const SignIn = () => {
           <Footer>
             <p>
               Don't have an account yet?{" "}
-              <Link to={AppRoutes.SignUpPage.path}>Sign Up</Link>
+              <Link to={!isLoading ? AppRoutes.SignUpPage.path : "#"}>
+                Sign Up
+              </Link>
             </p>
           </Footer>
         </CardContent>
