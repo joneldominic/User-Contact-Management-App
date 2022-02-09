@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getContactsService } from "../services/contact-service";
+import {
+  addNewContactService,
+  getContactsService,
+} from "../services/contact-service";
 
 import notificationMessage from "../constants/notification-messages";
 
@@ -77,6 +80,58 @@ export const getContacts = (userId) => {
             dispatch(
               uiActions.showNotification(notificationMessage.duplicateUsername)
             );
+            break;
+          default:
+            dispatch(
+              uiActions.showNotification(notificationMessage.unknownError)
+            );
+            break;
+        }
+      } else {
+        dispatch(
+          uiActions.showNotification(notificationMessage.connectionError)
+        );
+      }
+    }
+  };
+};
+
+export const addNewContact = (newContact, callback) => {
+  return async (dispatch, getState) => {
+    dispatch(contactActions.requestPending());
+
+    const { auth } = getState();
+    const userId = auth.user.id;
+
+    const [response, error] = await asyncAwaitCatch(
+      addNewContactService(userId, newContact)
+    );
+
+    if (response) {
+      if (response.status === 201) {
+        await dispatch(getContacts(userId));
+        dispatch(contactActions.selectContact(response.data.id));
+        callback(response.data.id);
+      } else {
+        dispatch(contactActions.requestRejected());
+        dispatch(uiActions.showNotification(notificationMessage.unknownError));
+      }
+    } else if (error) {
+      dispatch(contactActions.requestRejected());
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            dispatch(
+              uiActions.showNotification(
+                notificationMessage.invalidContactDetails
+              )
+            );
+            break;
+          case 401:
+            dispatch(
+              uiActions.showNotification(notificationMessage.invalidToken)
+            );
+            localStorage.clear();
             break;
           default:
             dispatch(

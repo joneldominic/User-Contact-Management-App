@@ -27,6 +27,10 @@ const notificationMessage = {
     color: "success",
     message: "User Registered Successfully.",
   },
+  invalidContactDetails: {
+    color: "error",
+    message: "Invalid Contact Details. Please try again.",
+  },
 };
 
 export default notificationMessage;

@@ -8,7 +8,8 @@ import LabaledInput from "../common/LabaledInput";
 import LabaledTextArea from "../common/LabaledTextArea";
 import Modal from "../../core/UI/Modal";
 
-import { contactActions } from "../../redux/contact-slice";
+import { addNewContact, contactActions } from "../../redux/contact-slice";
+import { uiActions } from "../../redux/ui-slice";
 
 import {
   Divider,
@@ -18,7 +19,6 @@ import {
   ContactEditNewHead,
   EditNewForm,
 } from "./styles";
-import { uiActions } from "../../redux/ui-slice";
 
 const initialState = {
   firstname: { value: "", isValid: false, hasInput: false },
@@ -130,7 +130,9 @@ const ContactDetailsNew = () => {
   const { show: showModal, location: modalLocation } = useSelector(
     (state) => state.ui.modal
   );
-  const { hasPending, selectedContact } = useSelector((state) => state.contact);
+  const { hasPending, selectedContact, isLoading } = useSelector(
+    (state) => state.contact
+  );
 
   const [formControlState, dispatchFormcontrol] = useReducer(
     NewContactReducer,
@@ -209,12 +211,11 @@ const ContactDetailsNew = () => {
         notes: formControlState.notes.value,
       };
 
-      console.log(newContact);
-      // dispatch(
-      //   addNewContact(newContact, (id) => {
-      //     history.replace(`/contacts/${id}`);
-      //   })
-      // );
+      dispatch(
+        addNewContact(newContact, (id) => {
+          history.replace(`/contacts/${id}`);
+        })
+      );
     }
   };
 
@@ -275,14 +276,15 @@ const ContactDetailsNew = () => {
           <Button
             variant="outlined"
             color="success"
-            disabled={!formIsValid}
+            disabled={!formIsValid || isLoading}
             onClick={onSaveButtonClickHandler}
           >
-            Save
+            {!isLoading ? "Save" : "Loading..."}
           </Button>
           <Button
             variant="outlined"
             color="warning"
+            disabled={isLoading}
             onClick={onCancelButtonClickHandler}
           >
             Cancel

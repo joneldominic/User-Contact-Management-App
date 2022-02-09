@@ -26,6 +26,7 @@ const Button = styled.button`
 
           &[disabled] {
             cursor: not-allowed;
+            border: 1px solid ${props.theme[props.color].dark}80;
           }
         `;
       case "contained":

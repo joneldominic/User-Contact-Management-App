@@ -66,11 +66,12 @@ const ContactList = () => {
           <Divider />
           <ContactListItemContainer>
             {isLoading && <LoadingSpinner />}
-            {!isLoading && filteredContactList.length > 0 ? (
+            {!isLoading &&
+              filteredContactList.length > 0 &&
               filteredContactList.map((_contact) => (
                 <ContactListItem key={_contact.id} contact={_contact} />
-              ))
-            ) : (
+              ))}
+            {!isLoading && filteredContactList.length === 0 && (
               <NoContact
                 message="No Contact Found"
                 subMessage="Try adding one using the button below."
