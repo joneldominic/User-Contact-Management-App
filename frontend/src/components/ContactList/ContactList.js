@@ -132,7 +132,10 @@ const ContactList = () => {
             </ContactListItemContainer>
           </ContactListCardContent>
         </ContactListCard>
-        <FloatingAddButton onClick={onAddButtonClickHandler} />
+        <FloatingAddButton
+          onClick={onAddButtonClickHandler}
+          disabled={isLoading}
+        />
       </ContactListContainer>
     </>
   );
