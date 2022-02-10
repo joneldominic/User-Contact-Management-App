@@ -32,7 +32,7 @@ const SignUpReducer = (prevState, action) => {
         ...prevState,
         username: {
           value: action.value,
-          isValid: action.value.trim().length >= 6,
+          isValid: action.value.trim().match(/^[a-zA-Z0-9]{6,}$/),
           hasInput: action.value.trim().length > 0,
         },
       };
@@ -152,7 +152,7 @@ const SignUp = () => {
                 !formControlState.username.isValid &&
                 formControlState.username.hasInput
               }
-              invalidFeedback="Username must be atleast 6 characters"
+              invalidFeedback="Username must be atleast 6 characters and can contain letters and numbers only"
               value={formControlState.username.value}
               onChange={inputChangeHandler}
             />
