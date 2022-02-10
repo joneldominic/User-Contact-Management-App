@@ -11,6 +11,7 @@ import notificationMessage from "../constants/notification-messages";
 
 import { asyncAwaitCatch } from "../utils/helper-functions";
 import { uiActions } from "./ui-slice";
+import { logout } from "./auth-slice";
 
 const initialState = {
   isLoading: false,
@@ -47,6 +48,12 @@ const contactSlice = createSlice({
         from: action.payload.from,
       };
     },
+    clearContact(state, action) {
+      state.isLoading = false;
+      state.contactList = [];
+      state.selectedContact = null;
+      state.hasPending = { status: false, from: "" };
+    },
   },
 });
 
@@ -76,7 +83,7 @@ export const getContacts = (userId) => {
             dispatch(
               uiActions.showNotification(notificationMessage.invalidToken)
             );
-            localStorage.clear();
+            dispatch(logout());
             break;
           case 409:
             dispatch(
@@ -142,7 +149,7 @@ export const addNewContact = (newContact, callback) => {
             dispatch(
               uiActions.showNotification(notificationMessage.invalidToken)
             );
-            localStorage.clear();
+            dispatch(logout());
             break;
           default:
             dispatch(
@@ -190,7 +197,7 @@ export const deleteContact = (contactId, callback) => {
             dispatch(
               uiActions.showNotification(notificationMessage.invalidToken)
             );
-            localStorage.clear();
+            dispatch(logout());
             break;
           default:
             dispatch(
@@ -214,13 +221,11 @@ export const updateContact = (updatedContact) => {
     const { auth } = getState();
     const userId = auth.user.id;
 
-    console.log(updatedContact);
     const [response, error] = await asyncAwaitCatch(
       updateContactService(userId, updatedContact)
     );
 
     if (response) {
-      console.log(response);
       if (response.status === 201) {
         await dispatch(getContacts(userId));
         dispatch(
@@ -234,7 +239,6 @@ export const updateContact = (updatedContact) => {
             notificationMessage.contactUpdateSuccessful
           )
         );
-        console.log("Showing Notif");
       } else {
         dispatch(contactActions.requestRejected());
         dispatch(uiActions.showNotification(notificationMessage.unknownError));
@@ -254,7 +258,7 @@ export const updateContact = (updatedContact) => {
             dispatch(
               uiActions.showNotification(notificationMessage.invalidToken)
             );
-            localStorage.clear();
+            dispatch(logout());
             break;
           default:
             dispatch(

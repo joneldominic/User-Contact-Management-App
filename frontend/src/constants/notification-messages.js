@@ -43,6 +43,10 @@ const notificationMessage = {
     color: "success",
     message: "Contact Updated Successfully.",
   },
+  sessionTimeout: {
+    color: "warning",
+    message: "Session Timeout. Please Sign In again.",
+  },
 };
 
 export default notificationMessage;

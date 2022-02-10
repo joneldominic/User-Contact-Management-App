@@ -12,6 +12,8 @@ import { contactActions } from "./contact-slice";
 
 const initialState = { isLoading: false, user: null, isLoggedIn: false };
 
+let logoutTimer;
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -49,7 +51,7 @@ export const authenticateUser = (credentials) => {
       if (response.status === 200) {
         const { token } = response.data;
         localStorage.setItem("TOKEN", token);
-        dispatch(validateToken());
+        dispatch(startSession());
       } else {
         dispatch(authActions.requestRejected());
         dispatch(uiActions.showNotification(notificationMessage.unknownError));
@@ -100,7 +102,7 @@ export const validateToken = () => {
             dispatch(
               uiActions.showNotification(notificationMessage.invalidToken)
             );
-            localStorage.clear();
+            dispatch(logout());
             break;
           default:
             dispatch(
@@ -117,16 +119,45 @@ export const validateToken = () => {
   };
 };
 
+export const startSession = () => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("TOKEN");
+
+    if (token !== null) {
+      await dispatch(validateToken());
+
+      if (getState().auth.isLoggedIn) {
+        const tokenData = JSON.parse(
+          Buffer.from(token.split(".")[1], "base64")
+        );
+
+        const currentTime = new Date().getTime() / 1000;
+        const adjExpirationTime = new Date(tokenData.exp).getTime();
+
+        const duration = (adjExpirationTime - currentTime) * 1000;
+
+        if (duration <= 3600) {
+          if (logoutTimer) {
+            clearTimeout(logoutTimer);
+          }
+          dispatch(logout());
+        } else {
+          logoutTimer = setTimeout(() => {
+            dispatch(
+              uiActions.showNotification(notificationMessage.sessionTimeout)
+            );
+            dispatch(logout());
+          }, duration);
+        }
+      }
+    }
+  };
+};
+
 export const logout = () => {
   return (dispatch) => {
-    dispatch(contactActions.selectContact(-1));
-    dispatch(
-      contactActions.setPending({
-        status: false,
-        from: "",
-      })
-    );
     localStorage.clear();
+    dispatch(contactActions.clearContact());
     dispatch(authActions.clearAuth());
   };
 };

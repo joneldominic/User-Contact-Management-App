@@ -11,7 +11,7 @@ import AppRoutes from "./constants/app-routes";
 
 import Snackbar from "./core/UI/Snackbar";
 
-import { validateToken } from "./redux/auth-slice";
+import { startSession } from "./redux/auth-slice";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,10 +19,7 @@ const App = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
-    const _token = localStorage.getItem("TOKEN");
-    if (_token !== null) {
-      dispatch(validateToken());
-    }
+    dispatch(startSession());
   }, [dispatch]);
 
   return (
