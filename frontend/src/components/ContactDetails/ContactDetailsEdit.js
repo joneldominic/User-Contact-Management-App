@@ -162,7 +162,7 @@ const EditContactReducer = (state, action) => {
         ...state,
         phone: {
           value: action.value,
-          isValid: action.value.trim().length === 11,
+          isValid: action.value.trim().match(/^09[0-9]{9}$/),
           hasInput: action.value.trim().length > 0,
           hasUpdate: action.contact.number !== action.value,
         },
