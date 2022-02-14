@@ -1,0 +1,10 @@
+.dockerignore
+Dockerfile
+
+.gitignore
+
+.settings
+target/
+!target/*.jar
+.classpath
+.project
