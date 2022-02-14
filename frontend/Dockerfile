@@ -2,13 +2,14 @@ FROM node:16.13.2-alpine
 
 WORKDIR /app
 
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL $REACT_APP_API_URL
 ENV PATH /app/node_modules/.bin:$PATH
 
-COPY ./frontend/package.json ./
-COPY ./frontend/package-lock.json ./
-RUN npm install
-RUN npm install react-scripts@3.4.1 -g --silent
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
 
-COPY ./frontend ./
+COPY . ./
 
 CMD ["npm", "start"]
