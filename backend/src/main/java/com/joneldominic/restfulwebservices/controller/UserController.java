@@ -60,7 +60,7 @@ public class UserController {
 
 		Optional<User> user = userRepository.findById(id);
 
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		UserGetResponseModel _user = UserMapper.toResponseModel(user.get());
@@ -105,7 +105,7 @@ public class UserController {
 			throw new EntityConflictException(User.class, "username", updatedUser.getUsername());
 
 		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		User _user = user.get();
@@ -128,7 +128,7 @@ public class UserController {
 	public void deleteUser(@PathVariable long id) {
 
 		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		userRepository.deleteById(id);
