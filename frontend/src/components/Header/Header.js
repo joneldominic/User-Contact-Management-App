@@ -1,56 +1,48 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useHistory } from "react-router-dom";
-import { FaSignOutAlt } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import classNames from "classnames";
+import { FaUsers, FaSignOutAlt } from "react-icons/fa";
 
-import styles from "./Header.module.css";
-import globalStyles from "../../assets/global-styles/bootstrap.min.module.css";
-import { logout } from "../../redux/actions/authActions";
+import Container from "../../core/UI/Container";
+import Avatar from "../../core/UI/Avatar";
 
-const InitialsAvatar = (props) => {
-  return (
-    <h3 className={classNames(globalStyles["text-white"], styles.avatar)}>
-      {props.name && props.name[0].toUpperCase()}
-    </h3>
-  );
-};
+import { logout } from "../../redux/auth-slice";
 
-const Header = (props) => {
-  const history = useHistory();
+import {
+  AppBar,
+  MainWrapper,
+  LogoWrapper,
+  ProfileWrapper,
+  UserName,
+  SignOutButton,
+} from "./styles";
+
+const Header = () => {
   const dispatch = useDispatch();
-  const { user } = props;
+  const { name } = useSelector((state) => state.auth.user);
 
   const onLogoutHandler = () => {
     dispatch(logout());
-    history.replace("/sign-in");
   };
 
   return (
-    <nav
-      className={classNames(
-        globalStyles["navbar"],
-        globalStyles["navbar-dark"],
-        globalStyles["bg-primary"]
-      )}
-    >
-      <div className={globalStyles.container}>
-        <span className={globalStyles["navbar-brand"]}>My Contacts</span>
-        <ul className={globalStyles["navbar-nav"]}>
-          <li className={classNames(globalStyles["nav-item"], styles.user)}>
-            <InitialsAvatar name={user.name} />
-            <h3 className={classNames(globalStyles["text-white"], styles.name)}>
-              {user.name}
-            </h3>
-            <FaSignOutAlt
-              className={styles.signout}
-              onClick={onLogoutHandler}
-            />
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <AppBar>
+      <Container>
+        <MainWrapper>
+          <LogoWrapper>
+            <FaUsers />
+            My Contacts
+          </LogoWrapper>
+          <ProfileWrapper>
+            <Avatar name={name} />
+            <UserName>{name}</UserName>
+            <SignOutButton onClick={onLogoutHandler}>
+              <FaSignOutAlt />
+            </SignOutButton>
+          </ProfileWrapper>
+        </MainWrapper>
+      </Container>
+    </AppBar>
   );
 };
 

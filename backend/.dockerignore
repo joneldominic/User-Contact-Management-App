@@ -1,0 +1,9 @@
+.dockerignore
+Dockerfile
+
+.gitignore
+
+.settings
+target/
+.classpath
+.project

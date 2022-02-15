@@ -44,7 +44,7 @@ public class ContactController {
 
 		Optional<User> user = userRepository.findById(id);
 
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		return user.get().getContacts();
@@ -54,11 +54,11 @@ public class ContactController {
 	public Contact getContact(@PathVariable long id, @PathVariable long contactId) {
 
 		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		Optional<Contact> contact = userService.findUserContactById(user.get(), contactId);
-		if (contact.isEmpty())
+		if (!contact.isPresent())
 			throw new EntityNotFoundException(Contact.class, "id", String.valueOf(contactId));
 
 		return contact.get();
@@ -69,7 +69,7 @@ public class ContactController {
 
 		Optional<User> user = userRepository.findById(id);
 
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		contact.setUser(user.get());
@@ -86,11 +86,11 @@ public class ContactController {
 			@Valid @RequestBody Contact updatedContact) {
 
 		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		Optional<Contact> contact = userService.findUserContactById(user.get(), contactId);
-		if (contact.isEmpty())
+		if (!contact.isPresent())
 			throw new EntityNotFoundException(Contact.class, "id", String.valueOf(contactId));
 
 		Contact _contact = contact.get();
@@ -116,11 +116,11 @@ public class ContactController {
 	public void deleteContact(@PathVariable long id, @PathVariable long contactId) {
 
 		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		Optional<Contact> contact = userService.findUserContactById(user.get(), contactId);
-		if (contact.isEmpty())
+		if (!contact.isPresent())
 			throw new EntityNotFoundException(Contact.class, "id", String.valueOf(contactId));
 
 		contactRepository.deleteById(contactId);

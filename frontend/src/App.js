@@ -1,47 +1,65 @@
 import React from "react";
-
 import { useEffect } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-import SignInPage from "./pages/SignInPage";
 import Main from "./pages/Main";
-import PageNotFound from "./pages/PageNotFound/PageNotFound";
-import SignUpPage from "./pages/SignUpPage";
-import { validateToken } from "./redux/actions/authActions";
+import SignUp from "./pages/SignUp/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
 
-function App() {
+import AppRoutes from "./constants/app-routes";
+
+import Snackbar from "./core/UI/Snackbar";
+
+import { startSession } from "./redux/auth-slice";
+
+const App = () => {
   const dispatch = useDispatch();
+  const { notification } = useSelector((state) => state.ui);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
-    const _token = localStorage.getItem("TOKEN");
-    if (_token !== null) {
-      dispatch(validateToken());
-    }
+    dispatch(startSession());
   }, [dispatch]);
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact>
-          <Redirect to="/contacts" />
-        </Route>
-        <Route path="/sign-up" exact>
-          <SignUpPage />
-        </Route>
-        <Route path="/sign-in" exact>
-          <SignInPage />
-        </Route>
-        <Route path="/contacts">
-          {isLoggedIn ? <Main /> : <Redirect to="/sign-in" />}
-        </Route>
-        <Route path="*">
-          <PageNotFound />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <>
+      {notification && (
+        <Snackbar color={notification.color} message={notification.message} />
+      )}
+      <BrowserRouter>
+        <Switch>
+          <Route path={AppRoutes.MainPage.path} exact>
+            <Redirect to={AppRoutes.ContactPage.path} />
+          </Route>
+          <Route path={AppRoutes.SignInPage.path} exact>
+            {isLoggedIn ? (
+              <Redirect to={AppRoutes.ContactPage.path} />
+            ) : (
+              <SignIn />
+            )}
+          </Route>
+          <Route path={AppRoutes.SignUpPage.path} exact>
+            {isLoggedIn ? (
+              <Redirect to={AppRoutes.ContactPage.path} />
+            ) : (
+              <SignUp />
+            )}
+          </Route>
+          <Route path={AppRoutes.ContactPage.path}>
+            {isLoggedIn ? (
+              <Main />
+            ) : (
+              <Redirect to={AppRoutes.SignInPage.path} />
+            )}
+          </Route>
+          <Route path="*">
+            <Redirect to={AppRoutes.ContactPage.path} />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </>
   );
-}
+};
 
 export default App;

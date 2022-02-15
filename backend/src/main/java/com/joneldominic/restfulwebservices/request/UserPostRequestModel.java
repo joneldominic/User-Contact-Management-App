@@ -10,7 +10,8 @@ public class UserPostRequestModel {
 	@Pattern(regexp = "^[a-zA-Z0-9_.-]{6,}$")
 	private String username;
 
-	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[_!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$")
+//	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[_!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$")
+	@Size(min = 8, message = "Password must be atleast 8 characters long")
 	private String password;
 
 	public UserPostRequestModel() {

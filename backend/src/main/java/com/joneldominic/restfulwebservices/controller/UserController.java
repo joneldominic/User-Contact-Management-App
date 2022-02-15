@@ -1,6 +1,7 @@
 package com.joneldominic.restfulwebservices.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -48,9 +49,20 @@ public class UserController {
 	public List<UserGetResponseModel> getAllUsers() {
 
 		List<User> users = userRepository.findAll();
-
-		List<UserGetResponseModel> userList = Arrays.stream(users.toArray(User[]::new))
-				.map(_user -> UserMapper.toResponseModel(_user)).collect(Collectors.toList());
+		
+		List<UserGetResponseModel> userList = new ArrayList<>();
+		
+		for(User _user : users) {
+			UserGetResponseModel userGetResponse = new UserGetResponseModel();
+			
+			userGetResponse.setId(_user.getId());
+			userGetResponse.setName(_user.getName());
+			userGetResponse.setUsername(_user.getUsername());
+			userGetResponse.setCreatedAt(_user.getCreatedAt());
+			userGetResponse.setUpdatedAt(_user.getUpdatedAt());
+			
+			userList.add(userGetResponse);
+		}
 
 		return userList;
 	}
@@ -60,7 +72,7 @@ public class UserController {
 
 		Optional<User> user = userRepository.findById(id);
 
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		UserGetResponseModel _user = UserMapper.toResponseModel(user.get());
@@ -105,7 +117,7 @@ public class UserController {
 			throw new EntityConflictException(User.class, "username", updatedUser.getUsername());
 
 		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		User _user = user.get();
@@ -128,7 +140,7 @@ public class UserController {
 	public void deleteUser(@PathVariable long id) {
 
 		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty())
+		if (!user.isPresent())
 			throw new EntityNotFoundException(User.class, "id", String.valueOf(id));
 
 		userRepository.deleteById(id);
