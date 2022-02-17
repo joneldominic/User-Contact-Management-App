@@ -32,7 +32,7 @@ const SignUpReducer = (prevState, action) => {
         ...prevState,
         username: {
           value: action.value,
-          isValid: action.value.trim().match(/^[a-zA-Z0-9]{6,}$/),
+          isValid: action.value.match(/^[a-zA-Z0-9]{6,15}$/),
           hasInput: action.value.trim().length > 0,
         },
       };
@@ -50,7 +50,8 @@ const SignUpReducer = (prevState, action) => {
         ...prevState,
         password: {
           value: action.value,
-          isValid: action.value.trim().length >= 8,
+          isValid:
+            action.value.trim().length >= 8 && action.value.trim().length <= 20,
           hasInput: action.value.trim().length > 0,
         },
         passwordConfirmation: {
@@ -152,7 +153,7 @@ const SignUp = () => {
                 !formControlState.username.isValid &&
                 formControlState.username.hasInput
               }
-              invalidFeedback="Username must be atleast 6 characters and can contain letters and numbers only"
+              invalidFeedback="Username must be atleast 6-15 characters and can contain letters and numbers only"
               value={formControlState.username.value}
               onChange={inputChangeHandler}
             />
@@ -194,7 +195,11 @@ const SignUp = () => {
               onChange={inputChangeHandler}
             />
             <FormAction>
-              <Button variant="contained" disabled={!formIsValid || isLoading}>
+              <Button
+                variant="contained"
+                disabled={!formIsValid || isLoading}
+                type="submit"
+              >
                 {!isLoading ? "Sign Up" : "Loading..."}
               </Button>
             </FormAction>
